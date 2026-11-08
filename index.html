@@ -8,331 +8,412 @@
 <body>
 <title>Nurkhayot Khursanova</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="Nurkhayot Khursanova is a game designer and game developer with two years of experience.">
+<meta name="description" content="Nurkhayot Khursanova is a game designer and game developer at Luxodd Games, and the owner of Scootlet.">
 <meta property="og:title" content="Nurkhayot Khursanova, Game Designer + Developer">
-<meta property="og:description" content="Portfolio of a game designer and developer, featuring Scootlet, a cozy haunted puzzle game for arcade.">
+<meta property="og:description" content="Step up to the cabinet: the portfolio of a game designer and developer, featuring Scootlet, a cozy haunted puzzle game for arcade.">
 <meta property="og:image" content="https://khursanovanurkhayot7.github.io/portfolio/assets/scootlet-key.jpg">
 <meta property="og:url" content="https://khursanovanurkhayot7.github.io/portfolio/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Hanken+Grotesk:wght@400;500;600&family=Silkscreen&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Hanken+Grotesk:wght@400;500;600&family=Tilt+Neon&display=swap">
 <style>
-/* Layout concept: an arcade marquee over a live game screen, then a cartridge shelf of work. One deliberate dark world. */
+/* Layout concept: a night-time arcade hall. One lacquered cabinet with a neon marquee and live CRT opens the page; everything below is lit by it. */
 :root {
   color-scheme: dark;
-  --ink: #120e1f;
-  --panel: #1b1530;
-  --panel-2: #241c3e;
-  --line: #3a3058;
-  --text: #f4efe4;
-  --muted: #b0a8c6;
-  --gold: #ffc24b;
-  --coral: #ff5d73;
-  --sky: #7fd4e8;
-  --display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --night: #0a0612;
+  --lacquer: #171026;
+  --lacquer-2: #221739;
+  --edge: #43335f;
+  --cream: #fff5e3;
+  --mist: #c3b8da;
+  --magenta: #ff3f9e;
+  --cyan: #3fe6ff;
+  --gold: #ffcf6e;
+  --violet: #9a6bff;
+  --neon: "Tilt Neon", "Trebuchet MS", system-ui, sans-serif;
+  --ui: "Chakra Petch", "Trebuchet MS", system-ui, sans-serif;
   --body: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --pixel: "Silkscreen", ui-monospace, Menlo, monospace;
-  --wrap: 1240px;
 }
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+html { scroll-behavior: smooth; scroll-padding-top: 76px; }
 body {
-  background: var(--ink);
-  color: var(--text);
-  font: 400 17px/1.6 var(--body);
+  background: var(--night);
+  color: var(--cream);
+  font: 400 18px/1.6 var(--body);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 body::before {
   content: ""; position: fixed; inset: 0 0 auto;
-  height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--ink);
+  height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--night);
 }
+/* The room: pools of neon light on arcade carpet */
+.room { position: fixed; inset: 0; z-index: -1; pointer-events: none; background:
+  radial-gradient(60vw 50vh at 12% 8%, rgba(255, 63, 158, .24), transparent 70%),
+  radial-gradient(60vw 55vh at 90% 22%, rgba(63, 230, 255, .17), transparent 70%),
+  radial-gradient(80vw 60vh at 50% 105%, rgba(154, 107, 255, .26), transparent 70%); }
+.room::after { content: ""; position: absolute; inset: 0; opacity: .075; background-size: 180px 180px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' fill='none' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M18 34q12-20 24 0t24 0' stroke='%23ff3f9e'/%3E%3Cpath d='M112 22l14 14-14 14-14-14z' stroke='%233fe6ff'/%3E%3Ccircle cx='146' cy='96' r='11' stroke='%23ffcf6e'/%3E%3Cpath d='M30 110l20 6-14 16z' stroke='%239a6bff'/%3E%3Cpath d='M92 138q10-16 20 0t20 0' stroke='%233fe6ff'/%3E%3Ccircle cx='76' cy='82' r='3' fill='%23ff3f9e' stroke='none'/%3E%3Ccircle cx='14' cy='158' r='3' fill='%23ffcf6e' stroke='none'/%3E%3C/svg%3E"); }
 a { color: inherit; }
-:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
 .wrap {
-  max-width: calc(var(--wrap) + 64px);
-  margin-inline: auto;
+  max-width: 1264px; margin-inline: auto;
   padding-left: max(32px, env(safe-area-inset-left, 0px));
   padding-right: max(32px, env(safe-area-inset-right, 0px));
 }
-.label {
-  font: 400 12px/1.3 var(--pixel);
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin: 0;
-}
+.tag { font: 600 14px/1.3 var(--ui); letter-spacing: .14em; text-transform: uppercase; color: var(--mist); margin: 0; }
+.tag.hot { color: var(--gold); }
 
-/* Header */
-.top {
-  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9;
-  background: color-mix(in srgb, var(--ink) 88%, transparent);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--line);
-}
+/* Neon text */
+.neon { font-family: var(--neon); font-weight: 400; text-transform: uppercase; color: var(--tube, #fff0f7);
+  text-shadow: 0 0 4px var(--tube, #fff0f7), 0 0 14px var(--glow), 0 0 34px var(--glow), 0 0 70px var(--glow); }
+.neon.pink { --glow: var(--magenta); --tube: #ffe9f4; }
+.neon.blue { --glow: var(--cyan); --tube: #e9fcff; }
+.neon.gold { --glow: #ff9d2e; --tube: #fff3d6; }
+.neon.lilac { --glow: var(--violet); --tube: #f3ecff; }
+
+/* Top bar */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9; background: rgba(10, 6, 18, .78); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, .08); }
 .top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 60px; }
-.mark { font: 400 14px var(--pixel); color: var(--gold); text-decoration: none; }
-.top nav { display: flex; gap: 24px; }
-.top nav a {
-  font: 400 12px var(--pixel); text-transform: uppercase; color: var(--muted);
-  text-decoration: none; padding-block: 8px; transition: color .15s;
-}
-.top nav a:hover { color: var(--gold); }
+.free { display: inline-flex; align-items: center; gap: 10px; font: 600 14px var(--ui); letter-spacing: .08em; text-transform: uppercase; color: var(--gold); text-decoration: none; }
+.free i { width: 9px; height: 9px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 10px var(--gold); animation: pulse 1.6s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: .35; } }
+.top nav { display: flex; gap: 26px; }
+.top nav a { font: 600 15px var(--ui); letter-spacing: .04em; color: var(--mist); text-decoration: none; padding-block: 8px; transition: color .15s, text-shadow .15s; }
+.top nav a:hover { color: var(--cream); text-shadow: 0 0 12px var(--cyan); }
 
-/* Hero */
-.hero { padding-block: 56px 72px; }
-.status { display: inline-flex; align-items: center; gap: 10px; color: var(--gold); }
-.status i { width: 8px; height: 8px; background: var(--gold); animation: blink 1.2s steps(2) infinite; }
-@keyframes blink { 50% { opacity: .25; } }
-h1 {
-  font: 900 clamp(68px, 9.3vw, 124px)/.92 var(--display);
-  text-transform: uppercase;
-  letter-spacing: .005em;
-  margin: 20px 0 40px;
-}
+/* The cabinet */
+.hall { padding-block: 40px 88px; }
+.cabinet { max-width: 1120px; margin-inline: auto; border-radius: 28px 28px 18px 18px; padding: 14px; position: relative;
+  background: linear-gradient(170deg, #2b1c47, var(--lacquer) 42%, #120b1f);
+  border: 1px solid rgba(255, 207, 110, .42);
+  box-shadow: 0 0 0 1px #000, 0 0 90px -12px rgba(255, 63, 158, .5), 0 40px 110px -24px rgba(63, 230, 255, .35), inset 0 1px 0 rgba(255, 255, 255, .16); }
+.marquee { position: relative; border-radius: 18px 18px 8px 8px; padding: 30px 20px 26px; text-align: center; overflow: hidden;
+  background: radial-gradient(90% 150% at 50% 0, #4a1544, #1b0c2c 72%);
+  border: 1px solid rgba(255, 255, 255, .14); }
+.bulbs { position: absolute; left: 0; right: 0; height: 12px; background: radial-gradient(circle, #ffe7ad 0 3px, rgba(255, 207, 110, .28) 4px 5px, transparent 6px) 0 0 / 26px 12px repeat-x; animation: chase 1.4s steps(2) infinite; }
+.bulbs.t { top: 6px; } .bulbs.b { bottom: 6px; animation-direction: reverse; }
+@keyframes chase { to { background-position-x: 26px; } }
+h1 { margin: 6px 0 8px; font-size: clamp(40px, 7.2vw, 88px); line-height: 1.04; letter-spacing: .015em; animation: power 1.5s linear; }
 h1 span { display: inline-block; }
-h1 .gold { color: var(--gold); }
-.stage { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 48px; align-items: start; }
-.screen { position: relative; border: 1px solid var(--line); background: var(--panel); padding: 10px; box-shadow: 0 30px 80px -30px rgba(255, 194, 75, .28); }
-#game { display: block; width: 100%; aspect-ratio: 16 / 9; background: #0d0a18; cursor: pointer; touch-action: manipulation; image-rendering: pixelated; }
-.screen-foot { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 10px 4px 2px; }
-.intro { display: flex; flex-direction: column; gap: 28px; justify-content: space-between; min-width: 0; }
-.lede { font-size: clamp(21px, 2vw, 27px); line-height: 1.35; font-weight: 500; margin: 0; text-wrap: pretty; }
-.sheet { display: grid; grid-template-columns: 1fr; margin: 0; border-top: 1px solid var(--line); }
-.sheet div { display: flex; justify-content: space-between; gap: 16px; align-items: baseline; padding-block: 12px; border-bottom: 1px solid var(--line); }
-.sheet dd { margin: 0; font-weight: 600; text-align: right; }
-.cta { display: flex; flex-wrap: wrap; gap: 12px; }
-.btn {
-  display: inline-block; padding: 14px 22px; font: 400 13px var(--pixel); text-transform: uppercase;
-  text-decoration: none; border: 1px solid var(--gold); color: var(--ink); background: var(--gold);
-  transition: transform .15s, box-shadow .15s;
-}
-.btn:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--coral); }
-.btn.ghost { background: transparent; color: var(--gold); }
+@keyframes power { 0%, 10%, 16%, 24%, 30%, 100% { opacity: 1; } 12%, 26% { opacity: .35; } }
+.marquee .tag { color: var(--cream); letter-spacing: .24em; font-size: clamp(13px, 1.5vw, 17px); }
+.bezel { margin-top: 12px; padding: clamp(10px, 2vw, 24px); border-radius: 10px; background: linear-gradient(#050308, #0e0917); border: 1px solid rgba(255, 255, 255, .08); }
+.crt { position: relative; border-radius: 22px; overflow: hidden; background: #2a1a55; box-shadow: 0 0 0 2px #000, 0 0 46px rgba(154, 107, 255, .5); }
+.crt video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+.crt::after { content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: inherit;
+  background: repeating-linear-gradient(0deg, rgba(0, 0, 0, .13) 0 1px, transparent 1px 3px), linear-gradient(115deg, rgba(255, 255, 255, .1), transparent 26%);
+  box-shadow: inset 0 0 90px rgba(5, 0, 20, .7); }
+.attract { position: absolute; z-index: 2; left: 16px; top: 14px; padding: 6px 12px; border-radius: 30px; font: 700 13px var(--ui); letter-spacing: .12em; text-transform: uppercase; color: var(--night); background: var(--gold); box-shadow: 0 0 18px rgba(255, 207, 110, .75); }
+.tv-btns { position: absolute; z-index: 2; right: 14px; bottom: 14px; display: flex; gap: 8px; }
+.tv { font: 700 13px var(--ui); letter-spacing: .05em; padding: 9px 14px; border-radius: 30px; cursor: pointer; color: var(--cream); background: rgba(10, 6, 18, .82); border: 1px solid rgba(255, 255, 255, .34); transition: border-color .15s, box-shadow .15s; }
+.tv:hover { border-color: var(--cyan); box-shadow: 0 0 14px rgba(63, 230, 255, .6); }
+.panel { margin-top: 12px; border-radius: 8px 8px 12px 12px; padding: 24px clamp(16px, 3vw, 36px); display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 28px;
+  background: linear-gradient(180deg, #2a1d45, #150e23); border: 1px solid rgba(255, 255, 255, .12); }
+.pitch { margin: 0; font: 600 clamp(23px, 2.7vw, 34px)/1.2 var(--ui); text-wrap: balance; }
+.pitch em { font-style: normal; color: var(--gold); }
+.deck { display: flex; gap: clamp(12px, 2vw, 24px); align-items: flex-end; }
+.stick { width: 44px; height: 84px; position: relative; flex: none; margin-right: 8px; }
+.stick::before { content: ""; position: absolute; left: 19px; top: 24px; width: 7px; height: 50px; background: linear-gradient(90deg, #6b6b78, #dcdce6, #6b6b78); }
+.stick::after { content: ""; position: absolute; left: 6px; top: 0; width: 33px; height: 33px; border-radius: 50%; background: radial-gradient(circle at 34% 28%, #ffb2d6, var(--magenta) 44%, #8d1050); box-shadow: 0 0 20px rgba(255, 63, 158, .8); }
+.stick i { position: absolute; bottom: 0; left: 0; width: 44px; height: 14px; border-radius: 50%; background: #06040b; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .24); }
+.push { display: grid; justify-items: center; gap: 8px; text-decoration: none; font: 600 14px var(--ui); letter-spacing: .03em; }
+.push b { width: 58px; height: 58px; border-radius: 50%; border: 3px solid rgba(0, 0, 0, .55); display: block; background: radial-gradient(circle at 36% 28%, rgba(255, 255, 255, .85), var(--c) 40%, color-mix(in srgb, var(--c) 50%, #000)); box-shadow: 0 5px 0 color-mix(in srgb, var(--c) 45%, #000), 0 0 24px color-mix(in srgb, var(--c) 72%, transparent); transition: transform .1s, box-shadow .1s; }
+.push:hover b { transform: translateY(2px); box-shadow: 0 3px 0 color-mix(in srgb, var(--c) 45%, #000), 0 0 40px var(--c); }
+.push:active b { transform: translateY(5px); box-shadow: 0 0 0 #000, 0 0 40px var(--c); }
+.marks { max-width: 1120px; margin: 34px auto 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.mark { display: flex; align-items: baseline; gap: 14px; min-width: 0; }
+.mark strong { font: 700 clamp(34px, 3.6vw, 48px)/1 var(--ui); color: var(--gold); text-shadow: 0 0 18px rgba(255, 207, 110, .5); }
+.mark span { color: var(--mist); font-size: 16px; line-height: 1.3; }
 
 /* Sections */
-section.band { padding-block: 80px; border-top: 1px solid var(--line); }
-h2 {
-  font: 900 clamp(48px, 6.4vw, 84px)/.95 var(--display);
-  text-transform: uppercase; margin: 8px 0 40px; text-wrap: balance;
+.stage { padding-block: 92px; position: relative; }
+.stage::before { content: ""; position: absolute; top: 0; left: 8%; right: 8%; height: 2px; background: linear-gradient(90deg, transparent, var(--line, var(--magenta)), transparent); box-shadow: 0 0 18px var(--line, var(--magenta)); }
+h2 { margin: 10px 0 44px; font-size: clamp(50px, 7vw, 92px); line-height: 1; letter-spacing: .01em; text-wrap: balance; }
+
+/* Scootlet */
+.feature { display: grid; grid-template-columns: minmax(0, 1.34fr) minmax(0, 1fr); gap: 52px; align-items: center; }
+.key { position: relative; margin: 0; border-radius: 18px; }
+.key img { display: block; width: 100%; height: auto; border-radius: 18px; box-shadow: 0 0 0 1px rgba(255, 255, 255, .22), 0 0 70px -6px rgba(154, 107, 255, .85), 0 34px 70px -24px #000; }
+.feature h3 { font: 700 clamp(36px, 3.7vw, 50px)/1.06 var(--ui); margin: 12px 0 16px; text-wrap: balance; }
+.feature p.say { margin: 0 0 24px; color: var(--mist); max-width: 54ch; }
+.hiscore { margin: 0; padding: 18px 22px; border-radius: 14px; background: #06040b; border: 1px solid rgba(255, 207, 110, .4); box-shadow: inset 0 0 34px rgba(255, 207, 110, .1); }
+.hiscore > p { margin: 0 0 8px; color: var(--gold); }
+.hiscore div { display: flex; align-items: baseline; gap: 16px; padding-block: 6px; font: 600 18px var(--ui); }
+.hiscore dd { margin: 0; width: 56px; flex: none; font: 700 30px/1 var(--ui); color: var(--cyan); text-shadow: 0 0 12px rgba(63, 230, 255, .7); font-variant-numeric: tabular-nums; }
+.hiscore dt { order: 2; }
+.shots { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; margin-top: 48px; }
+.shot { margin: 0; min-width: 0; transition: transform .25s; }
+.shot:nth-child(1) { transform: rotate(-1.6deg); }
+.shot:nth-child(2) { transform: translateY(14px) rotate(.8deg); }
+.shot:nth-child(3) { transform: rotate(1.8deg); }
+.shot:hover { transform: translateY(-4px) rotate(0); }
+.shot img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 12px; box-shadow: 0 0 0 1px rgba(255, 255, 255, .22), 0 22px 44px -20px #000, 0 0 34px -10px var(--violet); }
+.shot figcaption { padding: 14px 4px 0; color: var(--mist); font-size: 16px; line-height: 1.45; }
+
+/* Cabinet row */
+.row-tag { margin: 92px 0 26px; }
+.row3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+.mini { display: flex; flex-direction: column; min-width: 0; border-radius: 18px 18px 10px 10px; padding: 8px; background: linear-gradient(170deg, var(--lacquer-2), #100a1b); border: 1px solid color-mix(in srgb, var(--c) 52%, transparent); box-shadow: 0 0 44px -18px var(--c); transition: transform .2s, box-shadow .2s; }
+.mini:hover { transform: translateY(-6px); box-shadow: 0 0 60px -10px var(--c); }
+.mini header { padding: 14px 12px 12px; text-align: center; border-radius: 12px 12px 4px 4px; background: radial-gradient(100% 160% at 50% 0, color-mix(in srgb, var(--c) 30%, #12091f), #12091f 76%); }
+.mini h3 { margin: 0; font-size: clamp(27px, 2.9vw, 36px); line-height: 1.1; }
+.glass { margin-top: 6px; aspect-ratio: 16 / 9; border-radius: 6px; overflow: hidden; background: radial-gradient(90% 110% at 50% 40%, color-mix(in srgb, var(--c) 22%, #07040d), #07040d); display: grid; place-items: center; }
+.glass svg { width: 68%; height: 74%; color: var(--c); filter: drop-shadow(0 0 8px var(--c)); }
+.glass img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: left top; }
+.mini-body { padding: 18px 14px 18px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.mini .tag { color: color-mix(in srgb, var(--c) 72%, #fff); font-size: 13px; letter-spacing: .08em; }
+.mini p.say { margin: 0; color: var(--mist); font-size: 17px; }
+.go { margin-top: auto; padding-top: 8px; font: 700 15px var(--ui); color: var(--cyan); text-underline-offset: 5px; align-self: flex-start; }
+.go:hover { color: var(--cream); }
+
+/* Move list */
+.moves { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 44px; }
+.moves > div { min-width: 0; }
+.moves h3 { font: 700 26px/1.2 var(--ui); margin: 0 0 8px; color: var(--c); text-shadow: 0 0 16px color-mix(in srgb, var(--c) 66%, transparent); }
+.moves ul { list-style: none; margin: 0; padding: 0; }
+.moves li { display: flex; align-items: center; gap: 14px; padding-block: 13px; border-bottom: 1px solid rgba(255, 255, 255, .12); font: 600 19px/1.25 var(--ui); }
+.moves li::before { content: ""; width: 18px; height: 18px; flex: none; border-radius: 50%; background: radial-gradient(circle at 34% 28%, #fff, var(--c) 46%, color-mix(in srgb, var(--c) 50%, #000)); box-shadow: 0 0 10px var(--c); }
+
+/* Trophy room */
+.trophies { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 44px; }
+.awards { display: grid; gap: 20px; align-content: start; }
+.award { display: flex; align-items: center; gap: 22px; padding: 24px; border-radius: 16px; background: linear-gradient(120deg, rgba(255, 207, 110, .16), rgba(23, 16, 38, .8) 60%); border: 1px solid rgba(255, 207, 110, .36); }
+.medal { flex: none; width: 72px; height: 72px; border-radius: 50%; display: grid; place-items: center; font: 700 28px var(--ui); color: #5a3700; background: radial-gradient(circle at 34% 28%, #fff6d6, var(--gold) 46%, #b57a16); box-shadow: 0 0 28px rgba(255, 207, 110, .6), inset 0 0 0 4px rgba(255, 255, 255, .28); }
+.award > div { min-width: 0; }
+.award h3 { font: 700 clamp(23px, 2.3vw, 29px)/1.15 var(--ui); margin: 4px 0; }
+.award p.say { margin: 0; color: var(--mist); }
+.ledger h3 { font: 600 14px var(--ui); letter-spacing: .14em; text-transform: uppercase; color: var(--cyan); margin: 0 0 10px; }
+.ledger ul { list-style: none; margin: 0 0 30px; padding: 0; }
+.ledger ul:last-child { margin-bottom: 0; }
+.ledger li { padding-block: 10px; border-bottom: 1px solid rgba(255, 255, 255, .12); font-weight: 600; line-height: 1.35; }
+.ledger li span { display: block; font-weight: 400; font-size: 16px; color: var(--mist); }
+
+/* Bonus */
+.bonus { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); gap: 52px; align-items: center; }
+.bonus h2 { margin-bottom: 20px; font-size: clamp(44px, 5.4vw, 72px); }
+.bonus p.say { color: var(--mist); margin: 0; max-width: 40ch; }
+.minicrt { border-radius: 18px; padding: 10px; background: linear-gradient(170deg, var(--lacquer-2), #0b0713); border: 1px solid rgba(63, 230, 255, .4); box-shadow: 0 0 60px -12px rgba(63, 230, 255, .55); }
+#game { display: block; width: 100%; aspect-ratio: 16 / 9; border-radius: 10px; background: #07040f; cursor: pointer; touch-action: manipulation; }
+
+/* Continue */
+.continue { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.3fr); gap: 56px; align-items: center; }
+.count { font-size: clamp(120px, 20vw, 250px); line-height: .95; margin: 8px 0 0; font-variant-numeric: tabular-nums; }
+.continue h2 { margin: 6px 0 0; font-size: clamp(46px, 6vw, 80px); }
+.contact-say { font: 600 clamp(22px, 2.3vw, 29px)/1.25 var(--ui); margin: 0 0 22px; text-wrap: balance; }
+.line { display: grid; grid-template-columns: 112px minmax(0, 1fr) auto; gap: 14px; align-items: center; padding-block: 16px; border-top: 1px solid rgba(255, 255, 255, .14); }
+.line:last-child { border-bottom: 1px solid rgba(255, 255, 255, .14); }
+.line a { font: 700 clamp(21px, 2.4vw, 30px)/1.2 var(--ui); text-decoration: none; overflow-wrap: anywhere; min-width: 0; transition: color .15s, text-shadow .15s; }
+.line a:hover { color: var(--gold); text-shadow: 0 0 16px rgba(255, 207, 110, .7); }
+.copy { font: 700 13px var(--ui); color: var(--mist); background: none; border: 1px solid rgba(255, 255, 255, .28); border-radius: 30px; padding: 9px 14px; min-width: 76px; cursor: pointer; transition: color .15s, border-color .15s; }
+.copy:hover { color: var(--cyan); border-color: var(--cyan); }
+footer { padding-block: 30px; border-top: 1px solid rgba(255, 255, 255, .1); }
+footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; color: var(--mist); font: 500 15px var(--ui); }
+
+@media (max-width: 960px) {
+  .panel { grid-template-columns: minmax(0, 1fr); }
+  .deck { justify-content: space-between; }
+  .feature, .trophies, .bonus, .continue { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+  .row3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .moves { grid-template-columns: minmax(0, 1fr); }
 }
-
-/* Work */
-.shelf { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
-.feature { grid-column: 1 / -1; }
-.feature-top { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); }
-.feature video { display: block; width: 100%; height: 100%; min-height: 0; aspect-ratio: 16 / 9; object-fit: contain; background: #2a1a55; }
-.feature-copy { display: flex; flex-direction: column; gap: 12px; min-width: 0; padding: 28px 32px; }
-.feature h3 { font-size: clamp(52px, 5.4vw, 72px); }
-.feature-copy > p:not(.role) { margin: 0; color: var(--text); max-width: 56ch; }
-.facts { margin: auto 0 0; padding-top: 16px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-.facts div { display: flex; flex-direction: column; gap: 4px; border-top: 1px solid var(--line); padding-top: 10px; }
-.facts dd { margin: 0; font: 900 52px/1 var(--display); color: var(--gold); font-variant-numeric: tabular-nums; }
-.stills { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--line); border-top: 1px solid var(--line); }
-.stills figure { margin: 0; background: var(--panel); min-width: 0; }
-.stills img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
-.stills figcaption { padding: 14px 20px 18px; font-size: 15px; line-height: 1.45; color: var(--muted); }
-.cart .thumb { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; object-position: left top; }
-.cart { background: var(--panel); border: 1px solid var(--line); display: flex; flex-direction: column; min-width: 0; transition: transform .2s, border-color .2s; }
-.cart:hover { transform: translateY(-4px); border-color: var(--gold); }
-.cart canvas { display: block; width: 100%; aspect-ratio: 16 / 9; background: var(--panel-2); image-rendering: pixelated; }
-.cart-body { padding: 24px 24px 28px; display: flex; flex-direction: column; gap: 10px; }
-.cart h3 { font: 900 clamp(38px, 3.6vw, 48px)/1 var(--display); text-transform: uppercase; margin: 0; }
-.cart .role { color: var(--gold); }
-.cart-body > p:not(.role) { margin: 0; color: var(--muted); max-width: 52ch; }
-.go { font: 400 12px var(--pixel); text-transform: uppercase; color: var(--gold); text-underline-offset: 4px; padding-block: 8px 0; align-self: flex-start; }
-.go:hover { color: var(--text); }
-
-/* Skills */
-.loadout { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; }
-.loadout > div { min-width: 0; }
-.chips { list-style: none; margin: 16px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
-.chips li { padding: 8px 14px; border: 1px solid var(--line); background: var(--panel); font-weight: 500; font-size: 16px; }
-.chips li.main { border-color: var(--gold); color: var(--gold); }
-
-/* About */
-.about { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px; }
-.about > div { min-width: 0; }
-.about ul { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 12px; }
-.about li { line-height: 1.4; }
-.about li span { display: block; color: var(--muted); font-size: 15px; }
-
-/* Contact */
-.contact { background: var(--panel); }
-.rows { border-top: 1px solid var(--line); }
-.row { display: grid; grid-template-columns: 130px minmax(0, 1fr) auto; gap: 16px; align-items: center; padding-block: 18px; border-bottom: 1px solid var(--line); }
-.row a {
-  font: 700 clamp(25px, 3.5vw, 44px)/1.1 var(--display); text-decoration: none;
-  overflow-wrap: anywhere; transition: color .15s; min-width: 0;
-}
-.row a:hover { color: var(--gold); }
-.copy { font: 400 11px var(--pixel); text-transform: uppercase; color: var(--muted); background: none; border: 1px solid var(--line); padding: 9px 12px; cursor: pointer; min-width: 74px; transition: color .15s, border-color .15s; }
-.copy:hover { color: var(--gold); border-color: var(--gold); }
-footer { padding-block: 28px; border-top: 1px solid var(--line); }
-footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-
-@media (max-width: 900px) {
-  .stage { grid-template-columns: minmax(0, 1fr); gap: 32px; }
-  .shelf { grid-template-columns: minmax(0, 1fr); }
-  .feature-top { grid-template-columns: minmax(0, 1fr); }
-  .feature video { height: auto; }
-  .feature-copy { padding: 24px; }
-  .about { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .loadout { grid-template-columns: minmax(0, 1fr); gap: 32px; }
-}
-@media (max-width: 560px) {
+@media (max-width: 640px) {
   .wrap { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
-  .hero { padding-block: 36px 56px; }
-  h1 { font-size: 17.5vw; margin-bottom: 28px; }
-  section.band { padding-block: 56px; }
-  .top nav { gap: 14px; }
-  .row { grid-template-columns: minmax(0, 1fr) auto; }
-  .row .label { grid-column: 1 / -1; }
-  .stills { grid-template-columns: minmax(0, 1fr); }
-  .about { grid-template-columns: minmax(0, 1fr); }
-  .top nav a { font-size: 11px; }
+  body { font-size: 17px; }
+  .hall { padding-block: 20px 56px; }
+  .cabinet { padding: 8px; }
+  h1 { font-size: 11.4vw; }
+  h1 span { display: block; }
+  .marquee .tag { font-size: 12px; letter-spacing: .1em; }
+  .attract { display: none; }
+  .line a { font-size: 18px; }
+  .marquee { padding: 26px 8px 24px; }
+  .stick { display: none; }
+  .push b { width: 48px; height: 48px; }
+  .push { font-size: 13px; }
+  .free span { display: none; }
+  .top nav { gap: 15px; }
+  .top nav a { font-size: 14px; }
+  .attract { left: 8px; top: 8px; font-size: 11px; padding: 4px 9px; }
+  .tv-btns { right: 8px; bottom: 8px; }
+  .tv { padding: 6px 10px; font-size: 12px; }
+  .marks { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .stage { padding-block: 64px; }
+  h2 { margin-bottom: 32px; }
+  .shots, .row3 { grid-template-columns: minmax(0, 1fr); }
+  .shot:nth-child(n) { transform: none; }
+  .row-tag { margin-top: 64px; }
+  .award { padding: 18px; gap: 16px; }
+  .medal { width: 56px; height: 56px; font-size: 22px; }
+  .line { grid-template-columns: minmax(0, 1fr) auto; }
+  .line .tag { grid-column: 1 / -1; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .status i { animation: none; }
-  .cart, .btn { transition: none; }
+  h1, .bulbs, .free i { animation: none; }
+  .shot, .mini, .push b { transition: none; }
 }
 </style>
 
+<div class="room" aria-hidden="true"></div>
+
 <header class="top">
   <div class="wrap">
-    <a class="mark" href="#top">N.K.</a>
+    <a class="free" href="#top"><i></i><span>Free play · Open to work</span></a>
     <nav aria-label="Sections">
-      <a href="#work">Work</a>
-      <a href="#skills">Skills</a>
-      <a href="#about">About</a>
+      <a href="#games">Games</a>
+      <a href="#moves">Moves</a>
+      <a href="#trophies">Trophies</a>
       <a href="#contact">Contact</a>
     </nav>
   </div>
 </header>
 
 <main id="top">
-  <div class="hero">
+  <div class="hall">
     <div class="wrap">
-      <p class="label status"><i></i>Open to work</p>
-      <h1><span>Nurkhayot</span> <span class="gold">Khursanova</span></h1>
-      <div class="stage">
-        <figure class="screen" style="margin:0">
-          <canvas id="game" width="640" height="360" tabindex="0" role="button" aria-label="Coin Hop, a one-button mini game. Press Space or tap to start, then press again to jump."></canvas>
-          <figcaption class="screen-foot">
-            <span class="label">Coin Hop: a small game on this page</span>
-            <span class="label">Space or tap to jump</span>
-          </figcaption>
-        </figure>
-        <div class="intro">
-          <p class="lede">I'm a game designer and game developer. I decide how a game should play, then write the code that makes it play that way.</p>
-          <dl class="sheet">
-            <div><dt class="label">Experience</dt><dd>2 years</dd></div>
-            <div><dt class="label">Studio</dt><dd>Luxodd Games</dd></div>
-            <div><dt class="label">My own game</dt><dd>Scootlet</dd></div>
-            <div><dt class="label">Based in</dt><dd>Andijan, Uzbekistan</dd></div>
-          </dl>
-          <div class="cta">
-            <a class="btn" href="#contact">Get in touch</a>
-            <a class="btn ghost" href="#work">See my work</a>
+      <div class="cabinet">
+        <div class="marquee">
+          <div class="bulbs t" aria-hidden="true"></div>
+          <h1 class="neon pink"><span>Nurkhayot</span> <span>Khursanova</span></h1>
+          <p class="tag">Game designer + Game developer</p>
+          <div class="bulbs b" aria-hidden="true"></div>
+        </div>
+        <div class="bezel">
+          <div class="crt">
+            <span class="attract">Attract mode</span>
+            <video id="reel" autoplay muted loop playsinline preload="metadata" poster="assets/scootlet-key.jpg" aria-label="Scootlet, my game, shown in a looping gameplay video">
+              <source src="assets/scootlet-video.mp4" type="video/mp4">
+            </video>
+            <div class="tv-btns">
+              <button class="tv" type="button" id="tv-play">Pause</button>
+              <button class="tv" type="button" id="tv-sound">Sound on</button>
+            </div>
           </div>
         </div>
+        <div class="panel">
+          <p class="pitch">I design the moment a puzzle clicks. <em>Then I write the code that makes it click.</em></p>
+          <nav class="deck" aria-label="Choose a section">
+            <div class="stick" aria-hidden="true"><i></i></div>
+            <a class="push" href="#games" style="--c:#ff3f9e"><b></b>Games</a>
+            <a class="push" href="#moves" style="--c:#3fe6ff"><b></b>Moves</a>
+            <a class="push" href="#trophies" style="--c:#ffcf6e"><b></b>Trophies</a>
+            <a class="push" href="#contact" style="--c:#9a6bff"><b></b>Player 2</a>
+          </nav>
+        </div>
+      </div>
+      <div class="marks">
+        <div class="mark"><strong>8</strong><span>months making games at Luxodd</span></div>
+        <div class="mark"><strong>50</strong><span>hand-crafted levels in my own game</span></div>
+        <div class="mark"><strong>UZ</strong><span>based in Andijan, Uzbekistan</span></div>
       </div>
     </div>
   </div>
 
-  <section class="band" id="work">
+  <section class="stage" id="games">
     <div class="wrap">
-      <p class="label">Select a project</p>
-      <h2>Work</h2>
-      <div class="shelf">
-        <article class="cart feature">
-          <div class="feature-top">
-            <video controls preload="none" playsinline poster="assets/scootlet-key.jpg" aria-label="Scootlet gameplay video">
-              <source src="assets/scootlet-video.mp4" type="video/mp4">
-            </video>
-            <div class="feature-copy">
-              <h3>Scootlet</h3>
-              <p class="label role">Owner · Unity puzzle game for arcade</p>
-              <p>Scootlet is my own game, a cozy haunted puzzle adventure with no monsters that scare and no words to read. You guide a little wizard block through floating islands and moonlit castles, pushing sleepy slimes into jelly pits and hopping inside a ghost when you need a lift.</p>
-              <dl class="facts">
-                <div><dd>50</dd><dt class="label">Levels</dt></div>
-                <div><dd>5</dd><dt class="label">Chapters</dt></div>
-                <div><dd>7</dd><dt class="label">Skins</dt></div>
-              </dl>
-            </div>
+      <p class="tag hot">Choose your game</p>
+      <h2 class="neon pink">Now playing</h2>
+      <div class="feature">
+        <figure class="key">
+          <img src="assets/scootlet-key.jpg" alt="Scootlet key art: a wizard block and a friendly ghost under a full moon, with other character skins around them" width="1600" height="900">
+        </figure>
+        <div>
+          <p class="tag hot">Scootlet · My own game · Unity puzzle for arcade</p>
+          <h3>No monsters that scare. No words to read. Just ghosts.</h3>
+          <p class="say">A cozy haunted puzzle adventure. You guide a little wizard block through floating islands and moonlit castles, pushing sleepy slimes into jelly pits and hopping inside a ghost when you need a lift.</p>
+          <dl class="hiscore">
+            <p class="tag">High scores</p>
+            <div><dd>50</dd><dt>Hand-crafted levels</dt></div>
+            <div><dd>05</dd><dt>Spooky-sweet chapters</dt></div>
+            <div><dd>07</dd><dt>Unlockable skins</dt></div>
+          </dl>
+        </div>
+      </div>
+      <div class="shots">
+        <figure class="shot">
+          <img src="assets/scootlet-tutorial.jpg" alt="Scootlet tutorial showing a ghost becoming a bridge across a pit" loading="lazy" width="1280" height="720">
+          <figcaption>Cinema tutorials teach every new trick in pictures, before you ever touch the joystick.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="assets/scootlet-skins.jpg" alt="Seven Scootlet character skins lined up under the words You got this" loading="lazy" width="1280" height="720">
+          <figcaption>Superhero, Little Dino, Donut, Snowman, Galaxy, Wizard and Ghost Buddy: seven skins to unlock.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="assets/scootlet-menu.jpg" alt="Scootlet main menu with a haunted house on a floating island" loading="lazy" width="1280" height="720">
+          <figcaption>Made for real cabinets: one joystick, colorful buttons, and undo on any move.</figcaption>
+        </figure>
+      </div>
+
+      <p class="tag hot row-tag">More cabinets on the floor</p>
+      <div class="row3">
+        <article class="mini" style="--c:#ffcf6e">
+          <header><h3 class="neon gold">Luxodd Games</h3></header>
+          <div class="glass" aria-hidden="true">
+            <svg viewBox="0 0 200 110" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+              <path id="cab" d="M16 104V22l6-14h30l6 14v82z"/><rect x="24" y="24" width="26" height="24"/><path d="M20 58h34M37 58v14M28 84h18"/>
+              <path d="M72 104V22l6-14h30l6 14v82z"/><rect x="80" y="24" width="26" height="24"/><path d="M76 58h34M93 58v14M84 84h18"/>
+              <path d="M128 104V22l6-14h30l6 14v82z"/><rect x="136" y="24" width="26" height="24"/><path d="M132 58h34M149 58v14M140 84h18"/>
+            </svg>
           </div>
-          <div class="stills">
-            <figure>
-              <img src="assets/scootlet-tutorial.jpg" alt="Scootlet tutorial showing a ghost pushed into a pit to become a bridge" loading="lazy" width="1280" height="720">
-              <figcaption>Cinema tutorials show every new trick before you play it, and every rule is taught in pictures.</figcaption>
-            </figure>
-            <figure>
-              <img src="assets/scootlet-skins.jpg" alt="Seven Scootlet character skins lined up under the words You got this" loading="lazy" width="1280" height="720">
-              <figcaption>Seven unlockable skins, from Superhero and Little Dino to Donut and Ghost Buddy.</figcaption>
-            </figure>
-            <figure>
-              <img src="assets/scootlet-menu.jpg" alt="Scootlet main menu with a haunted house on a floating island" loading="lazy" width="1280" height="720">
-              <figcaption>Made for the arcade: one joystick, colorful buttons, and undo on any move.</figcaption>
-            </figure>
+          <div class="mini-body">
+            <p class="tag">Game Developer · 8 months</p>
+            <p class="say">Luxodd brings indie games to arcade cabinets. I work on Unity puzzle campaigns there, refining levels and iterating on character objects, environments and in-game UI.</p>
           </div>
         </article>
-        <article class="cart">
-          <canvas data-seed="Luxodd Games" data-color="#ffc24b" width="96" height="30" aria-hidden="true"></canvas>
-          <div class="cart-body">
-            <h3>Luxodd Games</h3>
-            <p class="label role">Game Developer · 10 months</p>
-            <p>Luxodd brings indie games to arcade cabinets. I work on Unity puzzle campaigns there, refining levels and iterating on character objects, environments and in-game UI.</p>
+        <article class="mini" style="--c:#ff3f9e">
+          <header><h3 class="neon pink">Plnk</h3></header>
+          <div class="glass" aria-hidden="true">
+            <svg viewBox="0 0 200 110" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+              <circle cx="56" cy="28" r="14"/><path d="M56 42v34M34 86h44"/><ellipse cx="56" cy="86" rx="28" ry="9"/>
+              <circle cx="144" cy="28" r="14"/><path d="M144 42v34M122 86h44"/><ellipse cx="144" cy="86" rx="28" ry="9"/>
+              <path d="M93 58h14M100 51v14"/>
+            </svg>
+          </div>
+          <div class="mini-body">
+            <p class="tag">Two-player mode · Co-creator</p>
+            <p class="say">A game I made together with my brother. Two people, one game, and every part of it shared between us.</p>
           </div>
         </article>
-        <article class="cart">
-          <canvas data-seed="Plnk" data-color="#c79bff" width="96" height="30" aria-hidden="true"></canvas>
-          <div class="cart-body">
-            <h3>Plnk</h3>
-            <p class="label role">Co-creator</p>
-            <p>A game I made together with my brother, as a small team sharing the work from idea to finished game.</p>
-          </div>
-        </article>
-        <article class="cart">
-          <img class="thumb" src="assets/waterlens.jpg" alt="WaterLens home page with the headline See the water you don't see" loading="lazy" width="1280" height="610">
-          <div class="cart-body">
-            <h3>WaterLens</h3>
-            <p class="label role">Creator · Interactive website</p>
-            <p>A water footprint explorer I created and designed for UN Sustainable Development Goal 6. Move the sliders to see the hidden water in your food and habits, or drag through the years to watch the Aral Sea disappear.</p>
-            <a class="go" href="https://khursanovanurkhayot7.github.io/" target="_blank" rel="noopener">Visit the live site</a>
+        <article class="mini" style="--c:#3fe6ff">
+          <header><h3 class="neon blue">WaterLens</h3></header>
+          <div class="glass"><img src="assets/waterlens.jpg" alt="WaterLens home page with the headline See the water you don't see" loading="lazy" width="1280" height="610"></div>
+          <div class="mini-body">
+            <p class="tag">Bonus world · Creator</p>
+            <p class="say">An interactive water footprint explorer I created for UN Sustainable Development Goal 6. Drag through the years and watch the Aral Sea disappear.</p>
+            <a class="go" href="https://khursanovanurkhayot7.github.io/" target="_blank" rel="noopener">Enter WaterLens</a>
           </div>
         </article>
       </div>
     </div>
   </section>
 
-  <section class="band" id="skills">
+  <section class="stage" id="moves" style="--line:var(--cyan)">
     <div class="wrap">
-      <p class="label">Loadout</p>
-      <h2>Skills</h2>
-      <div class="loadout">
-        <div>
-          <p class="label">Game design</p>
-          <ul class="chips">
-            <li class="main">Puzzle level design</li>
+      <p class="tag hot">Every fighter has one</p>
+      <h2 class="neon blue">Move list</h2>
+      <div class="moves">
+        <div style="--c:#ff3f9e">
+          <h3>Design moves</h3>
+          <ul>
+            <li>Puzzle level design</li>
             <li>Gameplay progression</li>
             <li>Level unlocks</li>
             <li>Gameplay iteration</li>
             <li>In-game UI</li>
           </ul>
         </div>
-        <div>
-          <p class="label">Engine + tools</p>
-          <ul class="chips">
-            <li class="main">Unity</li>
+        <div style="--c:#ffcf6e">
+          <h3>Engine moves</h3>
+          <ul>
+            <li>Unity</li>
             <li>Git</li>
           </ul>
         </div>
-        <div>
-          <p class="label">Programming</p>
-          <ul class="chips">
-            <li class="main">C#</li>
-            <li class="main">Python</li>
+        <div style="--c:#3fe6ff">
+          <h3>Code moves</h3>
+          <ul>
+            <li>C#</li>
+            <li>Python</li>
             <li>JavaScript</li>
             <li>HTML + CSS</li>
           </ul>
@@ -341,62 +422,86 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     </div>
   </section>
 
-  <section class="band" id="about">
+  <section class="stage" id="trophies" style="--line:var(--gold)">
     <div class="wrap">
-      <p class="label">Player stats</p>
-      <h2>About</h2>
-      <div class="about">
-        <div>
-          <p class="label">Recognition</p>
-          <ul>
-            <li>World Scholar's Cup<span>Two gold medals and one silver. Qualified for the round in Qatar.</span></li>
-            <li>Maker Faire<span>Competition winner.</span></li>
-          </ul>
+      <p class="tag hot">Achievements unlocked</p>
+      <h2 class="neon gold">Trophy room</h2>
+      <div class="trophies">
+        <div class="awards">
+          <article class="award">
+            <div class="medal" aria-hidden="true">3</div>
+            <div>
+              <p class="tag hot">World Scholar's Cup</p>
+              <h3>Two gold medals, one silver</h3>
+              <p class="say">Qualified for the round in Qatar.</p>
+            </div>
+          </article>
+          <article class="award">
+            <div class="medal" aria-hidden="true">1st</div>
+            <div>
+              <p class="tag hot">Maker Faire</p>
+              <h3>Competition winner</h3>
+            </div>
+          </article>
         </div>
-        <div>
-          <p class="label">Other projects</p>
+        <div class="ledger">
+          <h3>Side quests</h3>
           <ul>
-            <li>Teens in Health<span>Programmer.</span></li>
-            <li>LSL Scholar's Cup<span>Helped organise a school academic competition.</span></li>
+            <li>Teens in Health<span>Programmer</span></li>
+            <li>LSL Scholar's Cup<span>Helped organise a school academic competition</span></li>
           </ul>
-        </div>
-        <div>
-          <p class="label">Education</p>
+          <h3>Player profile</h3>
           <ul>
-            <li>LSL School<span>Expected graduation 2028.</span></li>
-          </ul>
-        </div>
-        <div>
-          <p class="label">Languages</p>
-          <ul>
-            <li>Uzbek<span>Native.</span></li>
-            <li>English<span>B2 certificate.</span></li>
-            <li>Korean<span>TOPIK I, Level 2.</span></li>
+            <li>LSL School<span>Expected graduation 2028</span></li>
+            <li>Uzbek, English, Korean<span>Native, B2 certificate, TOPIK I Level 2</span></li>
           </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="band contact" id="contact">
+  <section class="stage" id="bonus" style="--line:var(--violet)">
     <div class="wrap">
-      <p class="label">Player 2 wanted</p>
-      <h2>Let's make a game</h2>
-      <div class="rows">
-        <div class="row">
-          <span class="label">Email</span>
-          <a href="mailto:nurxayot.work@gmail.com">nurxayot.work@gmail.com</a>
-          <button class="copy" type="button" id="copy-email" data-copy="nurxayot.work@gmail.com" aria-label="Copy email address">Copy</button>
+      <div class="bonus">
+        <div>
+          <p class="tag hot">You scrolled this far</p>
+          <h2 class="neon lilac">Bonus stage</h2>
+          <p class="say">Coin Hop is one button, one rule and one more try. Tap the screen or press Space to jump.</p>
         </div>
-        <div class="row">
-          <span class="label">Phone</span>
-          <a href="tel:+998944722403">+998 94 472 24 03</a>
-          <button class="copy" type="button" id="copy-phone" data-copy="+998944722403" aria-label="Copy phone number">Copy</button>
+        <div class="minicrt">
+          <canvas id="game" width="640" height="360" tabindex="0" role="button" aria-label="Coin Hop, a one-button mini game. Press Space or tap to start, then press again to jump."></canvas>
         </div>
-        <div class="row">
-          <span class="label">Instagram</span>
-          <a href="https://www.instagram.com/developer_hayot/" target="_blank" rel="noopener">@developer_hayot</a>
-          <button class="copy" type="button" id="copy-ig" data-copy="developer_hayot" aria-label="Copy Instagram username">Copy</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="stage" id="contact" style="--line:var(--magenta)">
+    <div class="wrap">
+      <div class="continue">
+        <div>
+          <h2 class="neon pink">Continue?</h2>
+          <p class="count neon gold" id="count" aria-hidden="true">9</p>
+        </div>
+        <div>
+          <p class="tag hot">Player 2 wanted</p>
+          <p class="contact-say">Building a game that needs a designer who can also ship the code? Press start.</p>
+          <div>
+            <div class="line">
+              <span class="tag">Email</span>
+              <a href="mailto:nurxayot.work@gmail.com">nurxayot.work@gmail.com</a>
+              <button class="copy" type="button" id="copy-email" data-copy="nurxayot.work@gmail.com" aria-label="Copy email address">Copy</button>
+            </div>
+            <div class="line">
+              <span class="tag">Phone</span>
+              <a href="tel:+998944722403">+998 94 472 24 03</a>
+              <button class="copy" type="button" id="copy-phone" data-copy="+998944722403" aria-label="Copy phone number">Copy</button>
+            </div>
+            <div class="line">
+              <span class="tag">Instagram</span>
+              <a href="https://www.instagram.com/developer_hayot/" target="_blank" rel="noopener">@developer_hayot</a>
+              <button class="copy" type="button" id="copy-ig" data-copy="developer_hayot" aria-label="Copy Instagram username">Copy</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -405,12 +510,37 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
 
 <footer>
   <div class="wrap">
-    <span class="label">© 2026 Nurkhayot Khursanova</span>
-    <span class="label">Game designer + game developer</span>
+    <span>© 2026 Nurkhayot Khursanova</span>
+    <span>Game over? Never. Credits: 99</span>
   </div>
 </footer>
 
 <script>
+var calmMode = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* CRT controls */
+(function () {
+  var v = document.getElementById('reel'), play = document.getElementById('tv-play'), snd = document.getElementById('tv-sound');
+  var sync = function () { play.textContent = v.paused ? 'Play' : 'Pause'; };
+  if (calmMode) { v.removeAttribute('autoplay'); v.pause(); }
+  v.addEventListener('play', sync); v.addEventListener('pause', sync);
+  play.addEventListener('click', function () { if (v.paused) { v.play().catch(function () {}); } else { v.pause(); } });
+  snd.addEventListener('click', function () {
+    v.muted = !v.muted; snd.textContent = v.muted ? 'Sound on' : 'Sound off';
+    if (!v.muted && v.paused) v.play().catch(function () {});
+  });
+  sync();
+})();
+
+/* Continue countdown */
+(function () {
+  var el = document.getElementById('count'), n = 9;
+  if (calmMode) return;
+  var seen = true;
+  if ('IntersectionObserver' in window) new IntersectionObserver(function (e) { seen = e[0].isIntersecting; }).observe(el);
+  setInterval(function () { if (!seen) return; n = n === 0 ? 9 : n - 1; el.textContent = n; }, 1000);
+})();
+
 /* Copy buttons */
 document.querySelectorAll('.copy').forEach(function (b) {
   b.addEventListener('click', function () {
@@ -426,36 +556,12 @@ function selectIt(b) {
   var s = getSelection(); s.removeAllRanges(); s.addRange(r);
 }
 
-/* Cartridge labels: a mirrored pixel pattern generated from each project's name */
-document.querySelectorAll('.cart canvas').forEach(function (c) {
-  if (c.clientWidth) c.height = Math.round(c.width * c.clientHeight / c.clientWidth);
-  var x = c.getContext('2d'), w = c.width, h = c.height;
-  var seed = 0, name = c.dataset.seed;
-  for (var i = 0; i < name.length; i++) seed = (seed * 31 + name.charCodeAt(i)) >>> 0;
-  var rnd = function () { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
-  x.fillStyle = '#241c3e'; x.fillRect(0, 0, w, h);
-  var cell = 3, cols = Math.ceil(w / cell), rows = Math.ceil(h / cell);
-  for (var ry = 0; ry < rows; ry++) {
-    for (var cx = 0; cx < Math.ceil(cols / 2); cx++) {
-      var edge = Math.abs(ry - rows / 2) / (rows / 2);
-      var centre = 1 - cx / (cols / 2);
-      if (rnd() < .52 - edge * .3 - (1 - centre) * .22) {
-        x.globalAlpha = .28 + rnd() * .72;
-        x.fillStyle = rnd() < .14 ? '#f4efe4' : c.dataset.color;
-        x.fillRect(cx * cell, ry * cell, cell, cell);
-        x.fillRect((cols - 1 - cx) * cell, ry * cell, cell, cell);
-      }
-    }
-  }
-  x.globalAlpha = 1;
-});
-
 /* Coin Hop */
 (function () {
   var cv = document.getElementById('game'), g = cv.getContext('2d');
   var W = 640, H = 360, FLOOR = 296;
-  var GOLD = '#ffc24b', CORAL = '#ff5d73', TEXT = '#f4efe4', SKY = '#7fd4e8', LINE = '#3a3058';
-  var calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var GOLD = '#ffcf6e', CORAL = '#ff3f9e', TEXT = '#fff5e3', SKY = '#3fe6ff', LINE = '#43335f';
+  var calm = calmMode;
   var best = 0;
   try { best = +localStorage.getItem('coinhop-best') || 0; } catch (e) {}
   var state = 'attract', overAt = 0, visible = true, frame = 0, last = 0;
@@ -525,13 +631,17 @@ document.querySelectorAll('.cart canvas').forEach(function (c) {
     if (state === 'play' && frame % 12 === 0) score += 1;
   }
 
-  function txt(s, x, y, size, col, align) {
-    g.font = size + 'px Silkscreen, ui-monospace, Menlo, monospace';
-    g.textAlign = align || 'left'; g.fillStyle = col; g.fillText(s, x, y);
+  function txt(s, x, y, size, col, align, glow) {
+    g.font = '700 ' + size + 'px "Chakra Petch", "Trebuchet MS", sans-serif';
+    g.textAlign = align || 'left'; g.fillStyle = col;
+    g.shadowColor = glow ? col : 'transparent'; g.shadowBlur = glow ? 14 : 0;
+    g.fillText(s, x, y); g.shadowBlur = 0;
   }
   function hero(x, y) {
     var run = p.on && Math.floor(frame / 6) % 2;
+    g.shadowColor = GOLD; g.shadowBlur = 12;
     g.fillStyle = GOLD; g.fillRect(x, y, 24, 20);
+    g.shadowBlur = 0;
     g.fillStyle = '#120e1f'; g.fillRect(x + 15, y + 5, 4, 5);
     g.fillStyle = CORAL; g.fillRect(x, y - 4, 24, 4);
     g.fillStyle = TEXT;
@@ -540,36 +650,38 @@ document.querySelectorAll('.cart canvas').forEach(function (c) {
     else { g.fillRect(x + 2, y + 20, 6, 4); g.fillRect(x + 16, y + 20, 6, 8); }
   }
   function draw() {
-    g.fillStyle = '#0d0a18'; g.fillRect(0, 0, W, H);
+    g.fillStyle = '#07040f'; g.fillRect(0, 0, W, H);
     stars.forEach(function (s) {
       var sx = ((s.x - dist * s.z * .12) % W + W) % W;
       g.fillStyle = s.z > .7 ? SKY : LINE;
       g.fillRect(Math.round(sx), s.y, 2, 2);
     });
-    g.fillStyle = LINE; g.fillRect(0, FLOOR, W, 3);
-    g.fillStyle = '#1b1530'; g.fillRect(0, FLOOR + 3, W, H - FLOOR);
+    g.shadowColor = SKY; g.shadowBlur = 12;
+    g.fillStyle = SKY; g.fillRect(0, FLOOR, W, 2);
+    g.shadowBlur = 0;
+    g.fillStyle = '#150e23'; g.fillRect(0, FLOOR + 2, W, H - FLOOR);
     g.fillStyle = LINE;
     for (var t = -(dist % 48); t < W; t += 48) g.fillRect(Math.round(t), FLOOR + 22, 22, 3);
     coins.forEach(function (o) {
       if (o.got) return;
       var squish = 8 - Math.abs(Math.floor(frame / 5) % 6 - 3) * 2;
       g.fillStyle = GOLD; g.fillRect(Math.round(o.x - squish), o.y - 8, squish * 2, 16);
-      g.fillStyle = '#120e1f'; g.fillRect(Math.round(o.x - 1), o.y - 4, 2, 8);
     });
     blocks.forEach(function (k) {
+      g.shadowColor = CORAL; g.shadowBlur = 12;
       g.fillStyle = CORAL; g.fillRect(Math.round(k.x), FLOOR - k.h, k.w, k.h);
-      g.fillStyle = '#120e1f'; g.fillRect(Math.round(k.x) + 4, FLOOR - k.h + 4, k.w - 8, 3);
+      g.shadowBlur = 0;
     });
     hero(p.x, Math.round(p.y) + 4);
-    txt('SCORE ' + String(score).padStart(4, '0'), 20, 34, 16, TEXT);
-    txt('BEST ' + String(best).padStart(4, '0'), W - 20, 34, 16, GOLD, 'right');
+    txt('SCORE ' + String(score).padStart(4, '0'), 20, 36, 20, TEXT);
+    txt('BEST ' + String(best).padStart(4, '0'), W - 20, 36, 20, GOLD, 'right');
     if (state === 'attract') {
-      txt('COIN HOP', W / 2, 118, 44, GOLD, 'center');
-      if (calm || Math.floor(frame / 32) % 2 === 0) txt('PRESS SPACE OR TAP TO PLAY', W / 2, 152, 16, TEXT, 'center');
+      txt('COIN HOP', W / 2, 122, 52, GOLD, 'center', true);
+      if (calm || Math.floor(frame / 32) % 2 === 0) txt('PRESS SPACE OR TAP TO PLAY', W / 2, 158, 19, TEXT, 'center');
     }
     if (state === 'over') {
-      txt('GAME OVER', W / 2, 118, 44, CORAL, 'center');
-      txt('PRESS SPACE OR TAP TO RETRY', W / 2, 152, 16, TEXT, 'center');
+      txt('GAME OVER', W / 2, 122, 52, CORAL, 'center', true);
+      txt('PRESS SPACE OR TAP TO RETRY', W / 2, 158, 19, TEXT, 'center');
     }
   }
   function loop(now) {
