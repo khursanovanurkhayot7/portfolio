@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0}img{max-width:100%}</style>
+</head>
+<body>
+<title>Nurkhayot Khursanova</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Nurkhayot Khursanova is a game designer and game developer with two years of experience.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Hanken+Grotesk:wght@400;500;600&family=Silkscreen&display=swap">
+<style>
+/* Layout concept: an arcade marquee over a live game screen, then a cartridge shelf of work. One deliberate dark world. */
+:root {
+  color-scheme: dark;
+  --ink: #120e1f;
+  --panel: #1b1530;
+  --panel-2: #241c3e;
+  --line: #3a3058;
+  --text: #f4efe4;
+  --muted: #b0a8c6;
+  --gold: #ffc24b;
+  --coral: #ff5d73;
+  --sky: #7fd4e8;
+  --display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --body: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --pixel: "Silkscreen", ui-monospace, Menlo, monospace;
+  --wrap: 1240px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+body {
+  background: var(--ink);
+  color: var(--text);
+  font: 400 17px/1.6 var(--body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+body::before {
+  content: ""; position: fixed; inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--ink);
+}
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.wrap {
+  max-width: calc(var(--wrap) + 64px);
+  margin-inline: auto;
+  padding-left: max(32px, env(safe-area-inset-left, 0px));
+  padding-right: max(32px, env(safe-area-inset-right, 0px));
+}
+.label {
+  font: 400 12px/1.3 var(--pixel);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0;
+}
+
+/* Header */
+.top {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9;
+  background: color-mix(in srgb, var(--ink) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 60px; }
+.mark { font: 400 14px var(--pixel); color: var(--gold); text-decoration: none; }
+.top nav { display: flex; gap: 24px; }
+.top nav a {
+  font: 400 12px var(--pixel); text-transform: uppercase; color: var(--muted);
+  text-decoration: none; padding-block: 8px; transition: color .15s;
+}
+.top nav a:hover { color: var(--gold); }
+
+/* Hero */
+.hero { padding-block: 56px 72px; }
+.status { display: inline-flex; align-items: center; gap: 10px; color: var(--gold); }
+.status i { width: 8px; height: 8px; background: var(--gold); animation: blink 1.2s steps(2) infinite; }
+@keyframes blink { 50% { opacity: .25; } }
+h1 {
+  font: 900 clamp(68px, 9.3vw, 124px)/.92 var(--display);
+  text-transform: uppercase;
+  letter-spacing: .005em;
+  margin: 20px 0 40px;
+}
+h1 span { display: inline-block; }
+h1 .gold { color: var(--gold); }
+.stage { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 48px; align-items: start; }
+.screen { position: relative; border: 1px solid var(--line); background: var(--panel); padding: 10px; box-shadow: 0 30px 80px -30px rgba(255, 194, 75, .28); }
+#game { display: block; width: 100%; aspect-ratio: 16 / 9; background: #0d0a18; cursor: pointer; touch-action: manipulation; image-rendering: pixelated; }
+.screen-foot { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 10px 4px 2px; }
+.intro { display: flex; flex-direction: column; gap: 28px; justify-content: space-between; min-width: 0; }
+.lede { font-size: clamp(21px, 2vw, 27px); line-height: 1.35; font-weight: 500; margin: 0; text-wrap: pretty; }
+.sheet { display: grid; grid-template-columns: 1fr; margin: 0; border-top: 1px solid var(--line); }
+.sheet div { display: flex; justify-content: space-between; gap: 16px; align-items: baseline; padding-block: 12px; border-bottom: 1px solid var(--line); }
+.sheet dd { margin: 0; font-weight: 600; text-align: right; }
+.cta { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn {
+  display: inline-block; padding: 14px 22px; font: 400 13px var(--pixel); text-transform: uppercase;
+  text-decoration: none; border: 1px solid var(--gold); color: var(--ink); background: var(--gold);
+  transition: transform .15s, box-shadow .15s;
+}
+.btn:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--coral); }
+.btn.ghost { background: transparent; color: var(--gold); }
+
+/* Sections */
+section.band { padding-block: 80px; border-top: 1px solid var(--line); }
+h2 {
+  font: 900 clamp(48px, 6.4vw, 84px)/.95 var(--display);
+  text-transform: uppercase; margin: 8px 0 40px; text-wrap: balance;
+}
+
+/* Work */
+.shelf { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.feature { grid-column: 1 / -1; }
+.cart.feature canvas { aspect-ratio: 32 / 5; }
+.feature .cart-body { display: grid; grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr); gap: 48px; padding: 32px; }
+.feature-copy { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.feature h3 { font-size: clamp(52px, 6vw, 80px); }
+.feature-copy > p:last-of-type { margin: 0; font-size: 19px; max-width: 62ch; }
+.points { margin: 4px 0 0; padding: 0 0 0 18px; color: var(--muted); display: grid; gap: 6px; max-width: 62ch; }
+.points li::marker { color: var(--gold); }
+.facts { margin: 0; display: grid; align-content: start; border-top: 1px solid var(--line); }
+.facts div { display: flex; align-items: baseline; gap: 16px; padding-block: 12px; border-bottom: 1px solid var(--line); }
+.facts dd { margin: 0; font: 900 56px/1 var(--display); color: var(--gold); min-width: 64px; font-variant-numeric: tabular-nums; }
+.cart { background: var(--panel); border: 1px solid var(--line); display: flex; flex-direction: column; min-width: 0; transition: transform .2s, border-color .2s; }
+.cart:hover { transform: translateY(-4px); border-color: var(--gold); }
+.cart canvas { display: block; width: 100%; aspect-ratio: 16 / 5; background: var(--panel-2); image-rendering: pixelated; }
+.cart-body { padding: 24px 24px 28px; display: flex; flex-direction: column; gap: 10px; }
+.cart h3 { font: 900 clamp(38px, 3.6vw, 48px)/1 var(--display); text-transform: uppercase; margin: 0; }
+.cart .role { color: var(--gold); }
+.cart-body > p:not(.role) { margin: 0; color: var(--muted); max-width: 52ch; }
+.go { font: 400 12px var(--pixel); text-transform: uppercase; color: var(--gold); text-underline-offset: 4px; padding-block: 8px 0; align-self: flex-start; }
+.go:hover { color: var(--text); }
+
+/* Skills */
+.loadout { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; }
+.loadout > div { min-width: 0; }
+.chips { list-style: none; margin: 16px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.chips li { padding: 8px 14px; border: 1px solid var(--line); background: var(--panel); font-weight: 500; font-size: 16px; }
+.chips li.main { border-color: var(--gold); color: var(--gold); }
+
+/* Contact */
+.contact { background: var(--panel); }
+.rows { border-top: 1px solid var(--line); }
+.row { display: grid; grid-template-columns: 130px minmax(0, 1fr) auto; gap: 16px; align-items: center; padding-block: 18px; border-bottom: 1px solid var(--line); }
+.row a {
+  font: 700 clamp(25px, 3.5vw, 44px)/1.1 var(--display); text-decoration: none;
+  overflow-wrap: anywhere; transition: color .15s; min-width: 0;
+}
+.row a:hover { color: var(--gold); }
+.copy { font: 400 11px var(--pixel); text-transform: uppercase; color: var(--muted); background: none; border: 1px solid var(--line); padding: 9px 12px; cursor: pointer; min-width: 74px; transition: color .15s, border-color .15s; }
+.copy:hover { color: var(--gold); border-color: var(--gold); }
+footer { padding-block: 28px; border-top: 1px solid var(--line); }
+footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+@media (max-width: 900px) {
+  .stage { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .shelf { grid-template-columns: minmax(0, 1fr); }
+  .feature .cart-body { grid-template-columns: minmax(0, 1fr); gap: 24px; padding: 24px; }
+  .cart.feature canvas { aspect-ratio: 16 / 5; }
+  .loadout { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+}
+@media (max-width: 560px) {
+  .wrap { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  .hero { padding-block: 36px 56px; }
+  h1 { font-size: 17.5vw; margin-bottom: 28px; }
+  section.band { padding-block: 56px; }
+  .top nav { gap: 14px; }
+  .row { grid-template-columns: minmax(0, 1fr) auto; }
+  .row .label { grid-column: 1 / -1; }
+  .cart canvas { aspect-ratio: 16 / 6; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .status i { animation: none; }
+  .cart, .btn { transition: none; }
+}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <a class="mark" href="#top">N.K.</a>
+    <nav aria-label="Sections">
+      <a href="#work">Work</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div class="wrap">
+      <p class="label status"><i></i>Open to work</p>
+      <h1><span>Nurkhayot</span> <span class="gold">Khursanova</span></h1>
+      <div class="stage">
+        <figure class="screen" style="margin:0">
+          <canvas id="game" width="640" height="360" tabindex="0" role="button" aria-label="Coin Hop, a one-button mini game. Press Space or tap to start, then press again to jump."></canvas>
+          <figcaption class="screen-foot">
+            <span class="label">Coin Hop: a small game on this page</span>
+            <span class="label">Space or tap to jump</span>
+          </figcaption>
+        </figure>
+        <div class="intro">
+          <p class="lede">I'm a game designer and game developer. I decide how a game should play, then write the code that makes it play that way.</p>
+          <dl class="sheet">
+            <div><dt class="label">Class</dt><dd>Designer + Developer</dd></div>
+            <div><dt class="label">Experience</dt><dd>2 years</dd></div>
+            <div><dt class="label">Studio</dt><dd>Luxodd Games</dd></div>
+            <div><dt class="label">My own game</dt><dd>Scootlet</dd></div>
+          </dl>
+          <div class="cta">
+            <a class="btn" href="#contact">Get in touch</a>
+            <a class="btn ghost" href="#work">See my work</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="band" id="work">
+    <div class="wrap">
+      <p class="label">Select a project</p>
+      <h2>Work</h2>
+      <div class="shelf">
+        <article class="cart feature">
+          <canvas data-seed="Scootlet" data-color="#ff8a3d" width="192" height="30" aria-hidden="true"></canvas>
+          <div class="cart-body">
+            <div class="feature-copy">
+              <h3>Scootlet</h3>
+              <p class="label role">Owner · Cozy Halloween puzzle game for arcade</p>
+              <p>Scootlet is my own game, a haunted puzzle adventure with no monsters that scare and no words to read. You guide a little wizard block through floating islands and moonlit castles, pushing sleepy slimes into jelly pits, ringing doorbells to open ghostly gates and hopping inside a ghost when you need a lift.</p>
+              <ul class="points">
+                <li>Plays with one joystick and colorful buttons, and every rule is shown in pictures.</li>
+                <li>Cinema tutorials: red curtains open and a little ghost audience shows each new trick before you play it.</li>
+                <li>Kind to beginners, with undo on any move, restart at any time and a second chance on your first stumble.</li>
+              </ul>
+            </div>
+            <dl class="facts">
+              <div><dd>50</dd><dt class="label">Hand-crafted levels</dt></div>
+              <div><dd>5</dd><dt class="label">Chapters</dt></div>
+              <div><dd>7</dd><dt class="label">Unlockable skins</dt></div>
+            </dl>
+          </div>
+        </article>
+        <article class="cart">
+          <canvas data-seed="Luxodd Games" data-color="#ffc24b" width="96" height="30" aria-hidden="true"></canvas>
+          <div class="cart-body">
+            <h3>Luxodd Games</h3>
+            <p class="label role">Game Developer</p>
+            <p>I develop games at Luxodd Games, a studio and platform that brings indie games to arcade cabinets.</p>
+          </div>
+        </article>
+        <article class="cart">
+          <canvas data-seed="Plnk" data-color="#c79bff" width="96" height="30" aria-hidden="true"></canvas>
+          <div class="cart-body">
+            <h3>Plnk</h3>
+            <p class="label role">Co-creator</p>
+            <p>A game I made together with my brother, as a small team sharing the work from idea to finished game.</p>
+          </div>
+        </article>
+        <article class="cart">
+          <canvas data-seed="WaterLens" data-color="#7fd4e8" width="96" height="30" aria-hidden="true"></canvas>
+          <div class="cart-body">
+            <h3>WaterLens</h3>
+            <p class="label role">Creator · Interactive website</p>
+            <p>A water footprint explorer I created and designed for UN Sustainable Development Goal 6. Move the sliders to see the hidden water in your food and habits, or drag through the years to watch the Aral Sea disappear.</p>
+            <a class="go" href="https://khursanovanurkhayot7.github.io/" target="_blank" rel="noopener">Visit the live site</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="skills">
+    <div class="wrap">
+      <p class="label">Loadout</p>
+      <h2>Skills</h2>
+      <div class="loadout">
+        <div>
+          <p class="label">Languages</p>
+          <ul class="chips">
+            <li class="main">C#</li>
+            <li class="main">Python</li>
+            <li>JavaScript</li>
+            <li>HTML + CSS</li>
+          </ul>
+        </div>
+        <div>
+          <p class="label">Engine + tools</p>
+          <ul class="chips">
+            <li class="main">Unity</li>
+            <li>Git</li>
+          </ul>
+        </div>
+        <div>
+          <p class="label">Game craft</p>
+          <ul class="chips">
+            <li class="main">Game design</li>
+            <li>Gameplay programming</li>
+            <li>Prototyping</li>
+            <li>Playtesting</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band contact" id="contact">
+    <div class="wrap">
+      <p class="label">Player 2 wanted</p>
+      <h2>Let's make a game</h2>
+      <div class="rows">
+        <div class="row">
+          <span class="label">Email</span>
+          <a href="mailto:nurxayot.work@gmail.com">nurxayot.work@gmail.com</a>
+          <button class="copy" type="button" id="copy-email" data-copy="nurxayot.work@gmail.com" aria-label="Copy email address">Copy</button>
+        </div>
+        <div class="row">
+          <span class="label">Phone</span>
+          <a href="tel:+998944722403">+998 94 472 24 03</a>
+          <button class="copy" type="button" id="copy-phone" data-copy="+998944722403" aria-label="Copy phone number">Copy</button>
+        </div>
+        <div class="row">
+          <span class="label">Instagram</span>
+          <a href="https://www.instagram.com/developer_hayot/" target="_blank" rel="noopener">@developer_hayot</a>
+          <button class="copy" type="button" id="copy-ig" data-copy="developer_hayot" aria-label="Copy Instagram username">Copy</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="label">© 2026 Nurkhayot Khursanova</span>
+    <span class="label">Game designer + game developer</span>
+  </div>
+</footer>
+
+<script>
+/* Copy buttons */
+document.querySelectorAll('.copy').forEach(function (b) {
+  b.addEventListener('click', function () {
+    var done = function (t) { b.textContent = t; setTimeout(function () { b.textContent = 'Copy'; }, 1400); };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(b.dataset.copy).then(function () { done('Copied'); }, function () { selectIt(b); });
+    } else { selectIt(b); }
+  });
+});
+function selectIt(b) {
+  var a = b.parentNode.querySelector('a');
+  var r = document.createRange(); r.selectNodeContents(a);
+  var s = getSelection(); s.removeAllRanges(); s.addRange(r);
+}
+
+/* Cartridge labels: a mirrored pixel pattern generated from each project's name */
+document.querySelectorAll('.cart canvas').forEach(function (c) {
+  if (c.clientWidth) c.height = Math.round(c.width * c.clientHeight / c.clientWidth);
+  var x = c.getContext('2d'), w = c.width, h = c.height;
+  var seed = 0, name = c.dataset.seed;
+  for (var i = 0; i < name.length; i++) seed = (seed * 31 + name.charCodeAt(i)) >>> 0;
+  var rnd = function () { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
+  x.fillStyle = '#241c3e'; x.fillRect(0, 0, w, h);
+  var cell = 3, cols = Math.ceil(w / cell), rows = Math.ceil(h / cell);
+  for (var ry = 0; ry < rows; ry++) {
+    for (var cx = 0; cx < Math.ceil(cols / 2); cx++) {
+      var edge = Math.abs(ry - rows / 2) / (rows / 2);
+      var centre = 1 - cx / (cols / 2);
+      if (rnd() < .52 - edge * .3 - (1 - centre) * .22) {
+        x.globalAlpha = .28 + rnd() * .72;
+        x.fillStyle = rnd() < .14 ? '#f4efe4' : c.dataset.color;
+        x.fillRect(cx * cell, ry * cell, cell, cell);
+        x.fillRect((cols - 1 - cx) * cell, ry * cell, cell, cell);
+      }
+    }
+  }
+  x.globalAlpha = 1;
+});
+
+/* Coin Hop */
+(function () {
+  var cv = document.getElementById('game'), g = cv.getContext('2d');
+  var W = 640, H = 360, FLOOR = 296;
+  var GOLD = '#ffc24b', CORAL = '#ff5d73', TEXT = '#f4efe4', SKY = '#7fd4e8', LINE = '#3a3058';
+  var calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var best = 0;
+  try { best = +localStorage.getItem('coinhop-best') || 0; } catch (e) {}
+  var state = 'attract', overAt = 0, visible = true, frame = 0, last = 0;
+  var p, blocks, coins, speed, score, spawnIn, coinIn, dist;
+  var stars = [];
+  for (var i = 0; i < 46; i++) stars.push({ x: Math.random() * W, y: Math.random() * 230, z: .2 + Math.random() * .8 });
+
+  function reset() {
+    p = { x: 92, y: FLOOR - 28, vy: 0, on: true };
+    blocks = [{ x: 400, w: 22, h: 30 }, { x: 680, w: 26, h: 42 }];
+    coins = [{ x: 540, y: 200, got: false }, { x: 760, y: 170, got: false }];
+    speed = 4.4; score = 0; spawnIn = 90; coinIn = 60; dist = 0;
+  }
+  function jump() { if (p.on) { p.vy = -11.2; p.on = false; } }
+  function press() {
+    if (state === 'play') jump();
+    else { reset(); state = 'play'; jump(); }
+  }
+  cv.addEventListener('pointerdown', function (e) { e.preventDefault(); cv.focus({ preventScroll: true }); press(); });
+  addEventListener('keydown', function (e) {
+    if (e.code !== 'Space' && e.code !== 'ArrowUp' && e.code !== 'Enter') return;
+    var focused = document.activeElement === cv;
+    if (focused || (state === 'play' && visible && e.code !== 'Enter')) { e.preventDefault(); press(); }
+  });
+  cv.addEventListener('blur', function () { if (state === 'play') { state = 'attract'; reset(); } });
+
+  function update() {
+    frame++;
+    dist += speed;
+    if (state === 'attract') {
+      for (var a = 0; a < blocks.length; a++) {
+        var gap = blocks[a].x - (p.x + 24);
+        if (gap > 0 && gap < speed * 13) { jump(); break; }
+      }
+    }
+    if (state === 'over') {
+      if (performance.now() - overAt > 6000) { state = 'attract'; reset(); }
+      return;
+    }
+    speed = Math.min(9.5, speed + .0016);
+    p.vy += .56; p.y += p.vy;
+    if (p.y >= FLOOR - 28) { p.y = FLOOR - 28; p.vy = 0; p.on = true; }
+    if (--spawnIn <= 0) {
+      var tall = 24 + Math.floor(Math.random() * 3) * 12;
+      blocks.push({ x: W + 20, w: 20 + Math.floor(Math.random() * 3) * 6, h: tall });
+      spawnIn = 56 + Math.random() * 62;
+    }
+    if (--coinIn <= 0) {
+      coins.push({ x: W + 20, y: 170 + Math.random() * 70, got: false });
+      coinIn = 70 + Math.random() * 90;
+    }
+    for (var b = blocks.length - 1; b >= 0; b--) {
+      var k = blocks[b]; k.x -= speed;
+      if (k.x < -40) { blocks.splice(b, 1); continue; }
+      if (state === 'play' && p.x + 22 > k.x + 2 && p.x + 2 < k.x + k.w - 2 && p.y + 28 > FLOOR - k.h + 2) {
+        state = 'over'; overAt = performance.now();
+        if (score > best) { best = score; try { localStorage.setItem('coinhop-best', best); } catch (e) {} }
+      }
+    }
+    for (var c = coins.length - 1; c >= 0; c--) {
+      var o = coins[c]; o.x -= speed;
+      if (o.x < -20) { coins.splice(c, 1); continue; }
+      if (!o.got && p.x + 26 > o.x - 8 && p.x - 2 < o.x + 8 && p.y + 28 > o.y - 8 && p.y - 2 < o.y + 8) {
+        o.got = true; if (state === 'play') score += 10;
+      }
+    }
+    if (state === 'play' && frame % 12 === 0) score += 1;
+  }
+
+  function txt(s, x, y, size, col, align) {
+    g.font = size + 'px Silkscreen, ui-monospace, Menlo, monospace';
+    g.textAlign = align || 'left'; g.fillStyle = col; g.fillText(s, x, y);
+  }
+  function hero(x, y) {
+    var run = p.on && Math.floor(frame / 6) % 2;
+    g.fillStyle = GOLD; g.fillRect(x, y, 24, 20);
+    g.fillStyle = '#120e1f'; g.fillRect(x + 15, y + 5, 4, 5);
+    g.fillStyle = CORAL; g.fillRect(x, y - 4, 24, 4);
+    g.fillStyle = TEXT;
+    if (!p.on) { g.fillRect(x + 3, y + 20, 6, 5); g.fillRect(x + 15, y + 20, 6, 5); }
+    else if (run) { g.fillRect(x + 2, y + 20, 6, 8); g.fillRect(x + 16, y + 20, 6, 4); }
+    else { g.fillRect(x + 2, y + 20, 6, 4); g.fillRect(x + 16, y + 20, 6, 8); }
+  }
+  function draw() {
+    g.fillStyle = '#0d0a18'; g.fillRect(0, 0, W, H);
+    stars.forEach(function (s) {
+      var sx = ((s.x - dist * s.z * .12) % W + W) % W;
+      g.fillStyle = s.z > .7 ? SKY : LINE;
+      g.fillRect(Math.round(sx), s.y, 2, 2);
+    });
+    g.fillStyle = LINE; g.fillRect(0, FLOOR, W, 3);
+    g.fillStyle = '#1b1530'; g.fillRect(0, FLOOR + 3, W, H - FLOOR);
+    g.fillStyle = LINE;
+    for (var t = -(dist % 48); t < W; t += 48) g.fillRect(Math.round(t), FLOOR + 22, 22, 3);
+    coins.forEach(function (o) {
+      if (o.got) return;
+      var squish = 8 - Math.abs(Math.floor(frame / 5) % 6 - 3) * 2;
+      g.fillStyle = GOLD; g.fillRect(Math.round(o.x - squish), o.y - 8, squish * 2, 16);
+      g.fillStyle = '#120e1f'; g.fillRect(Math.round(o.x - 1), o.y - 4, 2, 8);
+    });
+    blocks.forEach(function (k) {
+      g.fillStyle = CORAL; g.fillRect(Math.round(k.x), FLOOR - k.h, k.w, k.h);
+      g.fillStyle = '#120e1f'; g.fillRect(Math.round(k.x) + 4, FLOOR - k.h + 4, k.w - 8, 3);
+    });
+    hero(p.x, Math.round(p.y) + 4);
+    txt('SCORE ' + String(score).padStart(4, '0'), 20, 34, 16, TEXT);
+    txt('BEST ' + String(best).padStart(4, '0'), W - 20, 34, 16, GOLD, 'right');
+    if (state === 'attract') {
+      txt('COIN HOP', W / 2, 118, 44, GOLD, 'center');
+      if (calm || Math.floor(frame / 32) % 2 === 0) txt('PRESS SPACE OR TAP TO PLAY', W / 2, 152, 16, TEXT, 'center');
+    }
+    if (state === 'over') {
+      txt('GAME OVER', W / 2, 118, 44, CORAL, 'center');
+      txt('PRESS SPACE OR TAP TO RETRY', W / 2, 152, 16, TEXT, 'center');
+    }
+  }
+  function loop(now) {
+    requestAnimationFrame(loop);
+    if (!visible || now - last < 15) return;
+    if (calm && state === 'attract') { draw(); last = now; return; }
+    last = now; update(); draw();
+  }
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (e) { visible = e[0].isIntersecting; }).observe(cv);
+  }
+  reset();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+  draw();
+  requestAnimationFrame(loop);
+})();
+</script>
+
+</body>
+</html>
