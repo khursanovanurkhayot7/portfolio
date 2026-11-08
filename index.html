@@ -9,6 +9,10 @@
 <title>Nurkhayot Khursanova</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="Nurkhayot Khursanova is a game designer and game developer with two years of experience.">
+<meta property="og:title" content="Nurkhayot Khursanova, Game Designer + Developer">
+<meta property="og:description" content="Portfolio of a game designer and developer, featuring Scootlet, a cozy haunted puzzle game for arcade.">
+<meta property="og:image" content="https://khursanovanurkhayot7.github.io/portfolio/assets/scootlet-key.jpg">
+<meta property="og:url" content="https://khursanovanurkhayot7.github.io/portfolio/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Hanken+Grotesk:wght@400;500;600&family=Silkscreen&display=swap">
@@ -116,19 +120,22 @@ h2 {
 /* Work */
 .shelf { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
 .feature { grid-column: 1 / -1; }
-.cart.feature canvas { aspect-ratio: 32 / 5; }
-.feature .cart-body { display: grid; grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr); gap: 48px; padding: 32px; }
-.feature-copy { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
-.feature h3 { font-size: clamp(52px, 6vw, 80px); }
-.feature-copy > p:last-of-type { margin: 0; font-size: 19px; max-width: 62ch; }
-.points { margin: 4px 0 0; padding: 0 0 0 18px; color: var(--muted); display: grid; gap: 6px; max-width: 62ch; }
-.points li::marker { color: var(--gold); }
-.facts { margin: 0; display: grid; align-content: start; border-top: 1px solid var(--line); }
-.facts div { display: flex; align-items: baseline; gap: 16px; padding-block: 12px; border-bottom: 1px solid var(--line); }
-.facts dd { margin: 0; font: 900 56px/1 var(--display); color: var(--gold); min-width: 64px; font-variant-numeric: tabular-nums; }
+.feature-top { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); }
+.feature video { display: block; width: 100%; height: 100%; min-height: 0; aspect-ratio: 16 / 9; object-fit: contain; background: #2a1a55; }
+.feature-copy { display: flex; flex-direction: column; gap: 12px; min-width: 0; padding: 28px 32px; }
+.feature h3 { font-size: clamp(52px, 5.4vw, 72px); }
+.feature-copy > p:not(.role) { margin: 0; color: var(--text); max-width: 56ch; }
+.facts { margin: auto 0 0; padding-top: 16px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.facts div { display: flex; flex-direction: column; gap: 4px; border-top: 1px solid var(--line); padding-top: 10px; }
+.facts dd { margin: 0; font: 900 52px/1 var(--display); color: var(--gold); font-variant-numeric: tabular-nums; }
+.stills { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--line); border-top: 1px solid var(--line); }
+.stills figure { margin: 0; background: var(--panel); min-width: 0; }
+.stills img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+.stills figcaption { padding: 14px 20px 18px; font-size: 15px; line-height: 1.45; color: var(--muted); }
+.cart .thumb { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; object-position: left top; }
 .cart { background: var(--panel); border: 1px solid var(--line); display: flex; flex-direction: column; min-width: 0; transition: transform .2s, border-color .2s; }
 .cart:hover { transform: translateY(-4px); border-color: var(--gold); }
-.cart canvas { display: block; width: 100%; aspect-ratio: 16 / 5; background: var(--panel-2); image-rendering: pixelated; }
+.cart canvas { display: block; width: 100%; aspect-ratio: 16 / 9; background: var(--panel-2); image-rendering: pixelated; }
 .cart-body { padding: 24px 24px 28px; display: flex; flex-direction: column; gap: 10px; }
 .cart h3 { font: 900 clamp(38px, 3.6vw, 48px)/1 var(--display); text-transform: uppercase; margin: 0; }
 .cart .role { color: var(--gold); }
@@ -142,6 +149,13 @@ h2 {
 .chips { list-style: none; margin: 16px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
 .chips li { padding: 8px 14px; border: 1px solid var(--line); background: var(--panel); font-weight: 500; font-size: 16px; }
 .chips li.main { border-color: var(--gold); color: var(--gold); }
+
+/* About */
+.about { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px; }
+.about > div { min-width: 0; }
+.about ul { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 12px; }
+.about li { line-height: 1.4; }
+.about li span { display: block; color: var(--muted); font-size: 15px; }
 
 /* Contact */
 .contact { background: var(--panel); }
@@ -160,8 +174,10 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
 @media (max-width: 900px) {
   .stage { grid-template-columns: minmax(0, 1fr); gap: 32px; }
   .shelf { grid-template-columns: minmax(0, 1fr); }
-  .feature .cart-body { grid-template-columns: minmax(0, 1fr); gap: 24px; padding: 24px; }
-  .cart.feature canvas { aspect-ratio: 16 / 5; }
+  .feature-top { grid-template-columns: minmax(0, 1fr); }
+  .feature video { height: auto; }
+  .feature-copy { padding: 24px; }
+  .about { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .loadout { grid-template-columns: minmax(0, 1fr); gap: 32px; }
 }
 @media (max-width: 560px) {
@@ -172,7 +188,9 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
   .top nav { gap: 14px; }
   .row { grid-template-columns: minmax(0, 1fr) auto; }
   .row .label { grid-column: 1 / -1; }
-  .cart canvas { aspect-ratio: 16 / 6; }
+  .stills { grid-template-columns: minmax(0, 1fr); }
+  .about { grid-template-columns: minmax(0, 1fr); }
+  .top nav a { font-size: 11px; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -187,6 +205,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
     <nav aria-label="Sections">
       <a href="#work">Work</a>
       <a href="#skills">Skills</a>
+      <a href="#about">About</a>
       <a href="#contact">Contact</a>
     </nav>
   </div>
@@ -208,10 +227,10 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
         <div class="intro">
           <p class="lede">I'm a game designer and game developer. I decide how a game should play, then write the code that makes it play that way.</p>
           <dl class="sheet">
-            <div><dt class="label">Class</dt><dd>Designer + Developer</dd></div>
             <div><dt class="label">Experience</dt><dd>2 years</dd></div>
             <div><dt class="label">Studio</dt><dd>Luxodd Games</dd></div>
             <div><dt class="label">My own game</dt><dd>Scootlet</dd></div>
+            <div><dt class="label">Based in</dt><dd>Andijan, Uzbekistan</dd></div>
           </dl>
           <div class="cta">
             <a class="btn" href="#contact">Get in touch</a>
@@ -228,31 +247,42 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
       <h2>Work</h2>
       <div class="shelf">
         <article class="cart feature">
-          <canvas data-seed="Scootlet" data-color="#ff8a3d" width="192" height="30" aria-hidden="true"></canvas>
-          <div class="cart-body">
+          <div class="feature-top">
+            <video controls preload="none" playsinline poster="assets/scootlet-key.jpg" aria-label="Scootlet gameplay video">
+              <source src="assets/scootlet-video.mp4" type="video/mp4">
+            </video>
             <div class="feature-copy">
               <h3>Scootlet</h3>
-              <p class="label role">Owner · Cozy Halloween puzzle game for arcade</p>
-              <p>Scootlet is my own game, a haunted puzzle adventure with no monsters that scare and no words to read. You guide a little wizard block through floating islands and moonlit castles, pushing sleepy slimes into jelly pits, ringing doorbells to open ghostly gates and hopping inside a ghost when you need a lift.</p>
-              <ul class="points">
-                <li>Plays with one joystick and colorful buttons, and every rule is shown in pictures.</li>
-                <li>Cinema tutorials: red curtains open and a little ghost audience shows each new trick before you play it.</li>
-                <li>Kind to beginners, with undo on any move, restart at any time and a second chance on your first stumble.</li>
-              </ul>
+              <p class="label role">Owner · Unity puzzle game for arcade</p>
+              <p>Scootlet is my own game, a cozy haunted puzzle adventure with no monsters that scare and no words to read. You guide a little wizard block through floating islands and moonlit castles, pushing sleepy slimes into jelly pits and hopping inside a ghost when you need a lift.</p>
+              <dl class="facts">
+                <div><dd>50</dd><dt class="label">Levels</dt></div>
+                <div><dd>5</dd><dt class="label">Chapters</dt></div>
+                <div><dd>7</dd><dt class="label">Skins</dt></div>
+              </dl>
             </div>
-            <dl class="facts">
-              <div><dd>50</dd><dt class="label">Hand-crafted levels</dt></div>
-              <div><dd>5</dd><dt class="label">Chapters</dt></div>
-              <div><dd>7</dd><dt class="label">Unlockable skins</dt></div>
-            </dl>
+          </div>
+          <div class="stills">
+            <figure>
+              <img src="assets/scootlet-tutorial.jpg" alt="Scootlet tutorial showing a ghost pushed into a pit to become a bridge" loading="lazy" width="1280" height="720">
+              <figcaption>Cinema tutorials show every new trick before you play it, and every rule is taught in pictures.</figcaption>
+            </figure>
+            <figure>
+              <img src="assets/scootlet-skins.jpg" alt="Seven Scootlet character skins lined up under the words You got this" loading="lazy" width="1280" height="720">
+              <figcaption>Seven unlockable skins, from Superhero and Little Dino to Donut and Ghost Buddy.</figcaption>
+            </figure>
+            <figure>
+              <img src="assets/scootlet-menu.jpg" alt="Scootlet main menu with a haunted house on a floating island" loading="lazy" width="1280" height="720">
+              <figcaption>Made for the arcade: one joystick, colorful buttons, and undo on any move.</figcaption>
+            </figure>
           </div>
         </article>
         <article class="cart">
           <canvas data-seed="Luxodd Games" data-color="#ffc24b" width="96" height="30" aria-hidden="true"></canvas>
           <div class="cart-body">
             <h3>Luxodd Games</h3>
-            <p class="label role">Game Developer</p>
-            <p>I develop games at Luxodd Games, a studio and platform that brings indie games to arcade cabinets.</p>
+            <p class="label role">Game Developer · 10 months</p>
+            <p>Luxodd brings indie games to arcade cabinets. I work on Unity puzzle campaigns there, refining levels and iterating on character objects, environments and in-game UI.</p>
           </div>
         </article>
         <article class="cart">
@@ -264,7 +294,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
           </div>
         </article>
         <article class="cart">
-          <canvas data-seed="WaterLens" data-color="#7fd4e8" width="96" height="30" aria-hidden="true"></canvas>
+          <img class="thumb" src="assets/waterlens.jpg" alt="WaterLens home page with the headline See the water you don't see" loading="lazy" width="1280" height="610">
           <div class="cart-body">
             <h3>WaterLens</h3>
             <p class="label role">Creator · Interactive website</p>
@@ -282,12 +312,13 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
       <h2>Skills</h2>
       <div class="loadout">
         <div>
-          <p class="label">Languages</p>
+          <p class="label">Game design</p>
           <ul class="chips">
-            <li class="main">C#</li>
-            <li class="main">Python</li>
-            <li>JavaScript</li>
-            <li>HTML + CSS</li>
+            <li class="main">Puzzle level design</li>
+            <li>Gameplay progression</li>
+            <li>Level unlocks</li>
+            <li>Gameplay iteration</li>
+            <li>In-game UI</li>
           </ul>
         </div>
         <div>
@@ -298,12 +329,49 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
           </ul>
         </div>
         <div>
-          <p class="label">Game craft</p>
+          <p class="label">Programming</p>
           <ul class="chips">
-            <li class="main">Game design</li>
-            <li>Gameplay programming</li>
-            <li>Prototyping</li>
-            <li>Playtesting</li>
+            <li class="main">C#</li>
+            <li class="main">Python</li>
+            <li>JavaScript</li>
+            <li>HTML + CSS</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="about">
+    <div class="wrap">
+      <p class="label">Player stats</p>
+      <h2>About</h2>
+      <div class="about">
+        <div>
+          <p class="label">Recognition</p>
+          <ul>
+            <li>World Scholar's Cup<span>Two gold medals and one silver. Qualified for the round in Qatar.</span></li>
+            <li>Maker Faire<span>Competition winner.</span></li>
+          </ul>
+        </div>
+        <div>
+          <p class="label">Other projects</p>
+          <ul>
+            <li>Teens in Health<span>Programmer.</span></li>
+            <li>LSL Scholar's Cup<span>Helped organise a school academic competition.</span></li>
+          </ul>
+        </div>
+        <div>
+          <p class="label">Education</p>
+          <ul>
+            <li>LSL School<span>Expected graduation 2028.</span></li>
+          </ul>
+        </div>
+        <div>
+          <p class="label">Languages</p>
+          <ul>
+            <li>Uzbek<span>Native.</span></li>
+            <li>English<span>B2 certificate.</span></li>
+            <li>Korean<span>TOPIK I, Level 2.</span></li>
           </ul>
         </div>
       </div>
