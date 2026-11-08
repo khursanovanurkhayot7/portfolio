@@ -134,7 +134,11 @@ h2 { margin: 10px 0 44px; font-size: clamp(50px, 7vw, 92px); line-height: 1; let
 .feature { display: grid; grid-template-columns: minmax(0, 1.34fr) minmax(0, 1fr); gap: 52px; align-items: center; }
 .key { position: relative; margin: 0; border-radius: 18px; }
 .key img { display: block; width: 100%; height: auto; border-radius: 18px; box-shadow: 0 0 0 1px rgba(255, 255, 255, .22), 0 0 70px -6px rgba(154, 107, 255, .85), 0 34px 70px -24px #000; }
-.feature h3 { font: 700 clamp(36px, 3.7vw, 50px)/1.06 var(--ui); margin: 12px 0 16px; text-wrap: balance; }
+.game-name { font-size: clamp(60px, 7.4vw, 96px); line-height: 1; margin: 0 0 14px; }
+.hook { font: 700 clamp(26px, 2.7vw, 36px)/1.1 var(--ui); margin: 12px 0 16px; text-wrap: balance; }
+.picks { display: flex; flex-wrap: wrap; gap: 12px; margin: -16px 0 52px; }
+.picks a { font: 700 16px var(--ui); text-decoration: none; padding: 11px 20px; border-radius: 40px; color: var(--cream); border: 1.5px solid var(--c); box-shadow: 0 0 18px -4px var(--c), inset 0 0 12px -6px var(--c); transition: background .15s, color .15s, box-shadow .15s; }
+.picks a:hover { background: var(--c); color: var(--night); box-shadow: 0 0 30px var(--c); }
 .feature p.say { margin: 0 0 24px; color: var(--mist); max-width: 54ch; }
 .hiscore { margin: 0; padding: 18px 22px; border-radius: 14px; background: #06040b; border: 1px solid rgba(255, 207, 110, .4); box-shadow: inset 0 0 34px rgba(255, 207, 110, .1); }
 .hiscore > p { margin: 0 0 8px; color: var(--gold); }
@@ -321,13 +325,20 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
     <div class="wrap">
       <p class="tag hot">Choose your game</p>
       <h2 class="neon pink">Now playing</h2>
-      <div class="feature">
+      <nav class="picks" aria-label="Jump to a project">
+        <a href="#scootlet" style="--c:#ff3f9e">Scootlet</a>
+        <a href="#plnk" style="--c:#3fe6ff">Plnk</a>
+        <a href="#luxodd" style="--c:#ffcf6e">Luxodd Games</a>
+        <a href="#waterlens" style="--c:#9a6bff">WaterLens</a>
+      </nav>
+      <div class="feature" id="scootlet">
         <figure class="key">
           <img src="assets/scootlet-key.jpg" alt="Scootlet key art: a wizard block and a friendly ghost under a full moon, with other character skins around them" width="1600" height="900">
         </figure>
         <div>
-          <p class="tag hot">Scootlet · My own game · Unity puzzle for arcade</p>
-          <h3>No monsters that scare. No words to read. Just ghosts.</h3>
+          <h3 class="game-name neon pink">Scootlet</h3>
+          <p class="tag hot">My own game · Unity puzzle for arcade</p>
+          <p class="hook">No monsters that scare. No words to read. Just ghosts.</p>
           <p class="say">A cozy haunted puzzle adventure. You guide a little wizard block through floating islands and moonlit castles, pushing sleepy slimes into jelly pits and hopping inside a ghost when you need a lift.</p>
           <dl class="hiscore">
             <p class="tag">High scores</p>
@@ -354,12 +365,13 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
 
       <div class="feature flip" id="plnk">
         <div>
-          <p class="tag blue-tag">Plnk · Two-player mode · Made with my brother</p>
-          <h3>Beat the clock. Climb the Top 10.</h3>
+          <h3 class="game-name neon blue">Plnk</h3>
+          <p class="tag blue-tag">Made with my brother · Unity tabletop arcade game</p>
+          <p class="hook">Beat the clock. Climb the Top 10.</p>
           <p class="say">A game I made together with my brother: a colorful tabletop arcade game built in Unity. A little toy train marks your way through World 1 and World 2, every level runs against a ticking clock, and the Top 10 board is waiting at the end.</p>
         </div>
         <figure class="key blue">
-          <img src="assets/plnk-map.jpg" alt="Plnk level map with a toy train on a track running through a green World 1 and a moonlit harbor World 2" loading="lazy" width="1600" height="899">
+          <img src="assets/plnk-map.jpg" alt="Plnk level map with a toy train on a track running through a green World 1 and a moonlit harbor World 2" width="1600" height="899">
         </figure>
       </div>
       <div class="shots two">
@@ -375,7 +387,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
 
       <p class="tag hot row-tag">More cabinets on the floor</p>
       <div class="row2">
-        <article class="mini" style="--c:#ffcf6e">
+        <article class="mini" id="luxodd" style="--c:#ffcf6e">
           <header><h3 class="logo-head"><img src="assets/luxodd-logo.png" alt="Luxodd Games" width="800" height="213"></h3></header>
           <div class="glass" aria-hidden="true">
             <svg viewBox="0 0 200 110" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
@@ -389,7 +401,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
             <p class="say">Luxodd brings indie games to arcade cabinets. I work on Unity puzzle campaigns there, refining levels and iterating on character objects, environments and in-game UI.</p>
           </div>
         </article>
-        <article class="mini" style="--c:#3fe6ff">
+        <article class="mini" id="waterlens" style="--c:#3fe6ff">
           <header><h3 class="neon blue">WaterLens</h3></header>
           <div class="glass"><img src="assets/waterlens.jpg" alt="WaterLens home page with the headline See the water you don't see" loading="lazy" width="1280" height="610"></div>
           <div class="mini-body">
