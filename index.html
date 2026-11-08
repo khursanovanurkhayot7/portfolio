@@ -152,11 +152,18 @@ h2 { margin: 10px 0 44px; font-size: clamp(50px, 7vw, 92px); line-height: 1; let
 
 /* Cabinet row */
 .row-tag { margin: 92px 0 26px; }
-.row3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+.row2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+.feature.flip { grid-template-columns: minmax(0, 1fr) minmax(0, 1.34fr); margin-top: 104px; }
+.blue-tag { color: var(--cyan); }
+.key.blue img { box-shadow: 0 0 0 1px rgba(255, 255, 255, .22), 0 0 70px -6px rgba(63, 230, 255, .75), 0 34px 70px -24px #000; }
+.shots.two { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 980px; margin-inline: auto; }
+.shots.two .shot img { box-shadow: 0 0 0 1px rgba(255, 255, 255, .22), 0 22px 44px -20px #000, 0 0 34px -10px var(--cyan); }
 .mini { display: flex; flex-direction: column; min-width: 0; border-radius: 18px 18px 10px 10px; padding: 8px; background: linear-gradient(170deg, var(--lacquer-2), #100a1b); border: 1px solid color-mix(in srgb, var(--c) 52%, transparent); box-shadow: 0 0 44px -18px var(--c); transition: transform .2s, box-shadow .2s; }
 .mini:hover { transform: translateY(-6px); box-shadow: 0 0 60px -10px var(--c); }
 .mini header { padding: 14px 12px 12px; text-align: center; border-radius: 12px 12px 4px 4px; background: radial-gradient(100% 160% at 50% 0, color-mix(in srgb, var(--c) 30%, #12091f), #12091f 76%); }
 .mini h3 { margin: 0; font-size: clamp(27px, 2.9vw, 36px); line-height: 1.1; }
+.logo-head img { display: block; height: 52px; width: auto; max-width: 100%; margin-inline: auto; filter: drop-shadow(0 0 10px rgba(255, 207, 110, .45)); }
+.inline-logo { display: inline-block; height: 26px; width: auto; vertical-align: middle; margin-left: 4px; }
 .glass { margin-top: 6px; aspect-ratio: 16 / 9; border-radius: 6px; overflow: hidden; background: radial-gradient(90% 110% at 50% 40%, color-mix(in srgb, var(--c) 22%, #07040d), #07040d); display: grid; place-items: center; }
 .glass svg { width: 68%; height: 74%; color: var(--c); filter: drop-shadow(0 0 8px var(--c)); }
 .glass img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: left top; }
@@ -212,8 +219,9 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
 @media (max-width: 960px) {
   .panel { grid-template-columns: minmax(0, 1fr); }
   .deck { justify-content: space-between; }
-  .feature, .trophies, .bonus, .continue { grid-template-columns: minmax(0, 1fr); gap: 36px; }
-  .row3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .feature, .feature.flip, .trophies, .bonus, .continue { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+  .feature.flip { margin-top: 72px; }
+  .feature.flip .key { order: -1; }
   .moves { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 640px) {
@@ -239,7 +247,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
   .marks { grid-template-columns: minmax(0, 1fr); gap: 12px; }
   .stage { padding-block: 64px; }
   h2 { margin-bottom: 32px; }
-  .shots, .row3 { grid-template-columns: minmax(0, 1fr); }
+  .shots, .shots.two, .row2 { grid-template-columns: minmax(0, 1fr); }
   .shot:nth-child(n) { transform: none; }
   .row-tag { margin-top: 64px; }
   .award { padding: 18px; gap: 16px; }
@@ -302,7 +310,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
         </div>
       </div>
       <div class="marks">
-        <div class="mark"><strong>8</strong><span>months making games at Luxodd</span></div>
+        <div class="mark"><strong>8</strong><span>months making games at <img class="inline-logo" src="assets/luxodd-logo.png" alt="Luxodd Games" width="800" height="213"></span></div>
         <div class="mark"><strong>50</strong><span>hand-crafted levels in my own game</span></div>
         <div class="mark"><strong>UZ</strong><span>based in Andijan, Uzbekistan</span></div>
       </div>
@@ -344,10 +352,31 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
         </figure>
       </div>
 
+      <div class="feature flip" id="plnk">
+        <div>
+          <p class="tag blue-tag">Plnk · Two-player mode · Made with my brother</p>
+          <h3>Beat the clock. Climb the Top 10.</h3>
+          <p class="say">A game I made together with my brother: a colorful tabletop arcade game built in Unity. A little toy train marks your way through World 1 and World 2, every level runs against a ticking clock, and the Top 10 board is waiting at the end.</p>
+        </div>
+        <figure class="key blue">
+          <img src="assets/plnk-map.jpg" alt="Plnk level map with a toy train on a track running through a green World 1 and a moonlit harbor World 2" loading="lazy" width="1600" height="899">
+        </figure>
+      </div>
+      <div class="shots two">
+        <figure class="shot">
+          <img src="assets/plnk-table.jpg" alt="Plnk game board: a teal toy table in a cozy room, at level 30" loading="lazy" width="1280" height="715">
+          <figcaption>The whole game lives on a toy table in a cozy room, with a teddy bear watching from the floor.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="assets/plnk-scores.jpg" alt="Plnk Time's Up screen with an hourglass character, a final score and a Top 10 best scores board" loading="lazy" width="1280" height="715">
+          <figcaption>When the sand runs out, your score goes up against the Top 10. One button to try again.</figcaption>
+        </figure>
+      </div>
+
       <p class="tag hot row-tag">More cabinets on the floor</p>
-      <div class="row3">
+      <div class="row2">
         <article class="mini" style="--c:#ffcf6e">
-          <header><h3 class="neon gold">Luxodd Games</h3></header>
+          <header><h3 class="logo-head"><img src="assets/luxodd-logo.png" alt="Luxodd Games" width="800" height="213"></h3></header>
           <div class="glass" aria-hidden="true">
             <svg viewBox="0 0 200 110" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
               <path id="cab" d="M16 104V22l6-14h30l6 14v82z"/><rect x="24" y="24" width="26" height="24"/><path d="M20 58h34M37 58v14M28 84h18"/>
@@ -358,20 +387,6 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
           <div class="mini-body">
             <p class="tag">Game Developer · 8 months</p>
             <p class="say">Luxodd brings indie games to arcade cabinets. I work on Unity puzzle campaigns there, refining levels and iterating on character objects, environments and in-game UI.</p>
-          </div>
-        </article>
-        <article class="mini" style="--c:#ff3f9e">
-          <header><h3 class="neon pink">Plnk</h3></header>
-          <div class="glass" aria-hidden="true">
-            <svg viewBox="0 0 200 110" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
-              <circle cx="56" cy="28" r="14"/><path d="M56 42v34M34 86h44"/><ellipse cx="56" cy="86" rx="28" ry="9"/>
-              <circle cx="144" cy="28" r="14"/><path d="M144 42v34M122 86h44"/><ellipse cx="144" cy="86" rx="28" ry="9"/>
-              <path d="M93 58h14M100 51v14"/>
-            </svg>
-          </div>
-          <div class="mini-body">
-            <p class="tag">Two-player mode · Co-creator</p>
-            <p class="say">A game I made together with my brother. Two people, one game, and every part of it shared between us.</p>
           </div>
         </article>
         <article class="mini" style="--c:#3fe6ff">
@@ -452,7 +467,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wr
           </ul>
           <h3>Player profile</h3>
           <ul>
-            <li>LSL School<span>Expected graduation 2028</span></li>
+            <li>Senior student at LSL School<span>Expected graduation 2028</span></li>
             <li>Uzbek, English, Korean<span>Native, B2 certificate, TOPIK I Level 2</span></li>
           </ul>
         </div>
