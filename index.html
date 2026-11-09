@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Unbounded:wght@500;700;800&display=swap">
 <style>
-/* Layout concept: a cinematic flight through full-screen scenes. A glowing game world opens the page; pale and dark scenes then slide over one another as you scroll. */
+/* Layout concept: a cinematic flight through full-screen scenes. Plnk, her moonlit arcade table, opens the page; pale and dark scenes then slide over one another as you scroll. */
 :root {
   color-scheme: dark;
   --deep: #040916;
@@ -71,12 +71,15 @@ h2 { font-size: clamp(40px, 6.4vw, 96px); line-height: 1; }
 /* Hero */
 .hero { position: relative; z-index: 1; min-height: 100vh; min-height: 100svh; display: flex; align-items: flex-end; overflow: hidden; background: radial-gradient(90vw 90vh at 78% 40%, #10264f, transparent 70%), var(--deep); }
 #planet { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-.no-gl .hero::after { content: ""; position: absolute; right: -14vw; top: 8vh; width: 74vh; height: 74vh; border-radius: 50%; background: radial-gradient(circle at 50% 46%, #050d20 62%, #1554c8 72%, #ff7a2f 74%, transparent 75%); }
+.no-gl .pins { display: none; }
 .pins { position: absolute; inset: 0; pointer-events: none; }
-.pin { position: absolute; left: 0; top: 0; display: flex; align-items: center; gap: 8px; font: 600 14px/1 var(--body); color: var(--cream); text-decoration: none; white-space: nowrap; pointer-events: auto; will-change: transform; transition: opacity .25s; }
+.pin { position: absolute; left: 0; top: 0; display: flex; align-items: center; gap: 8px; font: 600 14px/1 var(--body); color: var(--cream); text-decoration: none; white-space: nowrap; pointer-events: auto; will-change: transform; }
 .pin::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 0 4px rgba(255, 122, 47, .28); }
 .pin span { padding: 5px 9px; border-radius: 20px; background: rgba(4, 9, 22, .72); }
+.pin.flip { flex-direction: row-reverse; }
 .pin:hover span { background: var(--orange); color: var(--ink); }
+.hero-art { position: absolute; margin: 0; top: 0; right: 0; bottom: 0; width: 68vw; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent 2%, #000 30%); mask-image: linear-gradient(90deg, transparent 2%, #000 30%); }
+.hero-art img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; transform-origin: 50% 40%; -webkit-mask-image: linear-gradient(180deg, #000 78%, transparent 100%); mask-image: linear-gradient(180deg, #000 78%, transparent 100%); }
 .hero-top { position: absolute; z-index: 3; right: max(32px, env(safe-area-inset-right, 0px)); top: calc(env(safe-area-inset-top, 0px) + 28px); }
 .hero-copy { position: relative; z-index: 3; width: 100%; padding: 0 var(--gutter) clamp(36px, 7vh, 72px); pointer-events: none; }
 .hero-copy > * { pointer-events: auto; }
@@ -91,9 +94,10 @@ h1 .bar { position: absolute; inset: 2% -.08em; background: var(--ice); transfor
 .about .ghost { color: var(--ice-2); left: -2vw; top: 3vh; }
 .about-grid { position: relative; display: grid; grid-template-columns: minmax(280px, .72fr) minmax(0, 1.28fr); gap: clamp(40px, 7vw, 110px); align-items: center; }
 .portrait { margin: 0; }
-.portrait-mat { padding: 12px; background: var(--ink); border-radius: 3px; box-shadow: 0 50px 80px -40px rgba(8, 24, 48, .75); overflow: hidden; }
-.portrait img { width: 100%; }
-.portrait figcaption { padding-top: 16px; font-weight: 700; line-height: 1.3; }
+.portrait-mat { padding: clamp(16px, 2vw, 26px) clamp(16px, 2vw, 26px) clamp(14px, 1.6vw, 22px); background: #fbfaf6; box-shadow: 0 44px 70px -36px rgba(8, 24, 48, .7), 0 0 0 1px rgba(10, 24, 48, .08); overflow: hidden; }
+.portrait-pic { overflow: hidden; background: radial-gradient(70% 60% at 42% 34%, #8d8d8d, #3c3c3c 62%, #141414); }
+.portrait img { width: 100%; filter: grayscale(1) contrast(1.16) brightness(1.04); }
+.portrait figcaption { padding-top: 16px; text-align: center; font-weight: 700; line-height: 1.3; color: var(--ink); }
 .portrait figcaption span { display: block; font-weight: 500; color: var(--ink-soft); }
 .about .tag { color: #0b5a9e; }
 .about h2 { margin: 12px 0 24px; font-size: clamp(38px, 5.2vw, 80px); }
@@ -137,6 +141,8 @@ h1 .bar { position: absolute; inset: 2% -.08em; background: var(--ice); transfor
 .plnk-low { background: var(--navy); padding-block: clamp(60px, 10vh, 110px); }
 .plnk-cols { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr) minmax(0, 1fr); gap: clamp(22px, 3vw, 44px); align-items: start; }
 .plnk-cols h3 { font-size: clamp(30px, 3.2vw, 48px); line-height: 1.05; margin-bottom: 14px; }
+
+.plnk-more { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
 /* Luxodd */
 .lux { background: var(--navy); border-top: 1px solid rgba(255, 255, 255, .12); padding-block: clamp(60px, 11vh, 120px); }
@@ -207,6 +213,8 @@ h1 .bar { position: absolute; inset: 2% -.08em; background: var(--ice); transfor
   .about-grid, .scoot-grid, .lux-grid, .bonus-grid { grid-template-columns: minmax(0, 1fr); }
   .portrait { width: min(100%, 360px); }
   .plnk-cols { grid-template-columns: minmax(0, 1fr); }
+  .hero-art { width: 100%; top: 84px; bottom: 40%; -webkit-mask-image: none; mask-image: none; }
+  .hero-art img { -webkit-mask-image: linear-gradient(180deg, #000 80%, transparent 100%); mask-image: linear-gradient(180deg, #000 80%, transparent 100%); }
   .plnk-art { width: 88vw; margin-left: -44vw; }
   .more { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .stack { display: block; padding-top: 88px; }
@@ -226,14 +234,14 @@ h1 .bar { position: absolute; inset: 2% -.08em; background: var(--ice); transfor
   .facts { grid-template-columns: minmax(0, 1fr); gap: 14px; }
   .facts > div { display: flex; align-items: baseline; gap: 14px; }
   .facts span { margin-top: 0; }
-  .shots { grid-template-columns: minmax(0, 1fr); }
+  .shots, .plnk-more { grid-template-columns: minmax(0, 1fr); }
   .tv-btns { padding-right: 16px; }
   .more { grid-template-columns: minmax(0, 1fr); }
   .honour { grid-template-columns: 80px minmax(0, 1fr); gap: 14px; }
   .honour strong { font-size: 40px; }
   .line { grid-template-columns: minmax(0, 1fr) auto; }
   .line .tag { grid-column: 1 / -1; }
-  .pin { font-size: 13px; }
+  .pins { display: none; }
   .scoot-title { padding-top: 92px; }
   .plnk-band .tag { top: 92px; }
 }
@@ -259,14 +267,7 @@ h1 .bar { position: absolute; inset: 2% -.08em; background: var(--ice); transfor
 
 <main id="top">
   <section class="hero" id="hero">
-    <canvas id="planet" aria-hidden="true"></canvas>
-    <div class="pins" id="pins">
-      <a class="pin" href="#scootlet" data-lat="30" data-lon="-42"><span>Scootlet</span></a>
-      <a class="pin" href="#plnk" data-lat="50" data-lon="-6"><span>Plnk</span></a>
-      <a class="pin" href="#luxodd" data-lat="6" data-lon="-6"><span>Luxodd Games</span></a>
-      <a class="pin" href="#waterlens" data-lat="-18" data-lon="-46"><span>WaterLens</span></a>
-      <a class="pin" href="#about" data-lat="-46" data-lon="-12"><span>Andijan</span></a>
-    </div>
+    <figure class="hero-art"><img src="assets/plnk-hero.jpg" alt="Plnk, my 3D tabletop arcade game: a level on a navy and gold table at a moonlit train station" width="1600" height="1346"></figure>
     <a class="pill hero-top" href="#contact">Work with me</a>
     <div class="hero-copy">
       <p class="tag">Game designer + game developer</p>
@@ -282,8 +283,8 @@ h1 .bar { position: absolute; inset: 2% -.08em; background: var(--ice); transfor
   <section class="scene about" id="about">
     <div class="ghost" aria-hidden="true">Hello</div>
     <div class="wrap about-grid">
-      <figure class="portrait">
-        <div class="portrait-mat"><img src="assets/portrait.jpg" alt="Portrait of Nurkhayot Khursanova" width="896" height="1120"></div>
+      <figure class="portrait portrait-mat">
+        <div class="portrait-pic"><img src="assets/portrait-cut.png" alt="Black and white portrait of Nurkhayot Khursanova" width="896" height="1120"></div>
         <figcaption>Nurkhayot Khursanova<span>Senior student, LSL School</span></figcaption>
       </figure>
       <div>
@@ -350,21 +351,32 @@ h1 .bar { position: absolute; inset: 2% -.08em; background: var(--ice); transfor
     <div class="plnk-band">
       <div class="ghost" aria-hidden="true">Plnk</div>
       <p class="tag">Made with my brother</p>
-      <img class="plnk-art" src="assets/plnk-map.jpg" alt="Plnk level map with a toy train on a track running through a green World 1 and a moonlit harbor World 2" width="1600" height="899" loading="lazy">
+      <img class="plnk-art" src="assets/plnk-title.jpg" alt="Plnk title screen: a blue toy table with big wooden PLNK letters and the words Pucks, Skills, Good Times, in a cozy room" width="1600" height="1000" loading="lazy">
     </div>
     <div class="plnk-low">
       <div class="wrap plnk-cols">
         <div>
           <h3>Plnk</h3>
-          <p class="say">A colorful tabletop arcade game built in Unity. A little toy train marks your way through World 1 and World 2, every level runs against a ticking clock, and the Top 10 board is waiting at the end.</p>
+          <p class="hook" style="font-size:clamp(20px,1.9vw,27px)">Small pucks. Big fun.</p>
+          <p class="say">A colorful 3D tabletop arcade game built in Unity. Aim with one joystick and shoot, with undo and restart one button away. Every level runs against the clock, and a little toy train marks your way through its worlds.</p>
         </div>
         <figure class="shot">
-          <img src="assets/plnk-table.jpg" alt="Plnk game board: a teal toy table in a cozy room, at level 30" loading="lazy" width="1280" height="715">
-          <figcaption>The whole game lives on a toy table, with a teddy bear watching from the floor.</figcaption>
+          <img src="assets/plnk-level.jpg" alt="Plnk level 50: a navy and gold table at a moonlit train station, with a joystick and shoot, undo and restart buttons" loading="lazy" width="1600" height="1000">
+          <figcaption>Level 50 at a moonlit train station. The controls are built right into the table.</figcaption>
         </figure>
         <figure class="shot">
           <img src="assets/plnk-scores.jpg" alt="Plnk Time's Up screen with an hourglass character and a Top 10 best scores board" loading="lazy" width="1280" height="715">
           <figcaption>When the sand runs out, your score goes up against the Top 10.</figcaption>
+        </figure>
+      </div>
+      <div class="wrap shots plnk-more">
+        <figure class="shot">
+          <img src="assets/plnk-map.jpg" alt="Plnk level map with a toy train on a track running through a green World 1 and a moonlit harbor World 2" loading="lazy" width="1600" height="899">
+          <figcaption>A toy train marks your way through World 1 and World 2.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="assets/plnk-table.jpg" alt="Plnk game board: a teal toy table in a cozy room, at level 30" loading="lazy" width="1280" height="715">
+          <figcaption>A cozy room, a toy table, and a teddy bear watching from the floor.</figcaption>
         </figure>
       </div>
     </div>
@@ -635,7 +647,7 @@ document.querySelectorAll('.copy').forEach(function (b) {
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-/* 3D scenes: the game world, the ocean and the claw. Each renders only while on screen. */
+/* 3D scenes: the ocean and the claw. Each renders only while on screen. */
 window.scenes = { zoom: 0, cratesP: 1 };
 (function () {
   if (!window.THREE) { document.documentElement.classList.add('no-gl'); return; }
@@ -655,87 +667,6 @@ window.scenes = { zoom: 0, cratesP: 1 };
   function watch(s) {
     if ('IntersectionObserver' in window) new IntersectionObserver(function (e) { s.seen = e[0].isIntersecting; if (s.seen && calmMode && s.draw) s.draw(0); }, { rootMargin: '80px' }).observe(s.cv);
     active.push(s);
-  }
-
-  /* ---------- Planet ---------- */
-  function planet() {
-    var s = maker('planet', true);
-    var scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(35, 1, .1, 50);
-    cam.position.z = 6;
-    var R = 1.5, root = new THREE.Group(), world = new THREE.Group();
-    root.add(world); scene.add(root);
-
-    world.add(new THREE.Mesh(new THREE.SphereGeometry(R * .995, 64, 48), new THREE.MeshBasicMaterial({ color: 0x030813 })));
-
-    /* Imagined continents from layered waves, drawn as dots */
-    function land(x, y, z) {
-      var n = Math.sin(x * 3.1 + 1.3 * Math.sin(y * 2.3)) + Math.sin(y * 4.3 + 1.7 * Math.sin(z * 2.9) + 1) + Math.sin(z * 3.7 + 1.1 * Math.sin(x * 3.3) + 2) + .5 * Math.sin(x * 9.1 + y * 7.3) + .5 * Math.sin(y * 8.3 - z * 9.7);
-      return n > .05;
-    }
-    var pts = [], N = 26000, gold = Math.PI * (3 - Math.sqrt(5));
-    for (var i = 0; i < N; i++) {
-      var y = 1 - (i / (N - 1)) * 2, r = Math.sqrt(1 - y * y), t = gold * i, x = Math.cos(t) * r, z = Math.sin(t) * r;
-      if (land(x, y, z)) pts.push(x * R, y * R, z * R);
-    }
-    var g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
-    world.add(new THREE.Points(g, new THREE.PointsMaterial({ color: 0x9fdcff, size: .014, transparent: true, opacity: .85 })));
-
-    /* Lit rim: warm from above, blue below */
-    var rimV = 'varying vec3 vN; void main(){ vN = normalize(normalMatrix * normal); gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }';
-    root.add(new THREE.Mesh(new THREE.SphereGeometry(R, 64, 48), new THREE.ShaderMaterial({
-      transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, vertexShader: rimV,
-      fragmentShader: 'varying vec3 vN; void main(){ float f = pow(1.0 - max(vN.z,0.0), 3.2); vec3 c = mix(vec3(.06,.36,1.),vec3(1.,.46,.12), smoothstep(-.1,.6,vN.y - vN.x*.35)); gl_FragColor = vec4(c*f*1.8, f); }'
-    })));
-    root.add(new THREE.Mesh(new THREE.SphereGeometry(R * 1.2, 64, 48), new THREE.ShaderMaterial({
-      transparent: true, depthWrite: false, side: THREE.BackSide, blending: THREE.AdditiveBlending, vertexShader: rimV,
-      fragmentShader: 'varying vec3 vN; void main(){ float e = pow(clamp(-vN.z,0.,1.), 2.6); vec3 c = mix(vec3(.05,.3,1.),vec3(1.,.42,.1), smoothstep(-.2,.6,vN.y - vN.x*.35)); gl_FragColor = vec4(c, e*.85); }'
-    })));
-
-    /* Pins and routes */
-    function ll(lat, lon, rad) {
-      var a = lat * Math.PI / 180, b = lon * Math.PI / 180;
-      return new THREE.Vector3(Math.cos(a) * Math.sin(b), Math.sin(a), Math.cos(a) * Math.cos(b)).multiplyScalar(rad);
-    }
-    var pinEls = [].slice.call(document.querySelectorAll('.pin')).map(function (el) {
-      return { el: el, p: ll(+el.dataset.lat, +el.dataset.lon, R * 1.005) };
-    });
-    var runners = [];
-    for (var k = 0; k < pinEls.length - 1; k++) {
-      var a = pinEls[k].p, b = pinEls[k + 1].p, mid = a.clone().add(b).normalize().multiplyScalar(R * 1.34);
-      var curve = new THREE.QuadraticBezierCurve3(a, mid, b);
-      world.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(curve.getPoints(48)), new THREE.LineBasicMaterial({ color: 0xff8a45, transparent: true, opacity: .75 })));
-      var dot = new THREE.Mesh(new THREE.SphereGeometry(.018, 10, 8), new THREE.MeshBasicMaterial({ color: 0xffe2b8 }));
-      world.add(dot); runners.push({ curve: curve, dot: dot, off: k * .23 });
-    }
-
-    var base = { x: 0, y: 0, sc: 1 }, v = new THREE.Vector3(), nrm = new THREE.Vector3();
-    function layout(w, h) {
-      cam.aspect = w / h; cam.updateProjectionMatrix();
-      var vh = 2 * 6 * Math.tan(17.5 * Math.PI / 180), vw = vh * cam.aspect;
-      if (cam.aspect > 1) { base.sc = Math.min(1.12, Math.max(.8, vw / 7.4)); base.x = vw / 2 - R * base.sc * .92; base.y = .16; }
-      else { base.sc = Math.min(1, vw / 3.5); base.x = vw * .12; base.y = vh / 2 - R * base.sc * 1.42; }
-    }
-    s.draw = function (t) {
-      fit(s, layout);
-      var z = window.scenes.zoom;
-      world.rotation.y = Math.sin(t * .00016) * .2 + z * 1.1;
-      world.rotation.x = .1 + z * .22;
-      root.scale.setScalar(base.sc * (1 + z * .95));
-      root.position.set(base.x * (1 - z * .75), base.y, 0);
-      runners.forEach(function (q) { var f = (t * .00013 + q.off) % 1; q.dot.position.copy(q.curve.getPoint(f)); });
-      s.r.render(scene, cam);
-      root.updateMatrixWorld(true);
-      pinEls.forEach(function (o) {
-        v.copy(o.p).applyMatrix4(world.matrixWorld);
-        nrm.copy(o.p).normalize().transformDirection(world.matrixWorld);
-        v.project(cam);
-        var on = nrm.z > .18 && z < .45;
-        o.el.style.opacity = on ? 1 : 0;
-        o.el.style.pointerEvents = on ? 'auto' : 'none';
-        o.el.style.transform = 'translate(' + Math.round((v.x * .5 + .5) * s.w - 4) + 'px,' + Math.round((-v.y * .5 + .5) * s.h - 13) + 'px)';
-      });
-    };
-    watch(s);
   }
 
   /* ---------- Ocean ---------- */
@@ -838,7 +769,7 @@ window.scenes = { zoom: 0, cratesP: 1 };
     watch(s);
   }
 
-  try { planet(); ocean(); crates(); }
+  try { ocean(); crates(); }
   catch (e) { document.documentElement.classList.add('no-gl'); console.warn('3D unavailable', e); }
 
   var draw = function (t) { active.forEach(function (s) { if (s.seen && s.draw) s.draw(t); }); };
@@ -854,9 +785,18 @@ window.scenes = { zoom: 0, cratesP: 1 };
 (function () {
   if (!window.gsap || !window.ScrollTrigger || calmMode) return;
   gsap.registerPlugin(ScrollTrigger);
+  gsap.ticker.lagSmoothing(0);
   document.documentElement.classList.add('motion');
   var $$ = function (q, r) { return Array.prototype.slice.call((r || document).querySelectorAll(q)); };
   var scenes = window.scenes;
+
+  /* Hero picture settles in, then leans toward the mouse */
+  var artIn = gsap.fromTo('.hero-art img', { opacity: 0 }, { opacity: 1, duration: 1.6, ease: 'power2.out', clearProps: 'opacity' });
+  setTimeout(function () { artIn.progress(1); }, 2600);
+  if (matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    var artX = gsap.quickTo('.hero-art', 'x', { duration: 1.2, ease: 'power3' }), artY = gsap.quickTo('.hero-art', 'y', { duration: 1.2, ease: 'power3' });
+    addEventListener('pointermove', function (e) { artX((e.clientX / innerWidth - .5) * -22); artY((e.clientY / innerHeight - .5) * -14); }, { passive: true });
+  }
 
   /* Opening: the name is scanned in, line by line */
   if (scrollY < 40 && !document.hidden) {
@@ -880,9 +820,9 @@ window.scenes = { zoom: 0, cratesP: 1 };
     when(trigger || els[0], function () { gsap.from(els, Object.assign({ y: 40, opacity: 0, duration: 1, ease: 'expo.out', stagger: .08 }, opts || {})); });
   }
 
-  /* Hero stays still while the next scene slides over it; the planet flies at the camera */
+  /* Hero stays still while the next scene slides over it; the table flies at the camera */
   gsap.timeline({ scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', pin: true, pinSpacing: false, scrub: .4 } })
-    .to(scenes, { zoom: 1, ease: 'none', duration: 1 }, 0)
+    .to('.hero-art img', { scale: 1.32, ease: 'none', duration: 1 }, 0)
     .to('.hero-copy, .hero-top', { y: -90, opacity: 0, ease: 'none', duration: .55 }, 0);
 
   /* About */
@@ -898,6 +838,7 @@ window.scenes = { zoom: 0, cratesP: 1 };
   gsap.fromTo('.plnk-art', { x: function () { return innerWidth * .58; } }, { x: 0, ease: 'none', scrollTrigger: { trigger: '.plnk-band', start: 'top 85%', end: 'top 12%', scrub: .6 } });
   gsap.fromTo('.plnk-band .ghost', { x: function () { return -innerWidth * .12; } }, { x: function () { return innerWidth * .12; }, ease: 'none', scrollTrigger: { trigger: '.plnk-band', start: 'top bottom', end: 'bottom top', scrub: .6 } });
   rise('.plnk-cols > *', '.plnk-cols', { stagger: .12 });
+  rise('.plnk-more .shot', '.plnk-more', { y: 60, stagger: .12 });
   rise('.lux-grid > *', '.lux-grid', { stagger: .14 });
   rise('.hook, .scoot-grid .say, .stats > div, .key', '.scoot-grid', { stagger: .09 });
   rise('.scoot-copy .shot', '.shots', { y: 60, stagger: .12 });
