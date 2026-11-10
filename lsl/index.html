@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LSL School — Specialized private school in Namangan</title>
+<meta name="description" content="LSL School is a specialized private school in Namangan, Uzbekistan: programming, math, physics, engineering, art and sports for 350+ students.">
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0e1b33; --ink-2: #41506b; --ink-3: #7a86a0;
+    --blue: #2f55a4; --blue-deep: #1b3570; --blue-ink: #0b1a3a; --sky: #e9f0fb; --sky-2: #d4e1f7;
+    --gold: #f2b544; --gold-deep: #c98a17;
+    --paper: #fbfaf6; --paper-2: #f2efe6; --line: #e3e3da; --white: #fff;
+    --display: "Fraunces", "Iowan Old Style", Georgia, serif;
+    --sans: "Manrope", "Helvetica Neue", Arial, sans-serif;
+    --r: 22px; --gutter: clamp(20px, 5vw, 72px);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font: 500 17px/1.6 var(--sans); color: var(--ink); background: var(--paper); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  ul { list-style: none; }
+  h1, h2, h3 { font-family: var(--display); font-weight: 500; letter-spacing: -.02em; line-height: 1.04; text-wrap: balance; }
+  h2 { font-size: clamp(36px, 5vw, 64px); }
+  h3 { font-size: clamp(22px, 2.4vw, 30px); line-height: 1.15; }
+  .wrap { width: min(1240px, 100% - 2 * var(--gutter)); margin-inline: auto; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: var(--blue); }
+  .eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--gold); }
+  .lead { font-size: clamp(17px, 1.45vw, 21px); color: var(--ink-2); max-width: 60ch; }
+  .btn { display: inline-flex; align-items: center; gap: 10px; padding: 15px 26px; border-radius: 999px; font-weight: 700; font-size: 15px; border: 1.5px solid transparent; transition: transform .35s cubic-bezier(.2,.8,.2,1), background .3s, color .3s, box-shadow .35s; will-change: transform; }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-gold { background: var(--gold); color: var(--blue-ink); box-shadow: 0 10px 30px -12px rgba(242,181,68,.8); }
+  .btn-gold:hover { background: #ffc453; }
+  .btn-ghost { border-color: rgba(255,255,255,.45); color: #fff; backdrop-filter: blur(6px); }
+  .btn-ghost:hover { background: rgba(255,255,255,.12); }
+  .btn-blue { background: var(--blue); color: #fff; }
+  .btn-blue:hover { background: var(--blue-deep); }
+  .btn-line { border-color: var(--line); color: var(--ink); background: #fff; }
+  .btn svg { width: 16px; height: 16px; }
+
+  /* Nav */
+  .nav { position: fixed; inset: 0 0 auto; z-index: 50; padding: 18px var(--gutter); display: flex; align-items: center; justify-content: space-between; gap: 20px; transition: background .4s, padding .4s, box-shadow .4s; color: #fff; }
+  .nav.solid { background: rgba(251,250,246,.86); backdrop-filter: blur(14px); color: var(--ink); padding-block: 12px; box-shadow: 0 1px 0 var(--line); }
+  .brand { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 18px; letter-spacing: -.01em; }
+  .brand img { width: 40px; height: 40px; object-fit: contain; filter: brightness(0) invert(1); transition: filter .4s; }
+  .nav.solid .brand img { filter: none; }
+  .brand small { display: block; font-size: 10.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; opacity: .7; line-height: 1; margin-top: 3px; }
+  .links { display: flex; gap: 30px; font-size: 14.5px; font-weight: 700; }
+  .links a { position: relative; opacity: .88; }
+  .links a::after { content: ""; position: absolute; left: 0; right: 100%; bottom: -5px; height: 2px; background: var(--gold); transition: right .35s cubic-bezier(.2,.8,.2,1); }
+  .links a:hover::after { right: 0; }
+  .nav .btn { padding: 11px 20px; font-size: 14px; }
+  .burger { display: none; width: 44px; height: 44px; border: 0; background: none; color: inherit; cursor: pointer; }
+  .burger span { display: block; width: 24px; height: 2px; background: currentColor; margin: 5px auto; transition: transform .3s, opacity .3s; }
+  .drawer { position: fixed; inset: 0; z-index: 49; background: var(--blue-ink); color: #fff; display: grid; place-content: center; gap: 20px; text-align: center; font: 500 clamp(28px, 8vw, 44px)/1.2 var(--display); transform: translateY(-100%); transition: transform .55s cubic-bezier(.7,0,.2,1); }
+  .drawer.open { transform: none; }
+  body.menu .burger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  body.menu .burger span:nth-child(2) { opacity: 0; }
+  body.menu .burger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* Hero */
+  .hero { position: relative; min-height: 100svh; display: grid; align-items: end; color: #fff; overflow: hidden; isolation: isolate; }
+  .hero-bg { position: absolute; inset: -6% 0 0; z-index: -2; }
+  .hero-bg img { width: 100%; height: 100%; object-fit: cover; object-position: center 40%; transform: scale(1.12); }
+  .hero::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(11,26,58,.72) 0%, rgba(11,26,58,.35) 55%, rgba(11,26,58,.2) 100%), linear-gradient(180deg, rgba(11,26,58,.45) 0%, rgba(11,26,58,.1) 35%, rgba(11,26,58,.75) 72%, rgba(11,26,58,.96) 100%); }
+  .hero-in { padding: 140px 0 0; }
+  .hero-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 40px; align-items: end; padding-bottom: 46px; }
+  .hero .eyebrow { color: var(--gold); }
+  .hero .eyebrow::before { background: var(--gold); }
+  .hero h1 { font-size: clamp(46px, 8vw, 110px); margin: 18px 0 22px; font-weight: 400; }
+  .hero h1 em { font-style: italic; font-weight: 400; color: var(--gold); }
+  .hero h1 .w { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: .08em; margin-bottom: -.08em; }
+  .hero h1 .w span { display: inline-block; transform: translateY(110%); }
+  .hero p { font-size: clamp(16px, 1.3vw, 19px); color: #d4ddef; max-width: 52ch; }
+  .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+  .hero-side { display: grid; gap: 14px; justify-items: end; }
+  .hero-card { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.14); backdrop-filter: blur(12px); border-radius: 18px; padding: 18px 20px; width: min(100%, 360px); display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: center; }
+  .hero-card .dot { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; background: var(--gold); color: var(--blue-ink); font-weight: 800; }
+  .hero-card strong { display: block; font-size: 15px; }
+  .hero-card span { font-size: 13.5px; color: #c4cfe6; }
+  .stats { border-top: 1px solid rgba(255,255,255,.18); display: grid; grid-template-columns: repeat(3, 1fr); }
+  .stat { padding: 26px 0 34px; display: grid; gap: 2px; }
+  .stat + .stat { padding-left: 28px; border-left: 1px solid rgba(255,255,255,.14); }
+  .stat b { font: 500 clamp(40px, 5vw, 64px)/1 var(--display); letter-spacing: -.03em; }
+  .stat b i { font-style: normal; color: var(--gold); }
+  .stat > span { font-size: 13px; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: #b8c4de; }
+  .scroll-cue { position: absolute; right: var(--gutter); bottom: 34px; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; font-weight: 800; color: #b8c4de; writing-mode: vertical-rl; display: flex; align-items: center; gap: 10px; }
+  .scroll-cue::after { content: ""; width: 1px; height: 50px; background: linear-gradient(var(--gold), transparent); animation: cue 1.8s ease-in-out infinite; }
+  @keyframes cue { 0% { transform: scaleY(0); transform-origin: top } 50% { transform: scaleY(1); transform-origin: top } 51% { transform-origin: bottom } 100% { transform: scaleY(0); transform-origin: bottom } }
+
+  /* Marquee */
+  .marquee { background: var(--blue-ink); color: #fff; overflow: hidden; padding: 16px 0; border-block: 1px solid rgba(255,255,255,.08); }
+  .marquee .track { display: flex; gap: 0; width: max-content; animation: mq 32s linear infinite; }
+  .marquee span { font: 500 clamp(18px, 2vw, 24px)/1 var(--display); padding: 0 28px; white-space: nowrap; display: inline-flex; align-items: center; gap: 28px; }
+  .marquee span::after { content: "✦"; color: var(--gold); font-size: 14px; }
+  @keyframes mq { to { transform: translateX(-50%); } }
+
+  /* Sections */
+  section.block { padding-block: clamp(80px, 11vw, 150px); }
+  .head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 30px 60px; align-items: end; margin-bottom: clamp(40px, 6vw, 72px); }
+  .head h2 { margin-top: 16px; }
+
+  /* About */
+  .about { background: var(--paper); }
+  .about-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(36px, 6vw, 90px); align-items: center; }
+  .about-pic { position: relative; }
+  .about-pic .frame { border-radius: var(--r); overflow: hidden; aspect-ratio: 4 / 3; clip-path: inset(0 100% 0 0 round var(--r)); }
+  .about-pic img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.15); }
+  .about-pic .chip { position: absolute; right: -18px; bottom: 34px; background: #fff; border-radius: 16px; box-shadow: 0 24px 60px -24px rgba(14,27,51,.35); padding: 16px 18px; display: grid; gap: 2px; min-width: 190px; }
+  .about-pic .chip b { font: 500 34px/1 var(--display); color: var(--blue); }
+  .about-pic .chip span { font-size: 12.5px; color: var(--ink-3); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+  .about-pic .stamp { position: absolute; left: -22px; top: -22px; width: 110px; height: 110px; animation: spin 18s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .about h2 { margin: 16px 0 22px; }
+  .about .two { display: grid; gap: 22px; margin-top: 30px; }
+  .about .two div { padding-left: 22px; border-left: 2px solid var(--gold); }
+  .about .two h3 { font-size: 20px; margin-bottom: 6px; }
+  .about .two p { color: var(--ink-2); font-size: 16px; }
+  .values { margin-top: clamp(60px, 8vw, 110px); display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .val { position: relative; background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 28px 26px 30px; overflow: hidden; transition: transform .45s cubic-bezier(.2,.8,.2,1), box-shadow .45s; }
+  .val:hover { transform: translateY(-6px); box-shadow: 0 30px 60px -30px rgba(14,27,51,.35); }
+  .val .n { font: 500 15px var(--display); color: var(--ink-3); }
+  .val h3 { font-size: 24px; margin: 46px 0 10px; }
+  .val p { font-size: 15.5px; color: var(--ink-2); }
+  .val::after { content: ""; position: absolute; right: -40px; top: -40px; width: 120px; height: 120px; border-radius: 50%; background: var(--sky); transition: transform .5s cubic-bezier(.2,.8,.2,1); }
+  .val:hover::after { transform: scale(1.6); background: #fff2d3; }
+  .val > * { position: relative; z-index: 1; }
+
+  /* Programs (horizontal) */
+  .programs { background: var(--blue-ink); color: #fff; padding-block: clamp(80px, 11vw, 150px) 0; overflow: clip; }
+  .programs .eyebrow { color: var(--gold); }
+  .programs .lead { color: #b8c4de; }
+  .prog-stage { position: relative; height: 100vh; display: flex; align-items: center; overflow: hidden; }
+  .prog-track { display: flex; gap: 26px; padding: 0 var(--gutter); will-change: transform; }
+  .prog { flex: 0 0 auto; width: min(370px, 78vw); aspect-ratio: 9 / 15; border-radius: 26px; overflow: hidden; position: relative; background: #13244a; }
+  .prog img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s cubic-bezier(.2,.8,.2,1); }
+  .prog:hover img { transform: scale(1.06); }
+  .prog::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11,26,58,.1) 30%, rgba(11,26,58,.92) 100%); }
+  .prog .txt { position: absolute; inset: auto 0 0; padding: 26px; z-index: 1; }
+  .prog .k { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; font-weight: 800; color: var(--gold); }
+  .prog h3 { font-size: 34px; margin: 8px 0 10px; }
+  .prog p { font-size: 14.5px; color: #cdd6ea; line-height: 1.5; max-height: 0; opacity: 0; overflow: hidden; transition: max-height .6s cubic-bezier(.2,.8,.2,1), opacity .5s; }
+  .prog:hover p, .prog.on p { max-height: 160px; opacity: 1; }
+  .prog .num { position: absolute; top: 20px; left: 22px; z-index: 1; font: 500 15px var(--display); background: rgba(255,255,255,.12); backdrop-filter: blur(8px); padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,.2); }
+  .prog-end { flex: 0 0 auto; width: min(420px, 80vw); display: grid; align-content: center; gap: 18px; padding: 0 20px; }
+  .prog-end h3 { font-size: clamp(30px, 3vw, 44px); }
+  .prog-end p { color: #b8c4de; }
+  .prog-bar { position: absolute; left: var(--gutter); right: var(--gutter); bottom: 30px; height: 2px; background: rgba(255,255,255,.15); }
+  .prog-bar i { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--gold); }
+
+  /* Student life */
+  .life { background: var(--paper-2); }
+  .life-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .life-card { background: #fff; border-radius: 24px; padding: 30px 28px 32px; border: 1px solid var(--line); display: grid; align-content: start; gap: 14px; }
+  .life-card .ico { width: 54px; height: 54px; border-radius: 16px; display: grid; place-items: center; background: var(--sky); color: var(--blue); }
+  .life-card .ico svg { width: 26px; height: 26px; }
+  .life-card p { color: var(--ink-2); font-size: 15.5px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .tags li { font-size: 13.5px; font-weight: 700; padding: 8px 13px; border-radius: 999px; background: var(--paper); border: 1px solid var(--line); transition: background .3s, color .3s, border-color .3s; }
+  .tags li:hover { background: var(--blue); color: #fff; border-color: var(--blue); }
+
+  /* Admissions */
+  .admissions { background: var(--paper); }
+  .adm-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: clamp(40px, 6vw, 90px); align-items: start; }
+  .steps { position: relative; display: grid; gap: 26px; padding-left: 44px; }
+  .steps::before { content: ""; position: absolute; left: 13px; top: 10px; bottom: 10px; width: 2px; background: var(--line); }
+  .steps .fill { position: absolute; left: 13px; top: 10px; width: 2px; height: 0; background: var(--gold); }
+  .step { position: relative; }
+  .step::before { content: ""; position: absolute; left: -44px; top: 6px; width: 28px; height: 28px; border-radius: 50%; background: #fff; border: 2px solid var(--line); transition: background .4s, border-color .4s, transform .4s; }
+  .step.lit::before { background: var(--gold); border-color: var(--gold); transform: scale(1.1); }
+  .step .k { font-size: 11.5px; letter-spacing: .18em; text-transform: uppercase; font-weight: 800; color: var(--blue); }
+  .step h3 { font-size: 26px; margin: 4px 0 6px; }
+  .step p { color: var(--ink-2); font-size: 16px; }
+  .reqs { display: grid; gap: 18px; }
+  .req { background: #fff; border: 1px solid var(--line); border-radius: 22px; padding: 26px 26px 24px; }
+  .req h3 { font-size: 20px; margin-bottom: 14px; }
+  .req ul { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; }
+  .req li { display: flex; gap: 10px; align-items: flex-start; font-size: 15px; color: var(--ink-2); }
+  .req li::before { content: ""; flex: 0 0 18px; height: 18px; border-radius: 50%; background: var(--sky); margin-top: 3px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath d='M5 9.5l2.6 2.5L13 6.5' fill='none' stroke='%232f55a4' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+  .cta-band { margin-top: clamp(50px, 7vw, 90px); background: var(--blue); color: #fff; border-radius: 28px; padding: clamp(32px, 5vw, 56px); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: center; position: relative; overflow: hidden; }
+  .cta-band::before { content: ""; position: absolute; right: -80px; top: -120px; width: 360px; height: 360px; border-radius: 50%; background: radial-gradient(circle, rgba(242,181,68,.55), transparent 65%); }
+  .cta-band h3 { font-size: clamp(26px, 3.2vw, 42px); }
+  .cta-band p { color: #d4ddef; margin-top: 8px; }
+  .cta-band > * { position: relative; }
+
+  /* Events */
+  .events { background: var(--paper-2); }
+  .ev-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
+  .ev-card { background: #fff; border: 1px solid var(--line); border-radius: 24px; padding: 30px; display: grid; gap: 10px; min-height: 240px; align-content: space-between; }
+  .ev-card .date { font: 500 54px/1 var(--display); color: var(--blue); }
+  .ev-card .date small { display: block; font: 800 12px var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--ink-3); margin-top: 6px; }
+  .ev-card p { color: var(--ink-2); font-size: 15.5px; }
+  .ev-card.soon { background: var(--blue-ink); color: #fff; border: 0; }
+  .ev-card.soon p { color: #b8c4de; }
+  .ev-card.soon .date { color: var(--gold); }
+
+  /* Contact */
+  .contact { background: var(--paper); }
+  .c-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: clamp(36px, 5vw, 70px); align-items: start; }
+  .c-list { display: grid; gap: 14px; margin-top: 30px; }
+  .c-item { display: grid; grid-template-columns: 48px 1fr; gap: 16px; align-items: start; padding: 18px 0; border-top: 1px solid var(--line); }
+  .c-item .ico { width: 48px; height: 48px; border-radius: 14px; background: var(--sky); color: var(--blue); display: grid; place-items: center; }
+  .c-item .ico svg { width: 22px; height: 22px; }
+  .c-item b { display: block; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 4px; }
+  .c-item a:hover { color: var(--blue); }
+  .form { background: #fff; border: 1px solid var(--line); border-radius: 26px; padding: clamp(24px, 3vw, 40px); display: grid; gap: 14px; }
+  .form .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .form label { display: grid; gap: 6px; font-size: 13px; font-weight: 700; color: var(--ink-2); }
+  .form input, .form textarea { font: 500 15.5px var(--sans); color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 12px; padding: 13px 14px; width: 100%; transition: border-color .3s, box-shadow .3s; }
+  .form input:focus, .form textarea:focus { outline: 0; border-color: var(--blue); box-shadow: 0 0 0 4px var(--sky); }
+  .form textarea { min-height: 130px; resize: vertical; }
+  .form .note { font-size: 13px; color: var(--ink-3); }
+
+  /* Footer */
+  footer { background: var(--blue-ink); color: #c4cfe6; padding: 70px 0 30px; }
+  .f-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 34px; }
+  footer h4 { color: #fff; font-size: 13px; letter-spacing: .16em; text-transform: uppercase; margin-bottom: 16px; }
+  footer li { margin-bottom: 9px; font-size: 15px; }
+  footer li a:hover { color: var(--gold); }
+  .f-brand p { font-size: 15px; max-width: 34ch; margin-top: 14px; }
+  .f-bottom { margin-top: 50px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.1); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; font-size: 13px; color: #8a97b8; }
+
+  /* Reveal helpers */
+  .rv { opacity: 0; transform: translateY(34px); }
+  .rv-l { opacity: 0; transform: translateX(-40px); }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .values { grid-template-columns: repeat(2, 1fr); }
+    .life-grid { grid-template-columns: 1fr; }
+    .f-grid { grid-template-columns: 1fr 1fr; }
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-side { justify-items: start; }
+  }
+  @media (max-width: 860px) {
+    .links, .nav .btn { display: none; }
+    .burger { display: block; }
+    .head, .about-grid, .adm-grid, .c-grid, .ev-grid { grid-template-columns: 1fr; }
+    .about-pic .chip { right: 12px; bottom: -18px; }
+    .about-pic .stamp { left: auto; right: 10px; top: -30px; width: 86px; height: 86px; }
+    .values { gap: 12px; }
+    .val h3 { margin-top: 30px; }
+    .prog-stage { height: auto; display: block; padding-bottom: 80px; }
+    .prog-track { flex-direction: column; align-items: center; gap: 18px; transform: none !important; }
+    .prog { width: min(420px, 100%); aspect-ratio: 4 / 5; }
+    .prog p { max-height: none; opacity: 1; }
+    .prog-end { width: 100%; text-align: center; padding: 20px 0 0; }
+    .prog-bar { display: none; }
+    .stats { grid-template-columns: 1fr; }
+    .stat + .stat { padding-left: 0; border-left: 0; border-top: 1px solid rgba(255,255,255,.14); }
+    .stat { padding: 18px 0; }
+    .scroll-cue { display: none; }
+    .req ul, .form .row { grid-template-columns: 1fr; }
+    .cta-band { grid-template-columns: 1fr; }
+    .f-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .values { grid-template-columns: 1fr; }
+    .hero h1 { font-size: clamp(42px, 13vw, 60px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rv, .rv-l, .hero h1 .w span { opacity: 1 !important; transform: none !important; }
+    .marquee .track, .about-pic .stamp, .scroll-cue::after { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <a class="brand" href="#top"><img src="assets/logo.png" alt=""><span>LSL School<small>Namangan</small></span></a>
+  <div class="links">
+    <a href="#about">About</a><a href="#programs">Programs</a><a href="#life">Student life</a><a href="#admissions">Admissions</a><a href="#events">Events</a><a href="#contact">Contact</a>
+  </div>
+  <a class="btn btn-gold" href="#admissions">Apply now</a>
+  <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+<div class="drawer" id="drawer">
+  <a href="#about">About</a><a href="#programs">Programs</a><a href="#life">Student life</a><a href="#admissions">Admissions</a><a href="#events">Events</a><a href="#contact">Contact</a>
+</div>
+
+<header class="hero" id="top">
+  <div class="hero-bg"><img src="assets/school-hero-1920.webp" alt="LSL School building in Namangan" fetchpriority="high"></div>
+  <div class="wrap hero-in">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow">Specialized private school · Namangan</span>
+        <h1 id="h1">Shaping tomorrow's <em>leaders</em> today</h1>
+        <p class="rv">A school where children learn to code, prove, build and create — in an environment that supports curiosity, critical thinking and character.</p>
+        <div class="hero-cta rv">
+          <a class="btn btn-gold" href="#programs">Explore programs <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a class="btn btn-ghost" href="#admissions">How to apply</a>
+        </div>
+      </div>
+      <div class="hero-side rv">
+        <div class="hero-card">
+          <div class="dot">A+</div>
+          <div><strong>Admissions open for 2025–26</strong><span>Assessment and interview · Mon–Sat 8:00–18:00</span></div>
+        </div>
+        <div class="hero-card">
+          <div class="dot" style="background:#fff">6</div>
+          <div><strong>Six specialized tracks</strong><span>Programming, Math, Physics, Engineering, Art, Sports</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><b><span data-count="350">0</span><i>+</i></b><span>Happy students</span></div>
+      <div class="stat"><b><span data-count="40">0</span><i>+</i></b><span>Teachers</span></div>
+      <div class="stat"><b><span data-count="2">0</span><i>+</i></b><span>Years of excellence</span></div>
+    </div>
+  </div>
+  <div class="scroll-cue">Scroll</div>
+</header>
+
+<div class="marquee" aria-hidden="true">
+  <div class="track">
+    <span>Programming</span><span>Mathematics</span><span>Physics</span><span>Engineering</span><span>Art</span><span>Sports</span><span>Leadership</span><span>Debate</span>
+    <span>Programming</span><span>Mathematics</span><span>Physics</span><span>Engineering</span><span>Art</span><span>Sports</span><span>Leadership</span><span>Debate</span>
+  </div>
+</div>
+
+<section class="block about" id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-pic">
+        <svg class="stamp" viewBox="0 0 100 100" aria-hidden="true">
+          <defs><path id="circ" d="M50,50 m-36,0 a36,36 0 1,1 72,0 a36,36 0 1,1 -72,0"/></defs>
+          <circle cx="50" cy="50" r="48" fill="var(--gold)"/>
+          <text font-family="Manrope, sans-serif" font-weight="800" font-size="9.5" letter-spacing="2.2" fill="#0b1a3a"><textPath href="#circ">EST. 2023 · NAMANGAN · LSL SCHOOL · </textPath></text>
+          <text x="50" y="55" text-anchor="middle" font-family="Fraunces, serif" font-size="18" fill="#0b1a3a">LSL</text>
+        </svg>
+        <div class="frame" id="about-frame"><img src="assets/school-about.webp" alt="Teachers and students at the LSL School entrance"></div>
+        <div class="chip rv"><b>350+</b><span>Students in 2 years</span></div>
+      </div>
+      <div>
+        <span class="eyebrow rv">About LSL School</span>
+        <h2 class="rv">A young school with an old-fashioned belief: every child can be excellent.</h2>
+        <p class="lead rv">For two years we have been running a rigorous programme that prepares students for a world that keeps changing — with teachers who know every student by name.</p>
+        <div class="two">
+          <div class="rv"><h3>Our mission</h3><p>A nurturing environment that empowers students to reach their full potential academically, socially and emotionally — with critical thinking, creativity and the habits of lifelong learning.</p></div>
+          <div class="rv"><h3>Our goal</h3><p>To be recognized as a leading school that inspires confident, compassionate and capable leaders who contribute to their community and the world.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="values">
+      <div class="val rv"><span class="n">01</span><h3>Excellence</h3><p>We strive for academic excellence and personal growth in every student.</p></div>
+      <div class="val rv"><span class="n">02</span><h3>Innovation</h3><p>Modern teaching methods and technology, used where they actually help learning.</p></div>
+      <div class="val rv"><span class="n">03</span><h3>Compassion</h3><p>A caring environment where every student feels valued and supported.</p></div>
+      <div class="val rv"><span class="n">04</span><h3>Integrity</h3><p>Character and ethical values that last a lifetime.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="programs" id="programs">
+  <div class="wrap">
+    <div class="head">
+      <div><span class="eyebrow rv">Our programs</span><h2 class="rv">Six tracks. One curious child at the centre.</h2></div>
+      <p class="lead rv">From first grade to middle-school graduation, every student moves through all six tracks and goes deep in the ones they love.</p>
+    </div>
+  </div>
+  <div class="prog-stage" id="prog-stage">
+    <div class="prog-track" id="prog-track">
+      <article class="prog"><span class="num">01</span><img src="assets/coding.webp" alt="Students building a website in the programming class" loading="lazy"><div class="txt"><span class="k">All grades</span><h3>Programming</h3><p>Coding and computational thinking from beginner to advanced: several languages, real projects, their own software.</p></div></article>
+      <article class="prog"><span class="num">02</span><img src="assets/math.webp" alt="Math lesson at LSL School" loading="lazy"><div class="txt"><span class="k">All grades</span><h3>Mathematics</h3><p>Strong analytical foundations through problem-solving and real-life skills — the logic every other subject stands on.</p></div></article>
+      <article class="prog"><span class="num">03</span><img src="assets/fizika.webp" alt="Physics experiment" loading="lazy"><div class="txt"><span class="k">All grades</span><h3>Physics</h3><p>Hands-on exploration of the physical world: experiments first, then the theory that explains them.</p></div></article>
+      <article class="prog"><span class="num">04</span><img src="assets/robotics.webp" alt="Young engineers building with construction kits" loading="lazy"><div class="txt"><span class="k">All grades</span><h3>Engineering</h3><p>Design, problem-solving and innovation on real projects with modern tools and methods.</p></div></article>
+      <article class="prog"><span class="num">05</span><img src="assets/art.webp" alt="Painting in the art studio" loading="lazy"><div class="txt"><span class="k">All grades</span><h3>Art</h3><p>Creativity and self-expression in painting, drawing, sculpture and digital art.</p></div></article>
+      <article class="prog"><span class="num">06</span><img src="assets/sport.webp" alt="Football training in the indoor sports complex" loading="lazy"><div class="txt"><span class="k">All grades</span><h3>Sports</h3><p>Fitness, teamwork and sportsmanship: competitive teams, individual training and recreation for every level.</p></div></article>
+      <div class="prog-end">
+        <h3>Want to see a lesson?</h3>
+        <p>Book a visit and sit in on a class with your child.</p>
+        <div><a class="btn btn-gold" href="#contact">Book a visit</a></div>
+      </div>
+    </div>
+    <div class="prog-bar"><i id="prog-bar"></i></div>
+  </div>
+</section>
+
+<section class="block life" id="life">
+  <div class="wrap">
+    <div class="head">
+      <div><span class="eyebrow rv">Student life</span><h2 class="rv">Learning doesn't stop when the bell rings.</h2></div>
+      <p class="lead rv">Clubs, leadership roles and facilities that give students room to try, fail safely and grow.</p>
+    </div>
+    <div class="life-grid">
+      <div class="life-card rv">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></div>
+        <h3>Student clubs</h3><p>Student-led clubs and circles that meet every week.</p>
+        <ul class="tags"><li>Young Engineer</li><li>Debate!</li><li>Drawing</li><li>Music</li><li>Sports</li></ul>
+      </div>
+      <div class="life-card rv">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z"/></svg></div>
+        <h3>Leadership</h3><p>Programmes and positions where students practise leading others.</p>
+        <ul class="tags"><li>Leaders Club</li><li>Young Leader</li><li>Community</li></ul>
+      </div>
+      <div class="life-card rv">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6"/></svg></div>
+        <h3>Campus</h3><p>Facilities for learning and recreation, all on one campus.</p>
+        <ul class="tags"><li>Modern library</li><li>Science labs</li><li>Sports complex</li><li>Art studios</li><li>Music rooms</li><li>Computer labs</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block admissions" id="admissions">
+  <div class="wrap">
+    <div class="head">
+      <div><span class="eyebrow rv">Admissions</span><h2 class="rv">Four steps from first call to first day.</h2></div>
+      <p class="lead rv">Join our family and discover how LSL School can help your child reach their full potential.</p>
+    </div>
+    <div class="adm-grid">
+      <div class="steps" id="steps">
+        <i class="fill" id="steps-fill"></i>
+        <div class="step rv"><span class="k">Step 1</span><h3>Application</h3><p>Submit the application form with the required documents.</p></div>
+        <div class="step rv"><span class="k">Step 2</span><h3>Assessment</h3><p>Your child completes an academic assessment and a short interview.</p></div>
+        <div class="step rv"><span class="k">Step 3</span><h3>Review</h3><p>The admissions committee reviews the application and meets the parents.</p></div>
+        <div class="step rv"><span class="k">Step 4</span><h3>Decision</h3><p>You receive the admission decision and enrollment details.</p></div>
+      </div>
+      <div class="reqs">
+        <div class="req rv"><h3>Required documents</h3><ul><li>Birth certificate</li><li>Previous school records</li><li>Immunization records</li><li>Parent / guardian ID</li><li>Application form</li><li>Recommendation letters</li></ul></div>
+        <div class="req rv"><h3>Admission criteria</h3><ul><li>Academic performance</li><li>Behavioral record</li><li>Parent interview</li><li>Student assessment</li><li>Space availability</li></ul></div>
+      </div>
+    </div>
+    <div class="cta-band rv">
+      <div><h3>Ready to apply?</h3><p>Call +998 90 215 61 32 or write to admissions@lslschool.uz — we reply within one working day.</p></div>
+      <a class="btn btn-gold" href="mailto:admissions@lslschool.uz">Email admissions</a>
+    </div>
+  </div>
+</section>
+
+<section class="block events" id="events">
+  <div class="wrap">
+    <div class="head">
+      <div><span class="eyebrow rv">Events</span><h2 class="rv">Competitions, open days and celebrations.</h2></div>
+      <p class="lead rv">Stay connected with our school community through events, competitions and educational activities throughout the year.</p>
+    </div>
+    <div class="ev-grid">
+      <div class="ev-card rv"><div class="date">Sep 1<small>Every year</small></div><div><h3>Knowledge Day</h3><p>The school year opens with the whole LSL family at the entrance — balloons included.</p></div></div>
+      <div class="ev-card soon rv"><div class="date">Soon<small>Calendar</small></div><div><h3>Upcoming events</h3><p>Event updates will be published here. Call the office for this month's open-day dates.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="block contact" id="contact">
+  <div class="wrap">
+    <div class="c-grid">
+      <div>
+        <span class="eyebrow rv">Contact</span>
+        <h2 class="rv">We are waiting for you.</h2>
+        <div class="c-list">
+          <div class="c-item rv"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></div><div><b>Phone</b><a href="tel:+998902156132">+998 90 215 61 32</a><br><a href="tel:+998886042244">+998 88 604 22 44</a></div></div>
+          <div class="c-item rv"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></div><div><b>Email</b><a href="mailto:info@lslschool.uz">info@lslschool.uz</a><br><a href="mailto:admissions@lslschool.uz">admissions@lslschool.uz</a></div></div>
+          <div class="c-item rv"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg></div><div><b>Address</b>Baynalminal MFY, 7-uy<br>Namangan, Uzbekistan</div></div>
+          <div class="c-item rv"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><div><b>Office hours</b>Monday – Saturday: 8:00 – 18:00<br>Sunday: closed</div></div>
+        </div>
+      </div>
+      <form class="form rv" id="form">
+        <div class="row">
+          <label>First name <input name="first" required autocomplete="given-name"></label>
+          <label>Last name <input name="last" required autocomplete="family-name"></label>
+        </div>
+        <div class="row">
+          <label>Email <input name="email" type="email" required autocomplete="email"></label>
+          <label>Phone <input name="phone" type="tel" autocomplete="tel"></label>
+        </div>
+        <label>Subject <input name="subject" placeholder="Admission for grade 3"></label>
+        <label>Message <textarea name="message" required></textarea></label>
+        <div><button class="btn btn-blue" type="submit">Send message</button></div>
+        <p class="note">Opens your email app with the message ready to send to info@lslschool.uz.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="f-grid">
+      <div class="f-brand">
+        <a class="brand" href="#top" style="color:#fff"><img src="assets/logo.png" alt="" style="filter:brightness(0) invert(1)"><span>LSL School<small>Namangan</small></span></a>
+        <p>Nurturing young minds through innovative education, creativity, critical thinking and character.</p>
+      </div>
+      <div><h4>School</h4><ul><li><a href="#about">About</a></li><li><a href="#programs">Programs</a></li><li><a href="#life">Student life</a></li><li><a href="#events">Events</a></li></ul></div>
+      <div><h4>Admissions</h4><ul><li><a href="#admissions">How to apply</a></li><li><a href="#admissions">Documents</a></li><li><a href="#contact">Book a visit</a></li></ul></div>
+      <div><h4>Contact</h4><ul><li><a href="tel:+998902156132">+998 90 215 61 32</a></li><li><a href="tel:+998886042244">+998 88 604 22 44</a></li><li><a href="mailto:info@lslschool.uz">info@lslschool.uz</a></li></ul></div>
+    </div>
+    <div class="f-bottom"><span>© 2025 LSL School. All rights reserved.</span><span>Baynalminal MFY, 7-uy, Namangan</span></div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function () {
+  var $ = function (s, c) { return (c || document).querySelector(s); };
+  var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var phone = matchMedia('(max-width: 860px)').matches;
+
+  // Nav state + drawer
+  var nav = $('#nav'), drawer = $('#drawer');
+  var onScroll = function () { nav.classList.toggle('solid', scrollY > 40); };
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  $('#burger').addEventListener('click', function () { document.body.classList.toggle('menu'); drawer.classList.toggle('open'); });
+  $$('a', drawer).forEach(function (a) { a.addEventListener('click', function () { document.body.classList.remove('menu'); drawer.classList.remove('open'); }); });
+
+  // Split hero headline into words
+  var h1 = $('#h1');
+  h1.innerHTML = h1.innerHTML.replace(/(<em>)?([^\s<]+)(<\/em>)?/g, function (m, o, w, c) { return '<span class="w"><span>' + (o || '') + w + (c || '') + '</span></span>'; });
+
+  // Contact form -> mailto
+  $('#form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var f = new FormData(e.target), o = {}; f.forEach(function (v, k) { o[k] = v; });
+    var body = 'Name: ' + o.first + ' ' + o.last + '\nEmail: ' + o.email + '\nPhone: ' + (o.phone || '-') + '\n\n' + o.message;
+    location.href = 'mailto:info@lslschool.uz?subject=' + encodeURIComponent(o.subject || 'Message from the website') + '&body=' + encodeURIComponent(body);
+  });
+
+  if (!window.gsap || reduce) { $$('.rv, .rv-l').forEach(function (el) { el.style.opacity = 1; el.style.transform = 'none'; }); $$('.hero h1 .w span').forEach(function (s) { s.style.transform = 'none'; }); $('#about-frame').style.clipPath = 'none'; return; }
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Hero intro
+  var intro = gsap.timeline({ defaults: { ease: 'expo.out' } });
+  intro.from('.hero-bg img', { scale: 1.3, duration: 2.4, ease: 'power2.out' }, 0)
+       .from('.hero .eyebrow', { y: 20, opacity: 0, duration: .9 }, .2)
+       .to('.hero h1 .w span', { y: 0, duration: 1.3, stagger: .09 }, .35)
+       .to('.hero p.rv, .hero .hero-cta, .hero-side', { y: 0, opacity: 1, duration: 1.1, stagger: .12 }, .9)
+       .from('.stat', { y: 26, opacity: 0, duration: .9, stagger: .1 }, 1.2)
+       .from('.nav', { y: -20, opacity: 0, duration: .8 }, .6);
+  // Counters
+  $$('[data-count]').forEach(function (el) {
+    var n = +el.getAttribute('data-count'), o = { v: 0 };
+    gsap.to(o, { v: n, duration: 2.2, delay: 1.3, ease: 'power3.out', onUpdate: function () { el.textContent = Math.round(o.v); } });
+  });
+  // Hero parallax
+  gsap.to('.hero-bg img', { yPercent: 14, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+  gsap.to('.hero-in', { yPercent: -8, opacity: .3, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+
+  // Programs horizontal scroll (desktop)
+  var track = $('#prog-track'), stage = $('#prog-stage');
+  if (!phone) {
+    var dist = function () { return track.scrollWidth - innerWidth; };
+    gsap.to(track, { x: function () { return -dist(); }, ease: 'none',
+      scrollTrigger: { trigger: stage, start: 'top top', end: function () { return '+=' + dist(); }, pin: true, scrub: .6, invalidateOnRefresh: true, anticipatePin: 1,
+        onUpdate: function (st) { $('#prog-bar').style.width = (st.progress * 100) + '%'; } } });
+    gsap.from('.prog', { y: 80, opacity: 0, duration: 1, stagger: .1, ease: 'expo.out', scrollTrigger: { trigger: stage, start: 'top 75%' } });
+  } else {
+    $$('.prog').forEach(function (p) { gsap.from(p, { y: 60, opacity: 0, duration: 1, ease: 'expo.out', scrollTrigger: { trigger: p, start: 'top 85%' } }); });
+  }
+
+  // Generic reveals (after pins are created)
+  $$('.rv').forEach(function (el) {
+    if (el.closest('.hero')) return;
+    gsap.to(el, { y: 0, opacity: 1, duration: 1.1, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 88%' } });
+  });
+  // About picture wipe + parallax
+  gsap.to('#about-frame', { clipPath: 'inset(0 0% 0 0 round 22px)', duration: 1.4, ease: 'expo.inOut', scrollTrigger: { trigger: '#about-frame', start: 'top 80%' } });
+  gsap.to('#about-frame img', { scale: 1, yPercent: 0, ease: 'none', scrollTrigger: { trigger: '#about-frame', start: 'top bottom', end: 'bottom top', scrub: true } });
+  // Admissions line + dots
+  var steps = $$('.step');
+  gsap.to('#steps-fill', { height: '100%', ease: 'none', scrollTrigger: { trigger: '#steps', start: 'top 70%', end: 'bottom 60%', scrub: true,
+    onUpdate: function (st) { steps.forEach(function (s, i) { s.classList.toggle('lit', st.progress >= i / steps.length + .02); }); } } });
+  // Section headlines: slight letter tracking in
+  $$('h2.rv').forEach(function (h) { gsap.from(h, { letterSpacing: '.02em', duration: 1.4, ease: 'expo.out', scrollTrigger: { trigger: h, start: 'top 88%' } }); });
+
+  addEventListener('load', function () { ScrollTrigger.refresh(); });
+})();
+</script>
+</body>
+</html>
