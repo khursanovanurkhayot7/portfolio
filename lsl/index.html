@@ -8,7 +8,7 @@
 <link rel="icon" href="assets/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
     --ink: #0e1b33; --ink-2: #41506b; --ink-3: #7a86a0;
@@ -20,11 +20,14 @@
     --r: 22px; --gutter: clamp(20px, 5vw, 72px);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: auto; }
+  html.lenis, html.lenis body { height: auto; }
+  .lenis.lenis-smooth { scroll-behavior: auto !important; }
   body { font: 500 17px/1.6 var(--sans); color: var(--ink); background: var(--paper); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
   img { display: block; max-width: 100%; }
   a { color: inherit; text-decoration: none; }
   ul { list-style: none; }
+  button { font: inherit; cursor: pointer; }
   h1, h2, h3 { font-family: var(--display); font-weight: 500; letter-spacing: -.02em; line-height: 1.04; text-wrap: balance; }
   h2 { font-size: clamp(36px, 5vw, 64px); }
   h3 { font-size: clamp(22px, 2.4vw, 30px); line-height: 1.15; }
@@ -32,54 +35,71 @@
   .eyebrow { display: inline-flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: var(--blue); }
   .eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--gold); }
   .lead { font-size: clamp(17px, 1.45vw, 21px); color: var(--ink-2); max-width: 60ch; }
-  .btn { display: inline-flex; align-items: center; gap: 10px; padding: 15px 26px; border-radius: 999px; font-weight: 700; font-size: 15px; border: 1.5px solid transparent; transition: transform .35s cubic-bezier(.2,.8,.2,1), background .3s, color .3s, box-shadow .35s; will-change: transform; }
-  .btn:hover { transform: translateY(-2px); }
+  .btn { position: relative; display: inline-flex; align-items: center; gap: 10px; padding: 15px 26px; border-radius: 999px; font-weight: 700; font-size: 15px; border: 1.5px solid transparent; transition: background .3s, color .3s, box-shadow .35s, border-color .3s; overflow: hidden; isolation: isolate; }
+  .btn::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: rgba(255,255,255,.22); transform: translateY(102%); transition: transform .5s cubic-bezier(.2,.8,.2,1); z-index: -1; }
+  .btn:hover::before { transform: none; }
   .btn-gold { background: var(--gold); color: var(--blue-ink); box-shadow: 0 10px 30px -12px rgba(242,181,68,.8); }
-  .btn-gold:hover { background: #ffc453; }
   .btn-ghost { border-color: rgba(255,255,255,.45); color: #fff; backdrop-filter: blur(6px); }
-  .btn-ghost:hover { background: rgba(255,255,255,.12); }
   .btn-blue { background: var(--blue); color: #fff; }
-  .btn-blue:hover { background: var(--blue-deep); }
-  .btn-line { border-color: var(--line); color: var(--ink); background: #fff; }
+  .btn-blue::before { background: rgba(0,0,0,.18); }
   .btn svg { width: 16px; height: 16px; }
+  .btn .ic { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: rgba(11,26,58,.12); margin-right: -8px; transition: transform .4s cubic-bezier(.2,.8,.2,1); }
+  .btn:hover .ic { transform: translateX(4px); }
+
+  /* Progress + preloader */
+  .progress { position: fixed; left: 0; top: 0; height: 3px; width: 100%; z-index: 60; transform-origin: left; transform: scaleX(0); background: linear-gradient(90deg, var(--gold), #ffd57a); pointer-events: none; }
+  .loader { position: fixed; inset: 0; z-index: 100; background: var(--blue-ink); color: #fff; display: grid; place-items: center; }
+  .loader .in { display: grid; justify-items: center; gap: 14px; }
+  .loader img { width: 74px; filter: brightness(0) invert(1); }
+  .loader .word { font: 500 clamp(24px, 4vw, 40px) var(--display); overflow: hidden; }
+  .loader .word span { display: inline-block; transform: translateY(110%); }
+  .loader .bar { width: 160px; height: 2px; background: rgba(255,255,255,.15); position: relative; overflow: hidden; }
+  .loader .bar i { position: absolute; inset: 0; background: var(--gold); transform-origin: left; transform: scaleX(0); }
+  .loader .pct { font-size: 12px; letter-spacing: .2em; color: #b8c4de; font-weight: 800; }
 
   /* Nav */
-  .nav { position: fixed; inset: 0 0 auto; z-index: 50; padding: 18px var(--gutter); display: flex; align-items: center; justify-content: space-between; gap: 20px; transition: background .4s, padding .4s, box-shadow .4s; color: #fff; }
+  .nav { position: fixed; inset: 0 0 auto; z-index: 50; padding: 18px var(--gutter); display: flex; align-items: center; justify-content: space-between; gap: 20px; transition: background .4s, padding .4s, box-shadow .4s, color .4s; color: #fff; }
   .nav.solid { background: rgba(251,250,246,.86); backdrop-filter: blur(14px); color: var(--ink); padding-block: 12px; box-shadow: 0 1px 0 var(--line); }
   .brand { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 18px; letter-spacing: -.01em; }
   .brand img { width: 40px; height: 40px; object-fit: contain; filter: brightness(0) invert(1); transition: filter .4s; }
   .nav.solid .brand img { filter: none; }
   .brand small { display: block; font-size: 10.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; opacity: .7; line-height: 1; margin-top: 3px; }
-  .links { display: flex; gap: 30px; font-size: 14.5px; font-weight: 700; }
+  .links { display: flex; gap: 28px; font-size: 14.5px; font-weight: 700; }
   .links a { position: relative; opacity: .88; }
   .links a::after { content: ""; position: absolute; left: 0; right: 100%; bottom: -5px; height: 2px; background: var(--gold); transition: right .35s cubic-bezier(.2,.8,.2,1); }
   .links a:hover::after { right: 0; }
+  .nav-r { display: flex; align-items: center; gap: 14px; }
   .nav .btn { padding: 11px 20px; font-size: 14px; }
-  .burger { display: none; width: 44px; height: 44px; border: 0; background: none; color: inherit; cursor: pointer; }
+  .lang { display: flex; border: 1px solid rgba(255,255,255,.35); border-radius: 999px; padding: 3px; gap: 2px; transition: border-color .4s; }
+  .nav.solid .lang { border-color: var(--line); }
+  .lang button { border: 0; background: none; color: inherit; font-size: 12px; font-weight: 800; letter-spacing: .08em; padding: 6px 10px; border-radius: 999px; opacity: .7; transition: background .3s, opacity .3s, color .3s; }
+  .lang button.on { background: var(--gold); color: var(--blue-ink); opacity: 1; }
+  .burger { display: none; width: 44px; height: 44px; border: 0; background: none; color: inherit; }
   .burger span { display: block; width: 24px; height: 2px; background: currentColor; margin: 5px auto; transition: transform .3s, opacity .3s; }
-  .drawer { position: fixed; inset: 0; z-index: 49; background: var(--blue-ink); color: #fff; display: grid; place-content: center; gap: 20px; text-align: center; font: 500 clamp(28px, 8vw, 44px)/1.2 var(--display); transform: translateY(-100%); transition: transform .55s cubic-bezier(.7,0,.2,1); }
+  .drawer { position: fixed; inset: 0; z-index: 49; background: var(--blue-ink); color: #fff; display: grid; place-content: center; gap: 18px; text-align: center; font: 500 clamp(28px, 8vw, 44px)/1.2 var(--display); transform: translateY(-100%); transition: transform .55s cubic-bezier(.7,0,.2,1); }
   .drawer.open { transform: none; }
+  .drawer .lang { justify-self: center; margin-top: 10px; font-family: var(--sans); }
   body.menu .burger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
   body.menu .burger span:nth-child(2) { opacity: 0; }
   body.menu .burger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
   /* Hero */
   .hero { position: relative; min-height: 100svh; display: grid; align-items: end; color: #fff; overflow: hidden; isolation: isolate; }
-  .hero-bg { position: absolute; inset: -6% 0 0; z-index: -2; }
+  .hero-bg { position: absolute; inset: -8% -4% 0; z-index: -2; }
   .hero-bg img { width: 100%; height: 100%; object-fit: cover; object-position: center 40%; transform: scale(1.12); }
-  .hero::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(11,26,58,.72) 0%, rgba(11,26,58,.35) 55%, rgba(11,26,58,.2) 100%), linear-gradient(180deg, rgba(11,26,58,.45) 0%, rgba(11,26,58,.1) 35%, rgba(11,26,58,.75) 72%, rgba(11,26,58,.96) 100%); }
+  .hero::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(11,26,58,.74) 0%, rgba(11,26,58,.35) 55%, rgba(11,26,58,.2) 100%), linear-gradient(180deg, rgba(11,26,58,.45) 0%, rgba(11,26,58,.1) 35%, rgba(11,26,58,.75) 72%, rgba(11,26,58,.96) 100%); }
+  .grain { position: fixed; inset: 0; z-index: 48; pointer-events: none; opacity: .07; mix-blend-mode: multiply; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
   .hero-in { padding: 140px 0 0; }
   .hero-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 40px; align-items: end; padding-bottom: 46px; }
   .hero .eyebrow { color: var(--gold); }
-  .hero .eyebrow::before { background: var(--gold); }
   .hero h1 { font-size: clamp(46px, 8vw, 110px); margin: 18px 0 22px; font-weight: 400; }
   .hero h1 em { font-style: italic; font-weight: 400; color: var(--gold); }
-  .hero h1 .w { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: .08em; margin-bottom: -.08em; }
-  .hero h1 .w span { display: inline-block; transform: translateY(110%); }
+  .w { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: .1em; margin-bottom: -.1em; }
+  .w > span { display: inline-block; transform: translateY(110%); will-change: transform; }
   .hero p { font-size: clamp(16px, 1.3vw, 19px); color: #d4ddef; max-width: 52ch; }
   .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
   .hero-side { display: grid; gap: 14px; justify-items: end; }
-  .hero-card { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.14); backdrop-filter: blur(12px); border-radius: 18px; padding: 18px 20px; width: min(100%, 360px); display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: center; }
+  .hero-card { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.14); backdrop-filter: blur(12px); border-radius: 18px; padding: 18px 20px; width: min(100%, 360px); display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: center; will-change: transform; }
   .hero-card .dot { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; background: var(--gold); color: var(--blue-ink); font-weight: 800; }
   .hero-card strong { display: block; font-size: 15px; }
   .hero-card span { font-size: 13.5px; color: #c4cfe6; }
@@ -95,18 +115,17 @@
 
   /* Marquee */
   .marquee { background: var(--blue-ink); color: #fff; overflow: hidden; padding: 16px 0; border-block: 1px solid rgba(255,255,255,.08); }
-  .marquee .track { display: flex; gap: 0; width: max-content; animation: mq 32s linear infinite; }
+  .marquee .track { display: flex; width: max-content; animation: mq 32s linear infinite; }
   .marquee span { font: 500 clamp(18px, 2vw, 24px)/1 var(--display); padding: 0 28px; white-space: nowrap; display: inline-flex; align-items: center; gap: 28px; }
   .marquee span::after { content: "✦"; color: var(--gold); font-size: 14px; }
   @keyframes mq { to { transform: translateX(-50%); } }
 
-  /* Sections */
   section.block { padding-block: clamp(80px, 11vw, 150px); }
   .head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 30px 60px; align-items: end; margin-bottom: clamp(40px, 6vw, 72px); }
   .head h2 { margin-top: 16px; }
+  .num-tag { font: 500 14px var(--display); color: var(--ink-3); letter-spacing: .04em; display: inline-block; margin-bottom: 10px; }
 
   /* About */
-  .about { background: var(--paper); }
   .about-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(36px, 6vw, 90px); align-items: center; }
   .about-pic { position: relative; }
   .about-pic .frame { border-radius: var(--r); overflow: hidden; aspect-ratio: 4 / 3; clip-path: inset(0 100% 0 0 round var(--r)); }
@@ -127,17 +146,18 @@
   .val .n { font: 500 15px var(--display); color: var(--ink-3); }
   .val h3 { font-size: 24px; margin: 46px 0 10px; }
   .val p { font-size: 15.5px; color: var(--ink-2); }
-  .val::after { content: ""; position: absolute; right: -40px; top: -40px; width: 120px; height: 120px; border-radius: 50%; background: var(--sky); transition: transform .5s cubic-bezier(.2,.8,.2,1); }
+  .val::after { content: ""; position: absolute; right: -40px; top: -40px; width: 120px; height: 120px; border-radius: 50%; background: var(--sky); transition: transform .5s cubic-bezier(.2,.8,.2,1), background .5s; }
   .val:hover::after { transform: scale(1.6); background: #fff2d3; }
   .val > * { position: relative; z-index: 1; }
 
-  /* Programs (horizontal) */
-  .programs { background: var(--blue-ink); color: #fff; padding-block: clamp(80px, 11vw, 150px) 0; overflow: clip; }
+  /* Programs */
+  .programs { background: var(--blue-ink); color: #fff; padding-block: clamp(80px, 11vw, 150px) 0; overflow: clip; position: relative; }
   .programs .eyebrow { color: var(--gold); }
   .programs .lead { color: #b8c4de; }
+  .programs .num-tag { color: #8a97b8; }
   .prog-stage { position: relative; height: 100vh; display: flex; align-items: center; overflow: hidden; }
   .prog-track { display: flex; gap: 26px; padding: 0 var(--gutter); will-change: transform; }
-  .prog { flex: 0 0 auto; width: min(370px, 78vw); aspect-ratio: 9 / 15; border-radius: 26px; overflow: hidden; position: relative; background: #13244a; }
+  .prog { flex: 0 0 auto; width: min(370px, 78vw); aspect-ratio: 9 / 15; border-radius: 26px; overflow: hidden; position: relative; background: #13244a; transform-style: preserve-3d; perspective: 900px; }
   .prog img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s cubic-bezier(.2,.8,.2,1); }
   .prog:hover img { transform: scale(1.06); }
   .prog::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11,26,58,.1) 30%, rgba(11,26,58,.92) 100%); }
@@ -147,32 +167,36 @@
   .prog p { font-size: 14.5px; color: #cdd6ea; line-height: 1.5; max-height: 0; opacity: 0; overflow: hidden; transition: max-height .6s cubic-bezier(.2,.8,.2,1), opacity .5s; }
   .prog:hover p, .prog.on p { max-height: 160px; opacity: 1; }
   .prog .num { position: absolute; top: 20px; left: 22px; z-index: 1; font: 500 15px var(--display); background: rgba(255,255,255,.12); backdrop-filter: blur(8px); padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,.2); }
+  .prog .shine { position: absolute; inset: 0; z-index: 2; background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,.18), transparent 45%); opacity: 0; transition: opacity .4s; pointer-events: none; }
+  .prog:hover .shine { opacity: 1; }
   .prog-end { flex: 0 0 auto; width: min(420px, 80vw); display: grid; align-content: center; gap: 18px; padding: 0 20px; }
   .prog-end h3 { font-size: clamp(30px, 3vw, 44px); }
   .prog-end p { color: #b8c4de; }
   .prog-bar { position: absolute; left: var(--gutter); right: var(--gutter); bottom: 30px; height: 2px; background: rgba(255,255,255,.15); }
   .prog-bar i { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--gold); }
+  .prog-count { position: absolute; right: var(--gutter); bottom: 44px; font: 500 14px var(--display); color: #8a97b8; }
+  .prog-count b { color: #fff; font-weight: 500; font-size: 22px; }
 
   /* Student life */
   .life { background: var(--paper-2); }
   .life-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-  .life-card { background: #fff; border-radius: 24px; padding: 30px 28px 32px; border: 1px solid var(--line); display: grid; align-content: start; gap: 14px; }
+  .life-card { background: #fff; border-radius: 24px; padding: 30px 28px 32px; border: 1px solid var(--line); display: grid; align-content: start; gap: 14px; transition: transform .45s cubic-bezier(.2,.8,.2,1), box-shadow .45s; }
+  .life-card:hover { transform: translateY(-6px); box-shadow: 0 30px 60px -30px rgba(14,27,51,.3); }
   .life-card .ico { width: 54px; height: 54px; border-radius: 16px; display: grid; place-items: center; background: var(--sky); color: var(--blue); }
   .life-card .ico svg { width: 26px; height: 26px; }
   .life-card p { color: var(--ink-2); font-size: 15.5px; }
   .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
-  .tags li { font-size: 13.5px; font-weight: 700; padding: 8px 13px; border-radius: 999px; background: var(--paper); border: 1px solid var(--line); transition: background .3s, color .3s, border-color .3s; }
-  .tags li:hover { background: var(--blue); color: #fff; border-color: var(--blue); }
+  .tags li { font-size: 13.5px; font-weight: 700; padding: 8px 13px; border-radius: 999px; background: var(--paper); border: 1px solid var(--line); transition: background .3s, color .3s, border-color .3s, transform .3s; }
+  .tags li:hover { background: var(--blue); color: #fff; border-color: var(--blue); transform: translateY(-2px); }
 
   /* Admissions */
-  .admissions { background: var(--paper); }
   .adm-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: clamp(40px, 6vw, 90px); align-items: start; }
   .steps { position: relative; display: grid; gap: 26px; padding-left: 44px; }
   .steps::before { content: ""; position: absolute; left: 13px; top: 10px; bottom: 10px; width: 2px; background: var(--line); }
   .steps .fill { position: absolute; left: 13px; top: 10px; width: 2px; height: 0; background: var(--gold); }
   .step { position: relative; }
-  .step::before { content: ""; position: absolute; left: -44px; top: 6px; width: 28px; height: 28px; border-radius: 50%; background: #fff; border: 2px solid var(--line); transition: background .4s, border-color .4s, transform .4s; }
-  .step.lit::before { background: var(--gold); border-color: var(--gold); transform: scale(1.1); }
+  .step::before { content: ""; position: absolute; left: -44px; top: 6px; width: 28px; height: 28px; border-radius: 50%; background: #fff; border: 2px solid var(--line); transition: background .4s, border-color .4s, transform .4s, box-shadow .4s; }
+  .step.lit::before { background: var(--gold); border-color: var(--gold); transform: scale(1.1); box-shadow: 0 0 0 8px rgba(242,181,68,.18); }
   .step .k { font-size: 11.5px; letter-spacing: .18em; text-transform: uppercase; font-weight: 800; color: var(--blue); }
   .step h3 { font-size: 26px; margin: 4px 0 6px; }
   .step p { color: var(--ink-2); font-size: 16px; }
@@ -200,7 +224,6 @@
   .ev-card.soon .date { color: var(--gold); }
 
   /* Contact */
-  .contact { background: var(--paper); }
   .c-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: clamp(36px, 5vw, 70px); align-items: start; }
   .c-list { display: grid; gap: 14px; margin-top: 30px; }
   .c-item { display: grid; grid-template-columns: 48px 1fr; gap: 16px; align-items: start; padding: 18px 0; border-top: 1px solid var(--line); }
@@ -217,19 +240,21 @@
   .form .note { font-size: 13px; color: var(--ink-3); }
 
   /* Footer */
-  footer { background: var(--blue-ink); color: #c4cfe6; padding: 70px 0 30px; }
+  footer { background: var(--blue-ink); color: #c4cfe6; padding: 70px 0 30px; overflow: hidden; position: relative; }
   .f-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 34px; }
   footer h4 { color: #fff; font-size: 13px; letter-spacing: .16em; text-transform: uppercase; margin-bottom: 16px; }
   footer li { margin-bottom: 9px; font-size: 15px; }
   footer li a:hover { color: var(--gold); }
   .f-brand p { font-size: 15px; max-width: 34ch; margin-top: 14px; }
-  .f-bottom { margin-top: 50px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.1); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; font-size: 13px; color: #8a97b8; }
+  .f-big { margin-top: 60px; font: 500 clamp(64px, 15vw, 220px)/.9 var(--display); letter-spacing: -.04em; color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.22); white-space: nowrap; user-select: none; }
+  .f-bottom { margin-top: 30px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.1); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; font-size: 13px; color: #8a97b8; }
+  .totop { display: inline-flex; align-items: center; gap: 8px; color: #fff; font-weight: 700; font-size: 13px; }
+  .totop i { width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(255,255,255,.3); display: grid; place-items: center; transition: background .3s, transform .3s; }
+  .totop:hover i { background: var(--gold); color: var(--blue-ink); transform: translateY(-3px); }
 
-  /* Reveal helpers */
   .rv { opacity: 0; transform: translateY(34px); }
-  .rv-l { opacity: 0; transform: translateX(-40px); }
 
-  /* Responsive */
+  @media (max-width: 1100px) { .links { display: none; } }
   @media (max-width: 1024px) {
     .values { grid-template-columns: repeat(2, 1fr); }
     .life-grid { grid-template-columns: 1fr; }
@@ -238,7 +263,7 @@
     .hero-side { justify-items: start; }
   }
   @media (max-width: 860px) {
-    .links, .nav .btn { display: none; }
+    .nav .btn, .nav .lang { display: none; }
     .burger { display: block; }
     .head, .about-grid, .adm-grid, .c-grid, .ev-grid { grid-template-columns: 1fr; }
     .about-pic .chip { right: 12px; bottom: -18px; }
@@ -250,7 +275,7 @@
     .prog { width: min(420px, 100%); aspect-ratio: 4 / 5; }
     .prog p { max-height: none; opacity: 1; }
     .prog-end { width: 100%; text-align: center; padding: 20px 0 0; }
-    .prog-bar { display: none; }
+    .prog-bar, .prog-count { display: none; }
     .stats { grid-template-columns: 1fr; }
     .stat + .stat { padding-left: 0; border-left: 0; border-top: 1px solid rgba(255,255,255,.14); }
     .stat { padding: 18px 0; }
@@ -258,70 +283,76 @@
     .req ul, .form .row { grid-template-columns: 1fr; }
     .cta-band { grid-template-columns: 1fr; }
     .f-grid { grid-template-columns: 1fr; }
+    .grain { display: none; }
   }
   @media (max-width: 560px) {
     .values { grid-template-columns: 1fr; }
-    .hero h1 { font-size: clamp(42px, 13vw, 60px); }
+    .hero h1 { font-size: clamp(40px, 12vw, 60px); }
   }
   @media (prefers-reduced-motion: reduce) {
-    .rv, .rv-l, .hero h1 .w span { opacity: 1 !important; transform: none !important; }
+    .rv, .w > span { opacity: 1 !important; transform: none !important; }
     .marquee .track, .about-pic .stamp, .scroll-cue::after { animation: none; }
+    .loader { display: none; }
   }
 </style>
 </head>
 <body>
 
-<nav class="nav" id="nav">
-  <a class="brand" href="#top"><img src="assets/logo.png" alt=""><span>LSL School<small>Namangan</small></span></a>
-  <div class="links">
-    <a href="#about">About</a><a href="#programs">Programs</a><a href="#life">Student life</a><a href="#admissions">Admissions</a><a href="#events">Events</a><a href="#contact">Contact</a>
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="in">
+    <img src="assets/logo.png" alt="">
+    <div class="word"><span>LSL School</span></div>
+    <div class="bar"><i id="ld-bar"></i></div>
+    <div class="pct" id="ld-pct">0%</div>
   </div>
-  <a class="btn btn-gold" href="#admissions">Apply now</a>
-  <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+</div>
+<div class="progress" id="progress"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<nav class="nav" id="nav">
+  <a class="brand" href="#top"><img src="assets/logo.png" alt=""><span>LSL School<small data-i18n="brand_sub">Namangan</small></span></a>
+  <div class="links">
+    <a href="#about" data-i18n="nav_about">About</a><a href="#programs" data-i18n="nav_programs">Programs</a><a href="#life" data-i18n="nav_life">Student life</a><a href="#admissions" data-i18n="nav_adm">Admissions</a><a href="#events" data-i18n="nav_events">Events</a><a href="#contact" data-i18n="nav_contact">Contact</a>
+  </div>
+  <div class="nav-r">
+    <div class="lang" role="group" aria-label="Language"><button data-lang="en">EN</button><button data-lang="uz">UZ</button><button data-lang="ru">RU</button></div>
+    <a class="btn btn-gold mag" href="#admissions" data-i18n="nav_apply">Apply now</a>
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
 </nav>
 <div class="drawer" id="drawer">
-  <a href="#about">About</a><a href="#programs">Programs</a><a href="#life">Student life</a><a href="#admissions">Admissions</a><a href="#events">Events</a><a href="#contact">Contact</a>
+  <a href="#about" data-i18n="nav_about">About</a><a href="#programs" data-i18n="nav_programs">Programs</a><a href="#life" data-i18n="nav_life">Student life</a><a href="#admissions" data-i18n="nav_adm">Admissions</a><a href="#events" data-i18n="nav_events">Events</a><a href="#contact" data-i18n="nav_contact">Contact</a>
+  <div class="lang"><button data-lang="en">EN</button><button data-lang="uz">UZ</button><button data-lang="ru">RU</button></div>
 </div>
 
 <header class="hero" id="top">
-  <div class="hero-bg"><img src="assets/school-hero-1920.webp" alt="LSL School building in Namangan" fetchpriority="high"></div>
+  <div class="hero-bg" id="hero-bg"><img src="assets/school-hero-1920.webp" alt="LSL School building in Namangan" fetchpriority="high"></div>
   <div class="wrap hero-in">
     <div class="hero-grid">
       <div>
-        <span class="eyebrow">Specialized private school · Namangan</span>
-        <h1 id="h1">Shaping tomorrow's <em>leaders</em> today</h1>
-        <p class="rv">A school where children learn to code, prove, build and create — in an environment that supports curiosity, critical thinking and character.</p>
+        <span class="eyebrow" data-i18n="hero_eyebrow">Specialized private school · Namangan</span>
+        <h1 id="h1" data-i18n-split="hero_h1">Shaping tomorrow's <em>leaders</em> today</h1>
+        <p class="rv" data-i18n="hero_p">A school where children learn to code, prove, build and create — in an environment that supports curiosity, critical thinking and character.</p>
         <div class="hero-cta rv">
-          <a class="btn btn-gold" href="#programs">Explore programs <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-          <a class="btn btn-ghost" href="#admissions">How to apply</a>
+          <a class="btn btn-gold mag" href="#programs"><span data-i18n="hero_cta1">Explore programs</span> <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+          <a class="btn btn-ghost mag" href="#admissions" data-i18n="hero_cta2">How to apply</a>
         </div>
       </div>
-      <div class="hero-side rv">
-        <div class="hero-card">
-          <div class="dot">A+</div>
-          <div><strong>Admissions open for 2025–26</strong><span>Assessment and interview · Mon–Sat 8:00–18:00</span></div>
-        </div>
-        <div class="hero-card">
-          <div class="dot" style="background:#fff">6</div>
-          <div><strong>Six specialized tracks</strong><span>Programming, Math, Physics, Engineering, Art, Sports</span></div>
-        </div>
+      <div class="hero-side rv" id="hero-side">
+        <div class="hero-card" data-depth="18"><div class="dot">A+</div><div><strong data-i18n="card1_t">Admissions open for 2025–26</strong><span data-i18n="card1_s">Assessment and interview · Mon–Sat 8:00–18:00</span></div></div>
+        <div class="hero-card" data-depth="30"><div class="dot" style="background:#fff">6</div><div><strong data-i18n="card2_t">Six specialized tracks</strong><span data-i18n="card2_s">Programming, Math, Physics, Engineering, Art, Sports</span></div></div>
       </div>
     </div>
     <div class="stats">
-      <div class="stat"><b><span data-count="350">0</span><i>+</i></b><span>Happy students</span></div>
-      <div class="stat"><b><span data-count="40">0</span><i>+</i></b><span>Teachers</span></div>
-      <div class="stat"><b><span data-count="2">0</span><i>+</i></b><span>Years of excellence</span></div>
+      <div class="stat"><b><span data-count="350">0</span><i>+</i></b><span data-i18n="stat1">Happy students</span></div>
+      <div class="stat"><b><span data-count="40">0</span><i>+</i></b><span data-i18n="stat2">Teachers</span></div>
+      <div class="stat"><b><span data-count="2">0</span><i>+</i></b><span data-i18n="stat3">Years of excellence</span></div>
     </div>
   </div>
-  <div class="scroll-cue">Scroll</div>
+  <div class="scroll-cue" data-i18n="scroll">Scroll</div>
 </header>
 
-<div class="marquee" aria-hidden="true">
-  <div class="track">
-    <span>Programming</span><span>Mathematics</span><span>Physics</span><span>Engineering</span><span>Art</span><span>Sports</span><span>Leadership</span><span>Debate</span>
-    <span>Programming</span><span>Mathematics</span><span>Physics</span><span>Engineering</span><span>Art</span><span>Sports</span><span>Leadership</span><span>Debate</span>
-  </div>
-</div>
+<div class="marquee" aria-hidden="true"><div class="track" id="mq"></div></div>
 
 <section class="block about" id="about">
   <div class="wrap">
@@ -330,28 +361,28 @@
         <svg class="stamp" viewBox="0 0 100 100" aria-hidden="true">
           <defs><path id="circ" d="M50,50 m-36,0 a36,36 0 1,1 72,0 a36,36 0 1,1 -72,0"/></defs>
           <circle cx="50" cy="50" r="48" fill="var(--gold)"/>
-          <text font-family="Manrope, sans-serif" font-weight="800" font-size="9.5" letter-spacing="2.2" fill="#0b1a3a"><textPath href="#circ">EST. 2023 · NAMANGAN · LSL SCHOOL · </textPath></text>
+          <text font-family="Manrope, sans-serif" font-weight="800" font-size="8.6" letter-spacing="1.8" fill="#0b1a3a"><textPath href="#circ" id="stamp-text">EST. 2023 · NAMANGAN · LSL SCHOOL · </textPath></text>
           <text x="50" y="55" text-anchor="middle" font-family="Fraunces, serif" font-size="18" fill="#0b1a3a">LSL</text>
         </svg>
         <div class="frame" id="about-frame"><img src="assets/school-about.webp" alt="Teachers and students at the LSL School entrance"></div>
-        <div class="chip rv"><b>350+</b><span>Students in 2 years</span></div>
+        <div class="chip rv"><b data-i18n="chip_b">350+</b><span data-i18n="chip_s">Students in 2 years</span></div>
       </div>
       <div>
-        <span class="eyebrow rv">About LSL School</span>
-        <h2 class="rv">A young school with an old-fashioned belief: every child can be excellent.</h2>
-        <p class="lead rv">For two years we have been running a rigorous programme that prepares students for a world that keeps changing — with teachers who know every student by name.</p>
+        <span class="num-tag rv">01</span><br>
+        <span class="eyebrow rv" data-i18n="about_eyebrow">About LSL School</span>
+        <h2 class="rv" data-i18n-split="about_h2">A young school with an old-fashioned belief: every child can be excellent.</h2>
+        <p class="lead rv" data-i18n="about_lead">For two years we have been running a rigorous programme that prepares students for a world that keeps changing — with teachers who know every student by name.</p>
         <div class="two">
-          <div class="rv"><h3>Our mission</h3><p>A nurturing environment that empowers students to reach their full potential academically, socially and emotionally — with critical thinking, creativity and the habits of lifelong learning.</p></div>
-          <div class="rv"><h3>Our goal</h3><p>To be recognized as a leading school that inspires confident, compassionate and capable leaders who contribute to their community and the world.</p></div>
+          <div class="rv"><h3 data-i18n="mission_t">Our mission</h3><p data-i18n="mission_p">A nurturing environment that empowers students to reach their full potential academically, socially and emotionally — with critical thinking, creativity and the habits of lifelong learning.</p></div>
+          <div class="rv"><h3 data-i18n="goal_t">Our goal</h3><p data-i18n="goal_p">To be recognized as a leading school that inspires confident, compassionate and capable leaders who contribute to their community and the world.</p></div>
         </div>
       </div>
     </div>
-
     <div class="values">
-      <div class="val rv"><span class="n">01</span><h3>Excellence</h3><p>We strive for academic excellence and personal growth in every student.</p></div>
-      <div class="val rv"><span class="n">02</span><h3>Innovation</h3><p>Modern teaching methods and technology, used where they actually help learning.</p></div>
-      <div class="val rv"><span class="n">03</span><h3>Compassion</h3><p>A caring environment where every student feels valued and supported.</p></div>
-      <div class="val rv"><span class="n">04</span><h3>Integrity</h3><p>Character and ethical values that last a lifetime.</p></div>
+      <div class="val rv"><span class="n">01</span><h3 data-i18n="v1_t">Excellence</h3><p data-i18n="v1_p">We strive for academic excellence and personal growth in every student.</p></div>
+      <div class="val rv"><span class="n">02</span><h3 data-i18n="v2_t">Innovation</h3><p data-i18n="v2_p">Modern teaching methods and technology, used where they actually help learning.</p></div>
+      <div class="val rv"><span class="n">03</span><h3 data-i18n="v3_t">Compassion</h3><p data-i18n="v3_p">A caring environment where every student feels valued and supported.</p></div>
+      <div class="val rv"><span class="n">04</span><h3 data-i18n="v4_t">Integrity</h3><p data-i18n="v4_p">Character and ethical values that last a lifetime.</p></div>
     </div>
   </div>
 </section>
@@ -359,49 +390,50 @@
 <section class="programs" id="programs">
   <div class="wrap">
     <div class="head">
-      <div><span class="eyebrow rv">Our programs</span><h2 class="rv">Six tracks. One curious child at the centre.</h2></div>
-      <p class="lead rv">From first grade to middle-school graduation, every student moves through all six tracks and goes deep in the ones they love.</p>
+      <div><span class="num-tag rv">02</span><br><span class="eyebrow rv" data-i18n="prog_eyebrow">Our programs</span><h2 class="rv" data-i18n-split="prog_h2">Six tracks. One curious child at the centre.</h2></div>
+      <p class="lead rv" data-i18n="prog_lead">From first grade to middle-school graduation, every student moves through all six tracks and goes deep in the ones they love.</p>
     </div>
   </div>
   <div class="prog-stage" id="prog-stage">
     <div class="prog-track" id="prog-track">
-      <article class="prog"><span class="num">01</span><img src="assets/coding.webp" alt="Students building a website in the programming class" loading="lazy"><div class="txt"><span class="k">All grades</span><h3>Programming</h3><p>Coding and computational thinking from beginner to advanced: several languages, real projects, their own software.</p></div></article>
-      <article class="prog"><span class="num">02</span><img src="assets/math.webp" alt="Math lesson at LSL School" loading="lazy"><div class="txt"><span class="k">All grades</span><h3>Mathematics</h3><p>Strong analytical foundations through problem-solving and real-life skills — the logic every other subject stands on.</p></div></article>
-      <article class="prog"><span class="num">03</span><img src="assets/fizika.webp" alt="Physics experiment" loading="lazy"><div class="txt"><span class="k">All grades</span><h3>Physics</h3><p>Hands-on exploration of the physical world: experiments first, then the theory that explains them.</p></div></article>
-      <article class="prog"><span class="num">04</span><img src="assets/robotics.webp" alt="Young engineers building with construction kits" loading="lazy"><div class="txt"><span class="k">All grades</span><h3>Engineering</h3><p>Design, problem-solving and innovation on real projects with modern tools and methods.</p></div></article>
-      <article class="prog"><span class="num">05</span><img src="assets/art.webp" alt="Painting in the art studio" loading="lazy"><div class="txt"><span class="k">All grades</span><h3>Art</h3><p>Creativity and self-expression in painting, drawing, sculpture and digital art.</p></div></article>
-      <article class="prog"><span class="num">06</span><img src="assets/sport.webp" alt="Football training in the indoor sports complex" loading="lazy"><div class="txt"><span class="k">All grades</span><h3>Sports</h3><p>Fitness, teamwork and sportsmanship: competitive teams, individual training and recreation for every level.</p></div></article>
+      <article class="prog"><span class="num">01</span><img src="assets/coding.webp" alt="" loading="lazy"><div class="shine"></div><div class="txt"><span class="k" data-i18n="all_grades">All grades</span><h3 data-i18n="p1_t">Programming</h3><p data-i18n="p1_p">Coding and computational thinking from beginner to advanced: several languages, real projects, their own software.</p></div></article>
+      <article class="prog"><span class="num">02</span><img src="assets/math.webp" alt="" loading="lazy"><div class="shine"></div><div class="txt"><span class="k" data-i18n="all_grades">All grades</span><h3 data-i18n="p2_t">Mathematics</h3><p data-i18n="p2_p">Strong analytical foundations through problem-solving and real-life skills — the logic every other subject stands on.</p></div></article>
+      <article class="prog"><span class="num">03</span><img src="assets/fizika.webp" alt="" loading="lazy"><div class="shine"></div><div class="txt"><span class="k" data-i18n="all_grades">All grades</span><h3 data-i18n="p3_t">Physics</h3><p data-i18n="p3_p">Hands-on exploration of the physical world: experiments first, then the theory that explains them.</p></div></article>
+      <article class="prog"><span class="num">04</span><img src="assets/robotics.webp" alt="" loading="lazy"><div class="shine"></div><div class="txt"><span class="k" data-i18n="all_grades">All grades</span><h3 data-i18n="p4_t">Engineering</h3><p data-i18n="p4_p">Design, problem-solving and innovation on real projects with modern tools and methods.</p></div></article>
+      <article class="prog"><span class="num">05</span><img src="assets/art.webp" alt="" loading="lazy"><div class="shine"></div><div class="txt"><span class="k" data-i18n="all_grades">All grades</span><h3 data-i18n="p5_t">Art</h3><p data-i18n="p5_p">Creativity and self-expression in painting, drawing, sculpture and digital art.</p></div></article>
+      <article class="prog"><span class="num">06</span><img src="assets/sport.webp" alt="" loading="lazy"><div class="shine"></div><div class="txt"><span class="k" data-i18n="all_grades">All grades</span><h3 data-i18n="p6_t">Sports</h3><p data-i18n="p6_p">Fitness, teamwork and sportsmanship: competitive teams, individual training and recreation for every level.</p></div></article>
       <div class="prog-end">
-        <h3>Want to see a lesson?</h3>
-        <p>Book a visit and sit in on a class with your child.</p>
-        <div><a class="btn btn-gold" href="#contact">Book a visit</a></div>
+        <h3 data-i18n="prog_end_t">Want to see a lesson?</h3>
+        <p data-i18n="prog_end_p">Book a visit and sit in on a class with your child.</p>
+        <div><a class="btn btn-gold mag" href="#contact" data-i18n="prog_end_b">Book a visit</a></div>
       </div>
     </div>
     <div class="prog-bar"><i id="prog-bar"></i></div>
+    <div class="prog-count"><b id="prog-n">01</b> / 06</div>
   </div>
 </section>
 
 <section class="block life" id="life">
   <div class="wrap">
     <div class="head">
-      <div><span class="eyebrow rv">Student life</span><h2 class="rv">Learning doesn't stop when the bell rings.</h2></div>
-      <p class="lead rv">Clubs, leadership roles and facilities that give students room to try, fail safely and grow.</p>
+      <div><span class="num-tag rv">03</span><br><span class="eyebrow rv" data-i18n="life_eyebrow">Student life</span><h2 class="rv" data-i18n-split="life_h2">Learning doesn't stop when the bell rings.</h2></div>
+      <p class="lead rv" data-i18n="life_lead">Clubs, leadership roles and facilities that give students room to try, fail safely and grow.</p>
     </div>
     <div class="life-grid">
       <div class="life-card rv">
         <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></div>
-        <h3>Student clubs</h3><p>Student-led clubs and circles that meet every week.</p>
-        <ul class="tags"><li>Young Engineer</li><li>Debate!</li><li>Drawing</li><li>Music</li><li>Sports</li></ul>
+        <h3 data-i18n="l1_t">Student clubs</h3><p data-i18n="l1_p">Student-led clubs and circles that meet every week.</p>
+        <ul class="tags" data-i18n-list="l1_tags"></ul>
       </div>
       <div class="life-card rv">
         <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z"/></svg></div>
-        <h3>Leadership</h3><p>Programmes and positions where students practise leading others.</p>
-        <ul class="tags"><li>Leaders Club</li><li>Young Leader</li><li>Community</li></ul>
+        <h3 data-i18n="l2_t">Leadership</h3><p data-i18n="l2_p">Programmes and positions where students practise leading others.</p>
+        <ul class="tags" data-i18n-list="l2_tags"></ul>
       </div>
       <div class="life-card rv">
         <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6"/></svg></div>
-        <h3>Campus</h3><p>Facilities for learning and recreation, all on one campus.</p>
-        <ul class="tags"><li>Modern library</li><li>Science labs</li><li>Sports complex</li><li>Art studios</li><li>Music rooms</li><li>Computer labs</li></ul>
+        <h3 data-i18n="l3_t">Campus</h3><p data-i18n="l3_p">Facilities for learning and recreation, all on one campus.</p>
+        <ul class="tags" data-i18n-list="l3_tags"></ul>
       </div>
     </div>
   </div>
@@ -410,25 +442,25 @@
 <section class="block admissions" id="admissions">
   <div class="wrap">
     <div class="head">
-      <div><span class="eyebrow rv">Admissions</span><h2 class="rv">Four steps from first call to first day.</h2></div>
-      <p class="lead rv">Join our family and discover how LSL School can help your child reach their full potential.</p>
+      <div><span class="num-tag rv">04</span><br><span class="eyebrow rv" data-i18n="adm_eyebrow">Admissions</span><h2 class="rv" data-i18n-split="adm_h2">Four steps from first call to first day.</h2></div>
+      <p class="lead rv" data-i18n="adm_lead">Join our family and discover how LSL School can help your child reach their full potential.</p>
     </div>
     <div class="adm-grid">
       <div class="steps" id="steps">
         <i class="fill" id="steps-fill"></i>
-        <div class="step rv"><span class="k">Step 1</span><h3>Application</h3><p>Submit the application form with the required documents.</p></div>
-        <div class="step rv"><span class="k">Step 2</span><h3>Assessment</h3><p>Your child completes an academic assessment and a short interview.</p></div>
-        <div class="step rv"><span class="k">Step 3</span><h3>Review</h3><p>The admissions committee reviews the application and meets the parents.</p></div>
-        <div class="step rv"><span class="k">Step 4</span><h3>Decision</h3><p>You receive the admission decision and enrollment details.</p></div>
+        <div class="step rv"><span class="k"><span data-i18n="step">Step</span> 1</span><h3 data-i18n="s1_t">Application</h3><p data-i18n="s1_p">Submit the application form with the required documents.</p></div>
+        <div class="step rv"><span class="k"><span data-i18n="step">Step</span> 2</span><h3 data-i18n="s2_t">Assessment</h3><p data-i18n="s2_p">Your child completes an academic assessment and a short interview.</p></div>
+        <div class="step rv"><span class="k"><span data-i18n="step">Step</span> 3</span><h3 data-i18n="s3_t">Review</h3><p data-i18n="s3_p">The admissions committee reviews the application and meets the parents.</p></div>
+        <div class="step rv"><span class="k"><span data-i18n="step">Step</span> 4</span><h3 data-i18n="s4_t">Decision</h3><p data-i18n="s4_p">You receive the admission decision and enrollment details.</p></div>
       </div>
       <div class="reqs">
-        <div class="req rv"><h3>Required documents</h3><ul><li>Birth certificate</li><li>Previous school records</li><li>Immunization records</li><li>Parent / guardian ID</li><li>Application form</li><li>Recommendation letters</li></ul></div>
-        <div class="req rv"><h3>Admission criteria</h3><ul><li>Academic performance</li><li>Behavioral record</li><li>Parent interview</li><li>Student assessment</li><li>Space availability</li></ul></div>
+        <div class="req rv"><h3 data-i18n="docs_t">Required documents</h3><ul data-i18n-list="docs"></ul></div>
+        <div class="req rv"><h3 data-i18n="crit_t">Admission criteria</h3><ul data-i18n-list="crit"></ul></div>
       </div>
     </div>
     <div class="cta-band rv">
-      <div><h3>Ready to apply?</h3><p>Call +998 90 215 61 32 or write to admissions@lslschool.uz — we reply within one working day.</p></div>
-      <a class="btn btn-gold" href="mailto:admissions@lslschool.uz">Email admissions</a>
+      <div><h3 data-i18n="cta_t">Ready to apply?</h3><p data-i18n="cta_p">Call +998 90 215 61 32 or write to admissions@lslschool.uz — we reply within one working day.</p></div>
+      <a class="btn btn-gold mag" href="mailto:admissions@lslschool.uz" data-i18n="cta_b">Email admissions</a>
     </div>
   </div>
 </section>
@@ -436,12 +468,12 @@
 <section class="block events" id="events">
   <div class="wrap">
     <div class="head">
-      <div><span class="eyebrow rv">Events</span><h2 class="rv">Competitions, open days and celebrations.</h2></div>
-      <p class="lead rv">Stay connected with our school community through events, competitions and educational activities throughout the year.</p>
+      <div><span class="num-tag rv">05</span><br><span class="eyebrow rv" data-i18n="ev_eyebrow">Events</span><h2 class="rv" data-i18n-split="ev_h2">Competitions, open days and celebrations.</h2></div>
+      <p class="lead rv" data-i18n="ev_lead">Stay connected with our school community through events, competitions and educational activities throughout the year.</p>
     </div>
     <div class="ev-grid">
-      <div class="ev-card rv"><div class="date">Sep 1<small>Every year</small></div><div><h3>Knowledge Day</h3><p>The school year opens with the whole LSL family at the entrance — balloons included.</p></div></div>
-      <div class="ev-card soon rv"><div class="date">Soon<small>Calendar</small></div><div><h3>Upcoming events</h3><p>Event updates will be published here. Call the office for this month's open-day dates.</p></div></div>
+      <div class="ev-card rv"><div class="date"><span data-i18n="ev1_d">Sep 1</span><small data-i18n="ev1_s">Every year</small></div><div><h3 data-i18n="ev1_t">Knowledge Day</h3><p data-i18n="ev1_p">The school year opens with the whole LSL family at the entrance — balloons included.</p></div></div>
+      <div class="ev-card soon rv"><div class="date"><span data-i18n="ev2_d">Soon</span><small data-i18n="ev2_s">Calendar</small></div><div><h3 data-i18n="ev2_t">Upcoming events</h3><p data-i18n="ev2_p">Event updates will be published here. Call the office for this month's open-day dates.</p></div></div>
     </div>
   </div>
 </section>
@@ -450,28 +482,29 @@
   <div class="wrap">
     <div class="c-grid">
       <div>
-        <span class="eyebrow rv">Contact</span>
-        <h2 class="rv">We are waiting for you.</h2>
+        <span class="num-tag rv">06</span><br>
+        <span class="eyebrow rv" data-i18n="c_eyebrow">Contact</span>
+        <h2 class="rv" data-i18n-split="c_h2">We are waiting for you.</h2>
         <div class="c-list">
-          <div class="c-item rv"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></div><div><b>Phone</b><a href="tel:+998902156132">+998 90 215 61 32</a><br><a href="tel:+998886042244">+998 88 604 22 44</a></div></div>
-          <div class="c-item rv"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></div><div><b>Email</b><a href="mailto:info@lslschool.uz">info@lslschool.uz</a><br><a href="mailto:admissions@lslschool.uz">admissions@lslschool.uz</a></div></div>
-          <div class="c-item rv"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg></div><div><b>Address</b>Baynalminal MFY, 7-uy<br>Namangan, Uzbekistan</div></div>
-          <div class="c-item rv"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><div><b>Office hours</b>Monday – Saturday: 8:00 – 18:00<br>Sunday: closed</div></div>
+          <div class="c-item rv"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></div><div><b data-i18n="c_phone">Phone</b><a href="tel:+998902156132">+998 90 215 61 32</a><br><a href="tel:+998886042244">+998 88 604 22 44</a></div></div>
+          <div class="c-item rv"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></div><div><b data-i18n="c_email">Email</b><a href="mailto:info@lslschool.uz">info@lslschool.uz</a><br><a href="mailto:admissions@lslschool.uz">admissions@lslschool.uz</a></div></div>
+          <div class="c-item rv"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg></div><div><b data-i18n="c_addr">Address</b><span data-i18n="c_addr_v">Baynalminal MFY, 7-uy<br>Namangan, Uzbekistan</span></div></div>
+          <div class="c-item rv"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><div><b data-i18n="c_hours">Office hours</b><span data-i18n="c_hours_v">Monday – Saturday: 8:00 – 18:00<br>Sunday: closed</span></div></div>
         </div>
       </div>
       <form class="form rv" id="form">
         <div class="row">
-          <label>First name <input name="first" required autocomplete="given-name"></label>
-          <label>Last name <input name="last" required autocomplete="family-name"></label>
+          <label><span data-i18n="f_first">First name</span> <input name="first" required autocomplete="given-name"></label>
+          <label><span data-i18n="f_last">Last name</span> <input name="last" required autocomplete="family-name"></label>
         </div>
         <div class="row">
-          <label>Email <input name="email" type="email" required autocomplete="email"></label>
-          <label>Phone <input name="phone" type="tel" autocomplete="tel"></label>
+          <label><span data-i18n="f_email">Email</span> <input name="email" type="email" required autocomplete="email"></label>
+          <label><span data-i18n="f_phone">Phone</span> <input name="phone" type="tel" autocomplete="tel"></label>
         </div>
-        <label>Subject <input name="subject" placeholder="Admission for grade 3"></label>
-        <label>Message <textarea name="message" required></textarea></label>
-        <div><button class="btn btn-blue" type="submit">Send message</button></div>
-        <p class="note">Opens your email app with the message ready to send to info@lslschool.uz.</p>
+        <label><span data-i18n="f_subject">Subject</span> <input name="subject" data-i18n-ph="f_subject_ph" placeholder="Admission for grade 3"></label>
+        <label><span data-i18n="f_msg">Message</span> <textarea name="message" required></textarea></label>
+        <div><button class="btn btn-blue mag" type="submit" data-i18n="f_send">Send message</button></div>
+        <p class="note" data-i18n="f_note">Opens your email app with the message ready to send to info@lslschool.uz.</p>
       </form>
     </div>
   </div>
@@ -481,91 +514,180 @@
   <div class="wrap">
     <div class="f-grid">
       <div class="f-brand">
-        <a class="brand" href="#top" style="color:#fff"><img src="assets/logo.png" alt="" style="filter:brightness(0) invert(1)"><span>LSL School<small>Namangan</small></span></a>
-        <p>Nurturing young minds through innovative education, creativity, critical thinking and character.</p>
+        <a class="brand" href="#top" style="color:#fff"><img src="assets/logo.png" alt="" style="filter:brightness(0) invert(1)"><span>LSL School<small data-i18n="brand_sub">Namangan</small></span></a>
+        <p data-i18n="ft_p">Nurturing young minds through innovative education, creativity, critical thinking and character.</p>
       </div>
-      <div><h4>School</h4><ul><li><a href="#about">About</a></li><li><a href="#programs">Programs</a></li><li><a href="#life">Student life</a></li><li><a href="#events">Events</a></li></ul></div>
-      <div><h4>Admissions</h4><ul><li><a href="#admissions">How to apply</a></li><li><a href="#admissions">Documents</a></li><li><a href="#contact">Book a visit</a></li></ul></div>
-      <div><h4>Contact</h4><ul><li><a href="tel:+998902156132">+998 90 215 61 32</a></li><li><a href="tel:+998886042244">+998 88 604 22 44</a></li><li><a href="mailto:info@lslschool.uz">info@lslschool.uz</a></li></ul></div>
+      <div><h4 data-i18n="ft_school">School</h4><ul><li><a href="#about" data-i18n="nav_about">About</a></li><li><a href="#programs" data-i18n="nav_programs">Programs</a></li><li><a href="#life" data-i18n="nav_life">Student life</a></li><li><a href="#events" data-i18n="nav_events">Events</a></li></ul></div>
+      <div><h4 data-i18n="ft_adm">Admissions</h4><ul><li><a href="#admissions" data-i18n="ft_how">How to apply</a></li><li><a href="#admissions" data-i18n="ft_docs">Documents</a></li><li><a href="#contact" data-i18n="ft_visit">Book a visit</a></li></ul></div>
+      <div><h4 data-i18n="ft_contact">Contact</h4><ul><li><a href="tel:+998902156132">+998 90 215 61 32</a></li><li><a href="tel:+998886042244">+998 88 604 22 44</a></li><li><a href="mailto:info@lslschool.uz">info@lslschool.uz</a></li></ul></div>
     </div>
-    <div class="f-bottom"><span>© 2025 LSL School. All rights reserved.</span><span>Baynalminal MFY, 7-uy, Namangan</span></div>
+    <div class="f-big" id="f-big" aria-hidden="true">LSL School</div>
+    <div class="f-bottom"><span data-i18n="ft_copy">© 2025 LSL School. All rights reserved.</span><a class="totop" href="#top"><span data-i18n="top">Top</span><i>↑</i></a></div>
   </div>
 </footer>
 
+<script src="i18n.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 <script>
 (function () {
   var $ = function (s, c) { return (c || document).querySelector(s); };
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var phone = matchMedia('(max-width: 860px)').matches;
+  var fine = matchMedia('(pointer: fine)').matches;
+  var G = window.gsap && !reduce;
 
-  // Nav state + drawer
+  /* ---------- i18n ---------- */
+  var LANGS = ['en', 'uz', 'ru'], lang = 'en';
+  try { var saved = localStorage.getItem('lsl-lang'); if (LANGS.indexOf(saved) > -1) lang = saved; } catch (e) {}
+  var h = location.hash.replace('#', ''); if (LANGS.indexOf(h) > -1) lang = h;
+  if (!saved && !h) { var nl = (navigator.language || '').slice(0, 2); if (nl === 'ru') lang = 'ru'; if (nl === 'uz') lang = 'uz'; }
+
+  function splitWords(el) {
+    el.innerHTML = el.innerHTML.trim().replace(/(<em>)?([^\s<]+)(<\/em>)?/g, function (m, o, w, c) { return '<span class="w"><span>' + (o || '') + w + (c || '') + '</span></span>'; });
+  }
+  function apply(l) {
+    var T = window.I18N[l]; if (!T) return; lang = l;
+    document.documentElement.lang = l; document.title = T._title;
+    $$('[data-i18n]').forEach(function (el) { var v = T[el.getAttribute('data-i18n')]; if (v != null) el.innerHTML = v; });
+    $$('[data-i18n-ph]').forEach(function (el) { el.placeholder = T[el.getAttribute('data-i18n-ph')] || ''; });
+    $$('[data-i18n-list]').forEach(function (el) { el.innerHTML = (T[el.getAttribute('data-i18n-list')] || []).map(function (s) { return '<li>' + s + '</li>'; }).join(''); });
+    $$('[data-i18n-split]').forEach(function (el) { el.innerHTML = T[el.getAttribute('data-i18n-split')]; if (G) splitWords(el); });
+    $('#mq').innerHTML = T.mq.concat(T.mq).map(function (s) { return '<span>' + s + '</span>'; }).join('');
+    $('#stamp-text').textContent = T.stamp;
+    $$('.lang button').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-lang') === l); });
+    try { localStorage.setItem('lsl-lang', l); } catch (e) {}
+  }
+  apply(lang);
+  $$('.lang button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var l = b.getAttribute('data-lang'); if (l === lang) return;
+      if (!G) { apply(l); return; }
+      gsap.to('main, .hero-in, section, footer', { opacity: 0, duration: .25, onComplete: function () {
+        apply(l);
+        $$('.w > span').forEach(function (s) { s.style.transform = 'none'; });
+        gsap.to('main, .hero-in, section, footer', { opacity: 1, duration: .5 });
+        ScrollTrigger.refresh();
+      } });
+    });
+  });
+
+  /* ---------- Nav + drawer ---------- */
   var nav = $('#nav'), drawer = $('#drawer');
   var onScroll = function () { nav.classList.toggle('solid', scrollY > 40); };
   addEventListener('scroll', onScroll, { passive: true }); onScroll();
   $('#burger').addEventListener('click', function () { document.body.classList.toggle('menu'); drawer.classList.toggle('open'); });
   $$('a', drawer).forEach(function (a) { a.addEventListener('click', function () { document.body.classList.remove('menu'); drawer.classList.remove('open'); }); });
 
-  // Split hero headline into words
-  var h1 = $('#h1');
-  h1.innerHTML = h1.innerHTML.replace(/(<em>)?([^\s<]+)(<\/em>)?/g, function (m, o, w, c) { return '<span class="w"><span>' + (o || '') + w + (c || '') + '</span></span>'; });
-
-  // Contact form -> mailto
+  /* ---------- Form -> mailto ---------- */
   $('#form').addEventListener('submit', function (e) {
     e.preventDefault();
     var f = new FormData(e.target), o = {}; f.forEach(function (v, k) { o[k] = v; });
-    var body = 'Name: ' + o.first + ' ' + o.last + '\nEmail: ' + o.email + '\nPhone: ' + (o.phone || '-') + '\n\n' + o.message;
-    location.href = 'mailto:info@lslschool.uz?subject=' + encodeURIComponent(o.subject || 'Message from the website') + '&body=' + encodeURIComponent(body);
+    var body = o.first + ' ' + o.last + '\n' + o.email + '\n' + (o.phone || '-') + '\n\n' + o.message;
+    location.href = 'mailto:info@lslschool.uz?subject=' + encodeURIComponent(o.subject || window.I18N[lang].f_default_subject) + '&body=' + encodeURIComponent(body);
   });
 
-  if (!window.gsap || reduce) { $$('.rv, .rv-l').forEach(function (el) { el.style.opacity = 1; el.style.transform = 'none'; }); $$('.hero h1 .w span').forEach(function (s) { s.style.transform = 'none'; }); $('#about-frame').style.clipPath = 'none'; return; }
+  /* ---------- No-motion fallback ---------- */
+  if (!G) { $('#loader').remove(); $$('.rv').forEach(function (el) { el.style.opacity = 1; el.style.transform = 'none'; }); $('#about-frame').style.clipPath = 'none'; return; }
   gsap.registerPlugin(ScrollTrigger);
 
-  // Hero intro
-  var intro = gsap.timeline({ defaults: { ease: 'expo.out' } });
-  intro.from('.hero-bg img', { scale: 1.3, duration: 2.4, ease: 'power2.out' }, 0)
+  /* ---------- Smooth scroll (Lenis) ---------- */
+  var lenis = null;
+  if (window.Lenis && !phone) {
+    lenis = new Lenis({ lerp: .09, smoothWheel: true });
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
+    gsap.ticker.lagSmoothing(0);
+    $$('a[href^="#"]').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        var id = a.getAttribute('href'); if (id.length < 2) return;
+        var t = $(id); if (!t) return; e.preventDefault(); lenis.scrollTo(t, { offset: 0, duration: 1.4 });
+      });
+    });
+  }
+
+  /* ---------- Preloader ---------- */
+  var ld = $('#loader'), pct = { v: 0 };
+  var loadTl = gsap.timeline();
+  loadTl.to('.loader .word span', { y: 0, duration: .9, ease: 'expo.out' }, 0)
+        .to('#ld-bar', { scaleX: 1, duration: 1.3, ease: 'power2.inOut' }, .1)
+        .to(pct, { v: 100, duration: 1.3, ease: 'power2.inOut', onUpdate: function () { $('#ld-pct').textContent = Math.round(pct.v) + '%'; } }, .1)
+        .to('.loader .in', { y: -30, opacity: 0, duration: .5, ease: 'power2.in' }, 1.5)
+        .to(ld, { yPercent: -100, duration: .9, ease: 'expo.inOut', onComplete: function () { ld.remove(); } }, 1.7);
+
+  /* ---------- Hero intro ---------- */
+  var intro = gsap.timeline({ defaults: { ease: 'expo.out' }, delay: 2.1 });
+  intro.from('.hero-bg img', { scale: 1.3, duration: 2.6, ease: 'power2.out' }, 0)
        .from('.hero .eyebrow', { y: 20, opacity: 0, duration: .9 }, .2)
-       .to('.hero h1 .w span', { y: 0, duration: 1.3, stagger: .09 }, .35)
+       .to('.hero h1 .w > span', { y: 0, duration: 1.3, stagger: .09 }, .35)
        .to('.hero p.rv, .hero .hero-cta, .hero-side', { y: 0, opacity: 1, duration: 1.1, stagger: .12 }, .9)
        .from('.stat', { y: 26, opacity: 0, duration: .9, stagger: .1 }, 1.2)
        .from('.nav', { y: -20, opacity: 0, duration: .8 }, .6);
-  // Counters
   $$('[data-count]').forEach(function (el) {
     var n = +el.getAttribute('data-count'), o = { v: 0 };
-    gsap.to(o, { v: n, duration: 2.2, delay: 1.3, ease: 'power3.out', onUpdate: function () { el.textContent = Math.round(o.v); } });
+    gsap.to(o, { v: n, duration: 2.2, delay: 3.4, ease: 'power3.out', onUpdate: function () { el.textContent = Math.round(o.v); } });
   });
-  // Hero parallax
   gsap.to('.hero-bg img', { yPercent: 14, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
   gsap.to('.hero-in', { yPercent: -8, opacity: .3, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
 
-  // Programs horizontal scroll (desktop)
-  var track = $('#prog-track'), stage = $('#prog-stage');
+  /* Mouse parallax in hero */
+  if (fine) {
+    var hero = $('.hero'), bg = $('#hero-bg'), cards = $$('.hero-card');
+    var qx = gsap.quickTo(bg, 'x', { duration: 1.2, ease: 'power3' }), qy = gsap.quickTo(bg, 'y', { duration: 1.2, ease: 'power3' });
+    var cq = cards.map(function (c) { return { x: gsap.quickTo(c, 'x', { duration: .9, ease: 'power3' }), y: gsap.quickTo(c, 'y', { duration: .9, ease: 'power3' }), d: +c.getAttribute('data-depth') }; });
+    hero.addEventListener('mousemove', function (e) {
+      var nx = e.clientX / innerWidth - .5, ny = e.clientY / innerHeight - .5;
+      qx(-nx * 24); qy(-ny * 16);
+      cq.forEach(function (c) { c.x(-nx * c.d); c.y(-ny * c.d); });
+    });
+  }
+
+  /* Magnetic buttons */
+  if (fine) $$('.mag').forEach(function (b) {
+    var mx = gsap.quickTo(b, 'x', { duration: .5, ease: 'power3' }), my = gsap.quickTo(b, 'y', { duration: .5, ease: 'power3' });
+    b.addEventListener('mousemove', function (e) { var r = b.getBoundingClientRect(); mx((e.clientX - r.left - r.width / 2) * .28); my((e.clientY - r.top - r.height / 2) * .35); });
+    b.addEventListener('mouseleave', function () { mx(0); my(0); });
+  });
+
+  /* ---------- Programs ---------- */
+  var track = $('#prog-track'), stage = $('#prog-stage'), progs = $$('.prog');
   if (!phone) {
     var dist = function () { return track.scrollWidth - innerWidth; };
     gsap.to(track, { x: function () { return -dist(); }, ease: 'none',
       scrollTrigger: { trigger: stage, start: 'top top', end: function () { return '+=' + dist(); }, pin: true, scrub: .6, invalidateOnRefresh: true, anticipatePin: 1,
-        onUpdate: function (st) { $('#prog-bar').style.width = (st.progress * 100) + '%'; } } });
-    gsap.from('.prog', { y: 80, opacity: 0, duration: 1, stagger: .1, ease: 'expo.out', scrollTrigger: { trigger: stage, start: 'top 75%' } });
+        onUpdate: function (st) { $('#prog-bar').style.width = (st.progress * 100) + '%'; var n = Math.min(6, Math.floor(st.progress * 6.4) + 1); $('#prog-n').textContent = '0' + n; } } });
+    gsap.from(progs, { y: 80, opacity: 0, duration: 1, stagger: .1, ease: 'expo.out', scrollTrigger: { trigger: stage, start: 'top 75%' } });
   } else {
-    $$('.prog').forEach(function (p) { gsap.from(p, { y: 60, opacity: 0, duration: 1, ease: 'expo.out', scrollTrigger: { trigger: p, start: 'top 85%' } }); });
+    progs.forEach(function (p) { gsap.from(p, { y: 60, opacity: 0, duration: 1, ease: 'expo.out', scrollTrigger: { trigger: p, start: 'top 85%' } }); });
   }
+  if (fine) progs.forEach(function (p) {
+    var rx = gsap.quickTo(p, 'rotationY', { duration: .6, ease: 'power3' }), ry = gsap.quickTo(p, 'rotationX', { duration: .6, ease: 'power3' });
+    p.addEventListener('mousemove', function (e) { var r = p.getBoundingClientRect(); var x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height; rx((x - .5) * 10); ry((.5 - y) * 10); p.style.setProperty('--mx', x * 100 + '%'); p.style.setProperty('--my', y * 100 + '%'); });
+    p.addEventListener('mouseleave', function () { rx(0); ry(0); });
+  });
 
-  // Generic reveals (after pins are created)
+  /* ---------- Reveals ---------- */
   $$('.rv').forEach(function (el) {
     if (el.closest('.hero')) return;
     gsap.to(el, { y: 0, opacity: 1, duration: 1.1, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 88%' } });
   });
-  // About picture wipe + parallax
+  function bindSplits() {
+    $$('[data-i18n-split]').forEach(function (el) {
+      if (el.closest('.hero')) return;
+      var words = $$('.w > span', el); if (!words.length) return;
+      gsap.to(words, { y: 0, duration: 1.1, stagger: .05, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 88%' } });
+    });
+  }
+  bindSplits();
   gsap.to('#about-frame', { clipPath: 'inset(0 0% 0 0 round 22px)', duration: 1.4, ease: 'expo.inOut', scrollTrigger: { trigger: '#about-frame', start: 'top 80%' } });
-  gsap.to('#about-frame img', { scale: 1, yPercent: 0, ease: 'none', scrollTrigger: { trigger: '#about-frame', start: 'top bottom', end: 'bottom top', scrub: true } });
-  // Admissions line + dots
+  gsap.to('#about-frame img', { scale: 1, ease: 'none', scrollTrigger: { trigger: '#about-frame', start: 'top bottom', end: 'bottom top', scrub: true } });
   var steps = $$('.step');
   gsap.to('#steps-fill', { height: '100%', ease: 'none', scrollTrigger: { trigger: '#steps', start: 'top 70%', end: 'bottom 60%', scrub: true,
     onUpdate: function (st) { steps.forEach(function (s, i) { s.classList.toggle('lit', st.progress >= i / steps.length + .02); }); } } });
-  // Section headlines: slight letter tracking in
-  $$('h2.rv').forEach(function (h) { gsap.from(h, { letterSpacing: '.02em', duration: 1.4, ease: 'expo.out', scrollTrigger: { trigger: h, start: 'top 88%' } }); });
+  gsap.fromTo('#f-big', { xPercent: 10 }, { xPercent: -10, ease: 'none', scrollTrigger: { trigger: 'footer', start: 'top bottom', end: 'bottom bottom', scrub: true } });
+  gsap.to('#progress', { scaleX: 1, ease: 'none', scrollTrigger: { trigger: document.body, start: 'top top', end: 'bottom bottom', scrub: .3 } });
 
   addEventListener('load', function () { ScrollTrigger.refresh(); });
 })();
